@@ -1,8 +1,10 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 
-const char* ssid = "Tenda_29DC88";
-const char* password = "alifakovac1";
+const char *ssid = "Tenda_29DC88";
+const char *password = "alifakovac1";
+
+void ConnectToWiFi(const char *ssid, const char *password);
 
 void setup()
 {
@@ -10,11 +12,23 @@ void setup()
   delay(10);
   Serial.println("\n");
 
-  WiFi.begin(ssid,password);
+  ConnectToWiFi(ssid, password);
+}
+
+void loop()
+{
+  // put your main code here, to run repeatedly:
+}
+
+void ConnectToWiFi(const char *ssid, const char *password)
+{
+
+  WiFi.begin(ssid, password);
   Serial.print("Connecting to ");
   Serial.print(ssid);
 
-  while(WiFi.status() != WL_CONNECTED){
+  while (WiFi.status() != WL_CONNECTED)
+  {
     Serial.print(".");
     delay(1000);
   }
@@ -22,10 +36,4 @@ void setup()
   Serial.println("\n");
   Serial.println("Connected");
   Serial.println(WiFi.localIP());
-
-}
-
-void loop()
-{
-  // put your main code here, to run repeatedly:
 }
