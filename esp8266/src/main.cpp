@@ -10,6 +10,9 @@ ESP8266WebServer server(80);
 void ConnectToWiFi(const char *ssid, const char *password);
 void handleRoot();
 void handleNotFound();
+void turnRelay();
+
+int relayPin = 5;
 
 void setup()
 {
@@ -20,9 +23,12 @@ void setup()
   ConnectToWiFi(ssid, password);
 
   server.on("/", handleRoot);
+  server.on("/relay", turnRelay);
   server.onNotFound(handleNotFound);
 
   server.begin();
+
+  pinMode(relayPin, OUTPUT);
 }
 
 void loop()
@@ -51,10 +57,15 @@ void ConnectToWiFi(const char *ssid, const char *password)
 
 void handleRoot()
 {
-  server.send(200, "text/plain", "Radi :)");
+  digitalWrite(relayPin, HIGH);
 }
 
 void handleNotFound()
 {
   server.send(404, "text/plain", "Ne radi :(");
+}
+
+void turnRelay()
+{
+  digitalWrite(relayPin, LOW);
 }
