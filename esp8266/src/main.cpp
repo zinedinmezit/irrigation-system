@@ -1,18 +1,40 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <WebSocketsServer.h>
 
 const char *ssid = "Tenda_29DC88";
 const char *password = "alifakovac1";
 
 ESP8266WebServer server(80);
+WebSocketsServer webSocket(81);
 
 void ConnectToWiFi(const char *ssid, const char *password);
 void handleRoot();
 void handleNotFound();
-void turnRelay();
 
 int relayPin = 5;
+
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
+{
+  switch (type)
+  {
+  case WStype_DISCONNECTED:
+    Serial.printf("[%u] Disconnected\n", num);
+    break;
+  case WStype_CONNECTED:
+  {
+    Serial.printf("[%u] Connected\n", num);
+    webSocket.sendTXT(num, "Connected");
+  }
+  break;
+  case WStype_TEXT:
+    Serial.printf("[%u] get Text: %s\n", num, payload);
+    break;
+  default:
+    Serial.println("Nothing happened");
+  }
+}
 
 void setup()
 {
@@ -23,16 +45,16 @@ void setup()
   ConnectToWiFi(ssid, password);
 
   server.on("/", handleRoot);
-  server.on("/relay", turnRelay);
   server.onNotFound(handleNotFound);
 
   server.begin();
-
-  pinMode(relayPin, OUTPUT);
+  webSocket.begin();
+  webSocket.onEvent(webSocketEvent);
 }
 
 void loop()
 {
+  webSocket.loop();
   server.handleClient();
 }
 
@@ -57,15 +79,11 @@ void ConnectToWiFi(const char *ssid, const char *password)
 
 void handleRoot()
 {
-  digitalWrite(relayPin, HIGH);
+  // digitalWrite(relayPin, HIGH);
+  server.send(200, "text/plain", "OKEY");
 }
 
 void handleNotFound()
 {
   server.send(404, "text/plain", "Ne radi :(");
-}
-
-void turnRelay()
-{
-  digitalWrite(relayPin, LOW);
 }

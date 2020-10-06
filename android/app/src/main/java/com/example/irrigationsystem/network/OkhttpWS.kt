@@ -2,40 +2,16 @@ package com.example.irrigationsystem.network
 
 import android.util.Log
 import okhttp3.*
-import okio.IOException
 
 class OkhttpWS
 {
 
     private var client : OkHttpClient = OkHttpClient()
 
-    fun runWS()
-    {
-        val request = Request.Builder().url("https://publicobject.com/helloworld.txt").build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
+    fun runWS() {
+        val request : Request = Request.Builder().url("ws://192.168.0.103:81").build()
 
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) Log.i("OkHttp","Doesnt work")
-
-                    for ((name, value) in response.headers) {
-                        println("$name: $value")
-                    }
-
-                    Log.i("OkHttp","Works")
-                }
-            }
-        })
-    }
-
-
-        /*client?.newWebSocket(request,object : WebSocketListener(){
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                Log.i("OkHttp", "onFailure called")
-            }
+        client.newWebSocket(request, object : WebSocketListener(){
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                 Log.i("OkHttp", "onClosed called")
@@ -55,5 +31,10 @@ class OkhttpWS
             override fun onMessage(webSocket: WebSocket, text: String) {
                 Log.i("OkHttp", "onMessage called")
             }
-        })*/
+
+            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+                Log.i("OkHttp", "onFailure called")
+            }
+        })
+    }
 }
