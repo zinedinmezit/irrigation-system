@@ -1,12 +1,13 @@
 package com.example.irrigationsystem.network
 
+import android.os.CountDownTimer
 import android.util.Log
 import okhttp3.*
 
 class OkhttpWS
 {
 
-    private var client : OkHttpClient = OkHttpClient()
+     var client : OkHttpClient = OkHttpClient()
 
     fun runWS() {
         val request : Request = Request.Builder().url("ws://192.168.0.103:81").build()
@@ -19,22 +20,22 @@ class OkhttpWS
 
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 Log.i("OkHttp", "onOpen called")
-                webSocket.send("Realllllllllyyyyyy")
-                webSocket.close(1000,"Goooooodbyeeee")
+                webSocket.send("ON")
+                webSocket.close(1000,null)
             }
 
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
                 Log.i("OkHttp", "onClosing called")
-                webSocket.close(1000,null)
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-                Log.i("OkHttp", "onMessage called")
+                Log.i("OkHttp", text)
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
                 Log.i("OkHttp", "onFailure called")
             }
+
         })
     }
 }

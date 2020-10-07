@@ -21,7 +21,6 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        model.WsInstance.runWS()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
@@ -30,8 +29,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val button = view.findViewById<Button>(R.id.button)
         button?.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment()
-            this.findNavController().navigate(action)
+            model.WsInstance.runWS()
         }
     }
 }

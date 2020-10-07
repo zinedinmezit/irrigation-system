@@ -6,6 +6,8 @@
 const char *ssid = "Tenda_29DC88";
 const char *password = "alifakovac1";
 
+const char *option = "ON";
+
 ESP8266WebServer server(80);
 WebSocketsServer webSocket(81);
 
@@ -26,13 +28,26 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
   {
     Serial.printf("[%u] Connected\n", num);
     webSocket.sendTXT(num, "Connected");
-  }
-  break;
-  case WStype_TEXT:
-    Serial.printf("[%u] get Text: %s\n", num, payload);
     break;
+  }
+  case WStype_TEXT:
+  {
+
+    const char *payloadText = (const char *)payload;
+    if (strcmp(payloadText, option) == 0)
+    {
+      digitalWrite(relayPin, LOW);
+      delay(5000L);
+      digitalWrite(relayPin, HIGH);
+    }
+    break;
+  }
+  case WStype_ERROR:
+  Serial.println("Error happened");
+  break;
+
   default:
-    Serial.println("Nothing happened");
+  Serial.println("Nothing happened");
   }
 }
 
@@ -41,7 +56,8 @@ void setup()
   Serial.begin(9600);
   delay(10);
   Serial.println("\n");
-
+  pinMode(relayPin, OUTPUT);
+  digitalWrite(relayPin,HIGH);
   ConnectToWiFi(ssid, password);
 
   server.on("/", handleRoot);
