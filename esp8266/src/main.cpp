@@ -43,11 +43,11 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
     break;
   }
   case WStype_ERROR:
-  Serial.println("Error happened");
-  break;
+    Serial.println("Error happened");
+    break;
 
   default:
-  Serial.println("Nothing happened");
+    Serial.println("Nothing happened");
   }
 }
 
@@ -57,7 +57,7 @@ void setup()
   delay(10);
   Serial.println("\n");
   pinMode(relayPin, OUTPUT);
-  digitalWrite(relayPin,HIGH);
+  digitalWrite(relayPin, HIGH);
   ConnectToWiFi(ssid, password);
 
   server.on("/", handleRoot);
