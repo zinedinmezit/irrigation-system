@@ -3,39 +3,49 @@ package com.example.irrigationsystem.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import okhttp3.*
+import okio.ByteString
 
 class MainViewModel : ViewModel() {
 
-   var client : OkHttpClient = OkHttpClient()
+    var signalCode : Int = 0
+    var client : OkHttpClient = OkHttpClient()
 
-    fun runWebSocket(){
+    private val request : Request = Request.Builder().url("ws://192.168.0.102:81").build()
+    private val wsListener : WebSocketListener = object :WebSocketListener(){
 
-        val request : Request = Request.Builder().url("ws://192.168.0.102:81").build()
+        override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+            Log.i("OkHttp", "onClosed called")
+        }
 
-        client.newWebSocket(request, object : WebSocketListener(){
-
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                Log.i("OkHttp", "onClosed called")
-            }
-
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                Log.i("OkHttp", "onOpen called")
+        override fun onOpen(webSocket: WebSocket, response: Response) {
+            Log.i("OkHttp", "onOpen called")
+            if(signalCode == 1){
                 webSocket.send("ON")
                 webSocket.close(1000,null)
             }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                Log.i("OkHttp", "onClosing called")
+            else{
+                webSocket.send("Testing closing connection")
             }
+        }
 
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                Log.i("OkHttp", text)
-            }
+        override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+            Log.i("OkHttp", "onClosing called")
+        }
 
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                Log.i("OkHttp", "onFailure called")
-            }
+        override fun onMessage(webSocket: WebSocket, text: String) {
+            val output = text.split(".")
+            val tankLevel = output[0]
+            val humidityLevel = output[1]
+            Log.i("OkHttp","$tankLevel - $humidityLevel")
+        }
 
-        })
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            Log.i("OkHttp", "onFailure called")
+        }
+    }
+
+    fun runWebSocket()
+    {
+        client.newWebSocket(request, wsListener)
     }
 }
