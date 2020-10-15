@@ -1,11 +1,16 @@
 package com.example.irrigationsystem.viewmodels
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import okhttp3.*
-import okio.ByteString
 
 class MainViewModel : ViewModel() {
+
+   private val _hummidityPercentageValue = MutableLiveData<String>()
+    val hummidityPercentageValue: LiveData<String>
+        get() = _hummidityPercentageValue
 
     var signalCode : Int = 0
     var client : OkHttpClient = OkHttpClient()
@@ -18,13 +23,12 @@ class MainViewModel : ViewModel() {
         }
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
-            Log.i("OkHttp", "onOpen called")
-            if(signalCode == 1){
-                webSocket.send("ON")
-                webSocket.close(1000,null)
-            }
-            else{
-                webSocket.send("Testing closing connection")
+            when(signalCode){
+                0 -> {webSocket.send("Open CONN without CLOSING")}
+                1 -> {
+                    webSocket.send("ON")
+                    webSocket.close(1000,null)
+                }
             }
         }
 
@@ -33,10 +37,7 @@ class MainViewModel : ViewModel() {
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
-            val output = text.split(".")
-            val tankLevel = output[0]
-            val humidityLevel = output[1]
-            Log.i("OkHttp","$tankLevel - $humidityLevel")
+            _hummidityPercentageValue.postValue(text)
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

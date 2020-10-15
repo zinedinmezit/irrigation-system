@@ -25,7 +25,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
   case WStype_CONNECTED:
   {
     Serial.printf("[%u] Connected\n", num);
-    webSocket.sendTXT(num, "Conne.cted");
+    webSocket.broadcastTXT("Conne.cted");
     break;
   }
   case WStype_TEXT:
@@ -35,12 +35,13 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
     if (strcmp(payloadText, option) == 0)
     {
       digitalWrite(relayPin, LOW);
-      delay(5000L);
+      delay(2500);
       digitalWrite(relayPin, HIGH);
+      Serial.println(payloadText);
     }
     else
     {
-      Serial.println("Signal code 0");
+      Serial.println(payloadText);
     }
 
     break;
@@ -50,6 +51,9 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
     break;
   }
 }
+
+unsigned long previousMillis = 0;
+const long interval = 2000;
 
 void setup()
 {
@@ -64,9 +68,19 @@ void setup()
   webSocket.onEvent(webSocketEvent);
 }
 
+int i = 0;
 void loop()
 {
   webSocket.loop();
+
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval)
+  {
+    previousMillis = currentMillis;
+    i++;
+    String value = (String)i;
+    webSocket.broadcastTXT(value);
+  }
 }
 
 void ConnectToWiFi(const char *ssid, const char *password)
