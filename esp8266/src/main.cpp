@@ -6,14 +6,12 @@ const char *ssid = "Tenda_29DC88";
 const char *password = "alifakovac1";
 
 const char *option = "ON";
+int relayPin = 5;
+
 
 WebSocketsServer webSocket(81);
 
 void ConnectToWiFi(const char *ssid, const char *password);
-void handleRoot();
-void handleNotFound();
-
-int relayPin = 5;
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
 {
@@ -55,6 +53,9 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
 unsigned long previousMillis = 0;
 const long interval = 2000;
 
+int hummidityPin = A0;
+int value = 0;
+
 void setup()
 {
   Serial.begin(9600);
@@ -68,20 +69,23 @@ void setup()
   webSocket.onEvent(webSocketEvent);
 }
 
-int i = 0;
 void loop()
 {
   webSocket.loop();
+  value = analogRead(hummidityPin);
 
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval)
   {
     previousMillis = currentMillis;
-    i++;
-    String value = (String)i;
-    webSocket.broadcastTXT(value);
+    double percentage = 100L * value / 1023;
+    Serial.println(percentage);
+//    webSocket.broadcastTXT(value);
   }
 }
+
+
+
 
 void ConnectToWiFi(const char *ssid, const char *password)
 {
