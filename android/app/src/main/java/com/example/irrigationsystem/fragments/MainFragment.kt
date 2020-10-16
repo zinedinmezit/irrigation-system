@@ -27,16 +27,18 @@ class MainFragment : Fragment() {
 
         model.runWebSocket()
 
-        return binding.root
-    }
+         val reconnectButton = binding.buttonReconnect
+        reconnectButton.setOnClickListener {
+            model.signalCode=0
+            model.runWebSocket()
+        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val button = binding.button
-        button.setOnClickListener {
+        val actionButton = binding.buttonAction
+        actionButton.setOnClickListener {
             model.signalCode=1
             model.runWebSocket()
         }
+
+        return binding.root
     }
 }

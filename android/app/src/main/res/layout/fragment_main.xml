@@ -4,6 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
             name="mainVM"
             type="com.example.irrigationsystem.viewmodels.MainViewModel" />
@@ -14,23 +16,39 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/labelStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@{mainVM.hummidityPercentageValue}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:text="@{mainVM.isConnectionEstablishedString()}"
+        android:textColor="@color/black"
+        tools:text="DISCONNECTED"
+        />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonReconnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelStatus"
+        app:layout_constraintEnd_toEndOf="@id/labelStatus"
+        app:layout_constraintStart_toStartOf="@id/labelStatus"
+        android:text="@string/buttonReconnect_string"
+        android:visibility="@{mainVM.connectionEstablished ? View.GONE : View.VISIBLE}"
+        />
+
+    <Button
+        android:id="@+id/buttonAction"
+        android:text="@string/buttonAction_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="@{mainVM.isConnectionEstablished()}"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

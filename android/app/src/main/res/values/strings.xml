@@ -2,4 +2,6 @@
     <string name="app_name">Irrigationsystem</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="button_text">Next</string>
+    <string name="buttonReconnect_string">Try again</string>
+    <string name="buttonAction_string">Water now</string>
 </resources>
