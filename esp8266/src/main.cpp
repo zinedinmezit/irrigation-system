@@ -8,7 +8,6 @@ const char *password = "alifakovac1";
 const char *option = "ON";
 int relayPin = 5;
 
-
 WebSocketsServer webSocket(81);
 
 void ConnectToWiFi(const char *ssid, const char *password);
@@ -56,12 +55,21 @@ const long interval = 2000;
 int hummidityPin = A0;
 int value = 0;
 
+int trigPin = 4;
+int echoPin = 14;
+
+long duration;
+int distance;
+
 void setup()
 {
   Serial.begin(9600);
+
   delay(10);
   Serial.println("\n");
+
   pinMode(relayPin, OUTPUT);
+
   digitalWrite(relayPin, HIGH);
   ConnectToWiFi(ssid, password);
 
@@ -72,20 +80,17 @@ void setup()
 void loop()
 {
   webSocket.loop();
-  value = analogRead(hummidityPin);
 
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval)
   {
     previousMillis = currentMillis;
-    double percentage = 100L * value / 1023;
-    Serial.println(percentage);
-//    webSocket.broadcastTXT(value);
+    value = analogRead(hummidityPin);
+    String result = (String)( 100 - ( (value/1024.00) * 100 ) );
+  
+    webSocket.sendTXT(0, result);
   }
 }
-
-
-
 
 void ConnectToWiFi(const char *ssid, const char *password)
 {
