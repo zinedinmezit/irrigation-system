@@ -1,11 +1,9 @@
 package com.example.irrigationsystem.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import okhttp3.*
-import java.util.*
 
 class MainViewModel : ViewModel() {
 
@@ -27,12 +25,10 @@ class MainViewModel : ViewModel() {
     }
 
     var signalCode : Int = 0
-    var client : OkHttpClient = OkHttpClient()
 
     var currentEvent : String = "Initial"
 
-    private val request : Request = Request.Builder().url("ws://192.168.0.102:81").build()
-    private val wsListener : WebSocketListener = object :WebSocketListener(){
+     val wsListener : WebSocketListener = object :WebSocketListener(){
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
             when(signalCode){
@@ -73,10 +69,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun runWebSocket()
-    {
-        client.newWebSocket(request, wsListener)
-    }
 }
 
 //TODO Extract stringove u enumeracij (npr.DISCONNECTED i CONNECTED)

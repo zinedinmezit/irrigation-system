@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentMainBinding
+import com.example.irrigationsystem.network.OkHttpProvider
 import com.example.irrigationsystem.viewmodels.MainViewModel
 
 class MainFragment : Fragment() {
@@ -25,18 +26,18 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
 
-        model.runWebSocket()
+        OkHttpProvider.openWebSocketConnection(model.wsListener)
 
          val reconnectButton = binding.buttonReconnect
         reconnectButton.setOnClickListener {
             model.signalCode=0
-            model.runWebSocket()
+            OkHttpProvider.openWebSocketConnection(model.wsListener)
         }
 
         val actionButton = binding.buttonAction
         actionButton.setOnClickListener {
             model.signalCode=1
-            model.runWebSocket()
+            OkHttpProvider.openWebSocketConnection(model.wsListener)
         }
 
         return binding.root
@@ -44,6 +45,6 @@ class MainFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        model.client.dispatcher.cancelAll()
+        OkHttpProvider.closeConnections()
     }
 }

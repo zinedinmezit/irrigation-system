@@ -22,7 +22,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
   case WStype_CONNECTED:
   {
     Serial.printf("[%u] Connected\n", num);
-    webSocket.broadcastTXT("Conne.cted");
     break;
   }
   case WStype_TEXT:
@@ -87,7 +86,7 @@ void loop()
     previousMillis = currentMillis;
     value = analogRead(hummidityPin);
     String result = (String)( 100 - ( (value/1024.00) * 100 ) );
-  
+    Serial.println(result);
     webSocket.sendTXT(0, result);
   }
 }
