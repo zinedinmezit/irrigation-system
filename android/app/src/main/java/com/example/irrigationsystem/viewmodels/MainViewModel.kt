@@ -22,6 +22,7 @@ class MainViewModel : ViewModel() {
     init {
         _isConnectionEstablished.value = false
         _isConnectionEstablishedString.value = "DISCONNECTED"
+
     }
 
     var signalCode : Int = 0
@@ -38,8 +39,8 @@ class MainViewModel : ViewModel() {
                 }
                 1 -> {
                     currentEvent = "Command"
-                    webSocket.send("ON")
-                    webSocket.close(1000,null)
+                        webSocket.send("ON")
+                        webSocket.close(1000, null)
                 }
             }
         }
@@ -68,7 +69,6 @@ class MainViewModel : ViewModel() {
             }
         }
     }
-
 }
 
 //TODO Extract stringove u enumeracij (npr.DISCONNECTED i CONNECTED)

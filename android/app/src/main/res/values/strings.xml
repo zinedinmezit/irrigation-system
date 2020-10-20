@@ -4,4 +4,5 @@
     <string name="button_text">Next</string>
     <string name="buttonReconnect_string">Try again</string>
     <string name="buttonAction_string">Water now</string>
+    <string name="floatingActionButton_contentDescription">New plan</string>
 </resources>
