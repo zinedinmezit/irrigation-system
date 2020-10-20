@@ -1,9 +1,11 @@
 package com.example.irrigationsystem.models
 
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-data class Days(
-    @PrimaryKey(autoGenerate = true) val Id : Int,
+@Entity
+data class Day(
+    @PrimaryKey(autoGenerate = true) val DayId : Int,
     val OrdinalNumber : Int,
     val Name : String
 )
