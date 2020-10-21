@@ -5,18 +5,9 @@ import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
 
-@Entity(primaryKeys = ["WateringSchedulerId", "DaysId"])
+@Entity(primaryKeys = ["WateringSchedulerId", "DayId"])
 data class WateringSchedulerDays(
     val WateringSchedulerId: Int,
-    val DaysId: Int
+    val DayId: Int
 )
 
-data class WateringSchedulerWithDays(
-    @Embedded val WateringScheduler: WateringScheduler,
-    @Relation(
-        parentColumn = "WateringSchedulerId",
-        entityColumn = "DaysId",
-        associateBy = Junction(WateringSchedulerDays::class)
-    )
-    val songs: List<Days>
-)

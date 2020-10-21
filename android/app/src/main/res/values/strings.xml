@@ -5,4 +5,14 @@
     <string name="buttonReconnect_string">Try again</string>
     <string name="buttonAction_string">Water now</string>
     <string name="floatingActionButton_contentDescription">New plan</string>
+    <string name="create_a_new_plan">Create a new plan</string>
+    <string name="plan_name_hint">Plan name</string>
+    <string name="monday_label">MO</string>
+    <string name="sunday_label">SU</string>
+    <string name="saturday_label">SA</string>
+    <string name="friday_label">FR</string>
+    <string name="thursday_label">TH</string>
+    <string name="tuesday_label">TU</string>
+    <string name="wednesday_label">WE</string>
+    <string name="chipgroup_label">Schedule when to water</string>
 </resources>

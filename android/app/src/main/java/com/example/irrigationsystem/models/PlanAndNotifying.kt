@@ -6,8 +6,8 @@ import androidx.room.Relation
 data class PlanAndNotifying(
     @Embedded val Plan : Plan,
     @Relation(
-        parentColumn = "Id",
-        entityColumn = "PlanId"
+        parentColumn = "PlanId",
+        entityColumn = "PlanId_FK"
     )
     val NotificationScheduler : NotificationScheduler
 )

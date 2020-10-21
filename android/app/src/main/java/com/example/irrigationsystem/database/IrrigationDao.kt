@@ -1,11 +1,7 @@
 package com.example.irrigationsystem.database
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
-import com.example.irrigationsystem.models.PlanAndNotifying
-import com.example.irrigationsystem.models.PlanAndWatering
-import com.example.irrigationsystem.models.WateringSchedulerWithDays
+import androidx.room.*
+import com.example.irrigationsystem.models.*
 
 
 @Dao
@@ -25,5 +21,23 @@ interface IrrigationDao  {
     @Transaction
     @Query("SELECT * FROM WateringScheduler")
     fun getWateringDays(): List<WateringSchedulerWithDays>
+
+    //POST - Plan
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPlan(plan : Plan) : Long
+    //POST - WateringScheduler
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertWateringScheduler(wateringScheduler : WateringScheduler)
+    //POST - NotificationScheduler
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertNotificationScheduler(notificationScheduler : NotificationScheduler)
+    //POST- Day
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDays(days : Day)
+    //POST - WateringSchedulerDay
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWateringSchedulerDay(xy : WateringSchedulerDays)
+
+
 
 }

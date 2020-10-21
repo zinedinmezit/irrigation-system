@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class NotificationScheduler(
-    @PrimaryKey(autoGenerate = true) val Id : Int,
+    @PrimaryKey(autoGenerate = true) val NotificationSchedulerId : Int,
     var TimeToNotify : Long,
-    val PlanId : Int
+    val PlanId_FK : Int
 )

@@ -6,7 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.irrigationsystem.models.*
 
-@Database(entities = [Plan::class, NotificationScheduler::class, WateringScheduler::class, PlanWatering::class, PlanNotification::class],
+@Database(entities = [Plan::class,
+                    NotificationScheduler::class,
+                    WateringScheduler::class,
+                    Day::class,
+                    WateringSchedulerDays::class],
             version = 1,
             exportSchema = false)
 abstract class IrrigationSystemDatabase : RoomDatabase() {

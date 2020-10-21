@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class WateringScheduler(
-    @PrimaryKey(autoGenerate = true) val Id : Int,
+    @PrimaryKey(autoGenerate = true) val WateringSchedulerId : Int,
     var WateringTimeNow : Long,
     var WateringTimeNext : Long,
-    val PlanId : Int
+    val PlanId_FK : Int
     )
