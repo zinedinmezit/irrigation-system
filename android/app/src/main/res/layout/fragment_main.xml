@@ -24,7 +24,6 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
         android:text="@{mainVM.isConnectionEstablishedString()}"
-        android:textColor="@color/black"
         tools:text="DISCONNECTED"
         />
 
@@ -47,6 +46,7 @@
         android:enabled="@{mainVM.isConnectionEstablished()}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="16dp"/>
 
@@ -56,7 +56,6 @@
         android:layout_height="wrap_content"
         android:text="@{mainVM.hummidityPercentageValue}"
         android:textSize="24sp"
-        android:textColor="@color/black"
         tools:text="1024"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

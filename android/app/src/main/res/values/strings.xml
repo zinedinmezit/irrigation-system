@@ -15,4 +15,5 @@
     <string name="tuesday_label">TU</string>
     <string name="wednesday_label">WE</string>
     <string name="chipgroup_label">Schedule when to water</string>
+    <string name="time_hint">Time</string>
 </resources>
