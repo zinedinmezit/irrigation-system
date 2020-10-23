@@ -1,6 +1,7 @@
 package com.example.irrigationsystem.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.viewmodels.SecondaryViewModel
+import kotlinx.coroutines.launch
 
 
 class SecondaryFragment : Fragment() {
@@ -38,11 +41,15 @@ class SecondaryFragment : Fragment() {
                 IsActive = true
             )
 
-            model.insertNote(plan)
+            lifecycleScope.launchWhenStarted {
+                model.insertNote(plan)
+                val planId = model.getLatestPlanId()
+                Log.i("testtest","$planId")
+            }
 
         }
-
         // Inflate the layout for this fragment
         return binding.root
     }
+
 }

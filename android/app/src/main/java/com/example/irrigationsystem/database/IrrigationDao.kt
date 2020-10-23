@@ -1,5 +1,6 @@
 package com.example.irrigationsystem.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.irrigationsystem.models.*
 
@@ -24,7 +25,8 @@ interface IrrigationDao  {
 
     //POST - Plan
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-   suspend fun insertPlan(plan : Plan) : Long
+   suspend fun insertPlan(plan: Plan): Long
+
     //POST - WateringScheduler
     @Insert(onConflict = OnConflictStrategy.REPLACE)
    suspend fun insertWateringScheduler(wateringScheduler : WateringScheduler)
