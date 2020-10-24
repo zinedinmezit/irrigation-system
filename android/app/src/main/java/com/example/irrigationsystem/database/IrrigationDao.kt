@@ -29,7 +29,8 @@ interface IrrigationDao  {
 
     //POST - WateringScheduler
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-   suspend fun insertWateringScheduler(wateringScheduler : WateringScheduler)
+   suspend fun insertWateringScheduler(wateringScheduler: WateringScheduler): Long
+
     //POST - NotificationScheduler
     @Insert(onConflict = OnConflictStrategy.REPLACE)
    suspend fun insertNotificationScheduler(notificationScheduler : NotificationScheduler)

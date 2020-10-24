@@ -5,12 +5,12 @@ import java.util.*
 
 object TypeConverters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    fun fromTimestamp(value: Long?): Date {
+        return Date(value!!)
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time
+    fun dateToTimestamp(date: Date?): Long {
+        return date?.time!!
     }
 }

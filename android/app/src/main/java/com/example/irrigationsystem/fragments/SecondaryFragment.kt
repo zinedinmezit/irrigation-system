@@ -15,13 +15,13 @@ import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.viewmodels.SecondaryViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class SecondaryFragment : Fragment() {
 
     lateinit var binding : FragmentSecondaryBinding
     private val model : SecondaryViewModel by activityViewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,17 +36,27 @@ class SecondaryFragment : Fragment() {
 
         binding.button.setOnClickListener{
 
-            val plan = Plan(
-                Name = "Test",
-                IsActive = true
-            )
+            val checkedChipsIds = binding.chipGroup.checkedChipIds
 
-            lifecycleScope.launchWhenStarted {
-                model.insertNote(plan)
-                val planId = model.getLatestPlanId()
-                Log.i("testtest","$planId")
+            /*val checkedChipsIds = binding.chipGroup.checkedChipIds
+            model.insertWateringScheduler(checkedChipsIds)*/
+            if(checkedChipsIds.count() > 0) {
+                lifecycleScope.launchWhenStarted {
+
+                    val plan = Plan(
+                        Name = "Test",
+                        IsActive = true
+                    )
+
+                    model.insertNote(plan)
+                    val planId = model.getLatestPlanId().toInt()
+
+                    model.insertWateringScheduler(checkedChipsIds, planId)
+                    val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
+
+                    model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
+                }
             }
-
         }
         // Inflate the layout for this fragment
         return binding.root

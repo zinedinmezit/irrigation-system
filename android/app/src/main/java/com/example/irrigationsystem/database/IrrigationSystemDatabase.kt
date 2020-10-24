@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.irrigationsystem.models.*
 
 @Database(entities = [Plan::class,
@@ -11,7 +13,7 @@ import com.example.irrigationsystem.models.*
                     WateringScheduler::class,
                     Day::class,
                     WateringSchedulerDays::class],
-            version = 1,
+            version = 2,
             exportSchema = false)
 abstract class IrrigationSystemDatabase : RoomDatabase() {
     abstract val IrrigationDatabaseDao : IrrigationDao
@@ -29,10 +31,19 @@ abstract class IrrigationSystemDatabase : RoomDatabase() {
                     IrrigationSystemDatabase::class.java,
                     "irrigation_system_database")
                         .fallbackToDestructiveMigration()
+                        .addMigrations(MIGRATION_1_2)
                         .build()
                     INSTANCE = instance
                 }
                 return instance
+            }
+        }
+
+        val MIGRATION_1_2 = object : Migration(1,2){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "INSERT INTO Day VALUES (1,1,'NED'),(2,2, 'PON'),(3,3, 'UTO'),(4,4, 'SRI'),(5,5, 'CET'),(6,6, 'PET'),(7,7, 'SUB')"
+                )
             }
         }
     }
