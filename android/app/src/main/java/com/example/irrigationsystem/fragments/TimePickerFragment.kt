@@ -35,6 +35,14 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         val activity : Activity = ctx as Activity
         val timeEditText : EditText = activity.editTextTime
-        timeEditText.setText("${hourOfDay}h ${minute}m")
+        var hourString : String = hourOfDay.toString()
+        var minuteString : String = minute.toString()
+        if(hourOfDay < 10){
+             hourString = "0${hourOfDay}"
+        }
+        if(minute < 10){
+            minuteString = "0${minute}"
+        }
+        timeEditText.setText("${hourString}:${minuteString}")
     }
 }

@@ -15,6 +15,7 @@ import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.viewmodels.SecondaryViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -36,22 +37,23 @@ class SecondaryFragment : Fragment() {
 
         binding.button.setOnClickListener{
 
+
             val checkedChipsIds = binding.chipGroup.checkedChipIds
 
-            /*val checkedChipsIds = binding.chipGroup.checkedChipIds
-            model.insertWateringScheduler(checkedChipsIds)*/
+            val planName : String = binding.textFieldText.text.toString()
+            val timeString = binding.editTextTime.text.toString()
+
             if(checkedChipsIds.count() > 0) {
                 lifecycleScope.launchWhenStarted {
 
                     val plan = Plan(
-                        Name = "Test",
+                        Name = planName,
                         IsActive = true
                     )
 
                     model.insertNote(plan)
                     val planId = model.getLatestPlanId().toInt()
-
-                    model.insertWateringScheduler(checkedChipsIds, planId)
+                    model.insertWateringScheduler(checkedChipsIds, timeString, 1)
                     val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
 
                     model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)

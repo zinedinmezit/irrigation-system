@@ -15,11 +15,13 @@ object DateHelper {
 
     @SuppressLint("SimpleDateFormat")
     val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+    @SuppressLint("SimpleDateFormat")
+    val dateFormatWithTime = SimpleDateFormat("dd-MM-yyyy HH:mm")
 
 
-    fun getDateForCurrentSchedule(list : MutableList<Int>) : Pair<Date,MutableList<Int>>{
+    fun getDateForCurrentSchedule(list : MutableList<Int>, timeString:String) : Pair<Date,MutableList<Int>>{
 
-        var dayForSchedule = 0
+        val dayForSchedule: Int
         val listTransformed = transformListIds(list)
         val c = Calendar.getInstance()
 
@@ -53,9 +55,9 @@ object DateHelper {
             }
         }
 
-        val newDateStr = dateFormat.format(c.time)
-
-        return  Pair(dateFormat.parse(newDateStr)!!, listTransformed)
+        val newDateStr = "${dateFormat.format(c.time)} $timeString"
+        Log.i("testtest3","Final date -> $newDateStr")
+        return  Pair(dateFormatWithTime.parse(newDateStr)!!, listTransformed)
     }
 
      fun transformListIds(list : MutableList<Int>) : MutableList<Int>{
