@@ -1,7 +1,6 @@
 package com.example.irrigationsystem.helpers
 
 import android.annotation.SuppressLint
-import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,23 +21,20 @@ object DateHelper {
     fun getDateForCurrentSchedule(list : MutableList<Int>, timeString:String) : Pair<Date,MutableList<Int>>{
 
         val dayForSchedule: Int
-        val listTransformed = transformListIds(list)
         val c = Calendar.getInstance()
 
         var current = c.get(Calendar.DAY_OF_WEEK)
-        val filteredList = listTransformed.filter { it -> it > current }
+        val filteredList = list.filter { it -> it > current }
         if(filteredList.count() > 0) {
             dayForSchedule = filteredList[0]
 
             while (current != dayForSchedule){
                 c.add(Calendar.DATE,1)
                 current = c.get(Calendar.DAY_OF_WEEK)
-                Log.i("testtest2","$current")
-                Log.i("testtest2","${c.time}")
             }
         }else{
-            listTransformed.sort()
-            dayForSchedule = listTransformed[0]
+            list.sort()
+            dayForSchedule = list[0]
             if(dayForSchedule == current){
                 c.add(Calendar.DATE,1)
                 current = c.get(Calendar.DAY_OF_WEEK)
@@ -56,8 +52,7 @@ object DateHelper {
         }
 
         val newDateStr = "${dateFormat.format(c.time)} $timeString"
-        Log.i("testtest3","Final date -> $newDateStr")
-        return  Pair(dateFormatWithTime.parse(newDateStr)!!, listTransformed)
+        return  Pair(dateFormatWithTime.parse(newDateStr)!!, list)
     }
 
      fun transformListIds(list : MutableList<Int>) : MutableList<Int>{

@@ -1,6 +1,8 @@
 package com.example.irrigationsystem.viewmodels
 
+import android.app.AlarmManager
 import android.app.Application
+import android.app.PendingIntent
 import androidx.lifecycle.*
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.helpers.DateHelper
@@ -31,12 +33,14 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun insertWateringScheduler(list : MutableList<Int>,timeString : String,planId : Int = 0){
+    fun insertWateringScheduler(list : MutableList<Int>,timeString : String,planId : Int = 0) : Long{
+        val pair : Pair<Date, MutableList<Int>> = DateHelper.getDateForCurrentSchedule(list, timeString)
         viewModelScope.launch {
-            val pair : Pair<Date, MutableList<Int>> = DateHelper.getDateForCurrentSchedule(list, timeString)
             val ws = WateringScheduler(WateringTimeNow = TypeConverters.dateToTimestamp(pair.first),PlanId_FK = planId, WateringTimeNext = 0)
             wateringSchedulerDeffered.complete(repository.insertWateringScheduler(ws))
         }
+
+        return pair.first.time
     }
 
     fun insertWateringSchedulerDays(id : Int, list : MutableList<Int>){
@@ -51,8 +55,6 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-
-
     suspend fun getLatestPlanId() : Long {
        val id = planDeferred.await()
         planDeferred = CompletableDeferred()
@@ -66,4 +68,5 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
 
         return id
     }
+
 }

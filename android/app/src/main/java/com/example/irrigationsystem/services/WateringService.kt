@@ -3,18 +3,54 @@ package com.example.irrigationsystem.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
+import com.example.irrigationsystem.network.OkHttpProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import okhttp3.Response
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
 
 class WateringService : Service() {
 
+    private val scope = CoroutineScope(context = Dispatchers.IO)
+    private val wsListener : WebSocketListener = object :WebSocketListener(){
+
+        override fun onOpen(webSocket: WebSocket, response: Response) {
+            webSocket.send("ON")
+            webSocket.close(1000,null)
+        }
+
+       /* override fun onMessage(webSocket: WebSocket, text: String) {
+        }
+
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+
+        }*/
+    }
+    
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return super.onStartCommand(intent, flags, startId)
+        Log.i("servicetest","Service -  onStartCommandInvoked")
+        scope.launch {
+            Log.i("servicetest","Service - Inside scope <> before opening ws")
+            OkHttpProvider.openWebSocketConnection(wsListener)
+            Log.i("servicetest","Service - Inside scope <> after opening ws")
+        }
+        Log.i("servicetest","Service - after Scope <> before stopSelf")
+        stopSelf()
+        Log.i("servicetest","Service - after Scope <> after stopSelf")
+        return START_NOT_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.i("servicetest","Service - onDestroy")
+        scope.cancel("Scope in service is done so it is canceled")
     }
 }

@@ -38,7 +38,8 @@ class MainViewModel : ViewModel() {
                     _isConnectionEstablished.postValue(true)
                 }
                 1 -> {
-                    currentEvent = "Command"
+                        currentEvent = "Command"
+                        signalCode = 0
                         webSocket.send("ON")
                         webSocket.close(1000, null)
                 }
