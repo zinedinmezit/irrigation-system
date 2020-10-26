@@ -36,21 +36,15 @@ class WateringService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i("servicetest","Service -  onStartCommandInvoked")
         scope.launch {
-            Log.i("servicetest","Service - Inside scope <> before opening ws")
             OkHttpProvider.openWebSocketConnection(wsListener)
-            Log.i("servicetest","Service - Inside scope <> after opening ws")
         }
-        Log.i("servicetest","Service - after Scope <> before stopSelf")
         stopSelf()
-        Log.i("servicetest","Service - after Scope <> after stopSelf")
         return START_NOT_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.i("servicetest","Service - onDestroy")
         scope.cancel("Scope in service is done so it is canceled")
     }
 }

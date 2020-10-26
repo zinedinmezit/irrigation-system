@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentMainBinding
 import com.example.irrigationsystem.network.OkHttpProvider
 import com.example.irrigationsystem.viewmodels.MainViewModel
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
 
@@ -23,24 +25,34 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        //Binding setup
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
 
-        OkHttpProvider.openWebSocketConnection(model.wsListener)
+        //On fragment apperance, connect with websocket
+        lifecycleScope.launchWhenStarted {
+            OkHttpProvider.openWebSocketConnection(model.wsListener)
+        }
 
+        //Purpose - visible if there is need for reconnection because of failed connection with websocket
          val reconnectButton = binding.buttonReconnect
         reconnectButton.setOnClickListener {
             model.signalCode=0
-            OkHttpProvider.openWebSocketConnection(model.wsListener)
-        }
+            lifecycleScope.launchWhenStarted {
+                OkHttpProvider.openWebSocketConnection(model.wsListener)
+            }        }
 
+        //Purpose - water plant on button pressed
         val actionButton = binding.buttonAction
         actionButton.setOnClickListener {
             model.signalCode=1
-            OkHttpProvider.openWebSocketConnection(model.wsListener)
+            lifecycleScope.launchWhenStarted {
+                OkHttpProvider.openWebSocketConnection(model.wsListener)
+            }
         }
 
+        //Purpose - switch to selected fragment
         val floatingButton = binding.floatingActionButton
         floatingButton.setOnClickListener{
             val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment()
@@ -52,6 +64,8 @@ class MainFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        OkHttpProvider.closeConnections()
+        lifecycleScope.launch {
+            OkHttpProvider.closeConnections()
+        }
     }
 }
