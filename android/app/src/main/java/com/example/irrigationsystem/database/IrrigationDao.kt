@@ -41,6 +41,12 @@ interface IrrigationDao  {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWateringSchedulerDay(xy : WateringSchedulerDays)
 
+    @Query("UPDATE `Plan` SET IsActive=0 WHERE PlanId!=:planId")
+    suspend fun changePlanActiveStatusExceptOne(planId : Int)
+
+    @Query("UPDATE `Plan` SET IsActive=1 WHERE PlanId=:planId")
+    suspend fun setPlanAsActive(planId : Int)
+
 
 
 }

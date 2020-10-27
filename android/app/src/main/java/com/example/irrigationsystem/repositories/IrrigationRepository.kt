@@ -19,4 +19,12 @@ class IrrigationRepository(private val dao : IrrigationDao) {
     suspend fun insertWateringScheduler(scheduler : WateringScheduler): Long{
         return dao.insertWateringScheduler(scheduler)
     }
+
+    suspend fun changePlanActiveStatusExceptOne(planId : Int){
+        dao.changePlanActiveStatusExceptOne(planId)
+    }
+
+    suspend fun setPlanAsActive(planId : Int){
+        dao.setPlanAsActive(planId)
+    }
 }

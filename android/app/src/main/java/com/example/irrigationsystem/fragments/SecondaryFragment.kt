@@ -68,12 +68,13 @@ class SecondaryFragment : Fragment() {
 
                     //Part where we create schedule and pair schedule with days that we chose
                     val planId = model.getLatestPlanId().toInt()
+                    model.changePlanActiveStatusExceptOne(planId)
+                    val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, planId)
                     val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                     model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
                     //Intent needs to have some kind of id so the best way to have unique id without creating anything else
                     //is to set id as datetime (might remove this)
-                    val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, planId)
 
                     //Set alarm and when the time comes, "wake up" receiver
                     alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager

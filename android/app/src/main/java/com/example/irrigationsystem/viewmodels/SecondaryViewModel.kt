@@ -3,6 +3,7 @@ package com.example.irrigationsystem.viewmodels
 import android.app.AlarmManager
 import android.app.Application
 import android.app.PendingIntent
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.helpers.DateHelper
@@ -13,6 +14,7 @@ import com.example.irrigationsystem.models.WateringSchedulerDays
 import com.example.irrigationsystem.repositories.IrrigationRepository
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import java.util.*
 
 class SecondaryViewModel(application: Application) : AndroidViewModel(application) {
@@ -44,13 +46,16 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun insertWateringSchedulerDays(id : Int, list : MutableList<Int>){
-
+        Log.i("testtest","starting list - $list")
         viewModelScope.launch {
-            val transformedList = DateHelper.transformListIds(list)
-
-            transformedList.forEach {
-                val wsd = WateringSchedulerDays(id,it)
-                repository.insertWateringSchDay(wsd)
+            try {
+                Log.i("testtest","Inside try catch")
+                list.forEach {
+                    val wsd = WateringSchedulerDays(id, it)
+                    repository.insertWateringSchDay(wsd)
+                }
+            }catch (ex : Exception){
+                Log.i("testtest","aaaaa ${ex.message}")
             }
         }
     }
@@ -67,6 +72,18 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
         wateringSchedulerDeffered = CompletableDeferred()
 
         return id
+    }
+
+    fun changePlanActiveStatusExceptOne(planId : Int){
+        viewModelScope.launch {
+            repository.changePlanActiveStatusExceptOne(planId)
+        }
+    }
+
+    fun setPlanAsActive(planId : Int){
+        viewModelScope.launch {
+            repository.setPlanAsActive(planId)
+        }
     }
 
 }
