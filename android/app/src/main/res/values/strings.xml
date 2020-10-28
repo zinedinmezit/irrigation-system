@@ -16,4 +16,6 @@
     <string name="wednesday_label">WE</string>
     <string name="chipgroup_label">Schedule when to water</string>
     <string name="time_hint">Time</string>
+    <string name="is_notification_channel_id" translatable="false">is_channel</string>
+    <string name="is_notification_channel_name" translatable="false">Watering service</string>
 </resources>

@@ -42,7 +42,7 @@ abstract class IrrigationSystemDatabase : RoomDatabase() {
         val MIGRATION_1_2 = object : Migration(1,2){
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
-                    "INSERT INTO Day VALUES (1,1,'NED'),(2,2, 'PON'),(3,3, 'UTO'),(4,4, 'SRI'),(5,5, 'CET'),(6,6, 'PET'),(7,7, 'SUB')"
+                    "INSERT INTO Day VALUES (1,1,'SUN'),(2,2, 'MON'),(3,3, 'TUE'),(4,4, 'WED'),(5,5, 'THU'),(6,6, 'FRI'),(7,7, 'SAT')"
                 )
             }
         }

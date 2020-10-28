@@ -1,9 +1,14 @@
 package com.example.irrigationsystem.fragments
 
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,11 +21,9 @@ import androidx.lifecycle.lifecycleScope
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
 import com.example.irrigationsystem.helpers.DateHelper
-import com.example.irrigationsystem.helpers.TypeConverters
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.SecondaryViewModel
-import java.util.*
 
 class SecondaryFragment : Fragment() {
 
@@ -70,19 +73,17 @@ class SecondaryFragment : Fragment() {
                     val planId = model.getLatestPlanId().toInt()
                     model.changePlanActiveStatusExceptOne(planId)
                     val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, planId)
+                    Log.i("testtest","Scheduled date - $scheduledDate")
                     val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                     model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
-                    //Intent needs to have some kind of id so the best way to have unique id without creating anything else
-                    //is to set id as datetime (might remove this)
 
                     //Set alarm and when the time comes, "wake up" receiver
                     alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     alarmIntent = Intent(context, WateringReceiver::class.java).let {
                         it.putExtra("CHIPS",chipsIntArray)
                         it.putExtra("TIMESTRING",timeString)
-                        it.action = scheduledDate.toString()
-                        PendingIntent.getBroadcast(context,1,it,0) //Consider replacing flag with FLAG_UPDATE_CURRENT
+                        PendingIntent.getBroadcast(context,1,it,FLAG_UPDATE_CURRENT) //Consider replacing flag with FLAG_UPDATE_CURRENT
                     }
 
                     setAlarmManager(alarmMgr,scheduledDate,alarmIntent)
@@ -94,11 +95,41 @@ class SecondaryFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        createChannel(
+            getString(R.string.is_notification_channel_id),
+            getString(R.string.is_notification_channel_name))
+
+    }
+
     private fun setAlarmManager(alarmManager : AlarmManager?, dateTime : Long, intent: PendingIntent) {
-        alarmManager?.set(
+        alarmManager?.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             dateTime,
             intent
         )
+    }
+
+    private fun createChannel(channelId : String, channelName : String) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_LOW
+            )
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "You got things to do"
+
+            val notificationManager = requireActivity().getSystemService(
+                NotificationManager::class.java
+            )
+
+            notificationManager?.createNotificationChannel(notificationChannel)
+        }
     }
 }

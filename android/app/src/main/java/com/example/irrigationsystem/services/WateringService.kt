@@ -1,9 +1,12 @@
 package com.example.irrigationsystem.services
 
+import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import com.example.irrigationsystem.R
 import com.example.irrigationsystem.network.OkHttpProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,11 +38,22 @@ class WateringService : Service() {
         return null
     }
 
+    override fun onCreate() {
+
+        val notification: Notification = NotificationCompat.Builder(this,applicationContext.getString(R.string.is_notification_channel_id))
+            .setContentTitle("Irrigation system service")
+            .setContentText("Watering action started")
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .build()
+
+        startForeground(1,notification)
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         scope.launch {
             OkHttpProvider.openWebSocketConnection(wsListener)
+            stopForeground(false)
         }
-        stopSelf()
         return START_NOT_STICKY
     }
 
