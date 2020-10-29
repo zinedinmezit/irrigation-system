@@ -28,7 +28,6 @@ class WateringReceiver : BroadcastReceiver() {
         val myBundle = intent?.extras
         val chipIdsArray = myBundle?.getIntArray("CHIPS")
         val timeString = myBundle?.getString("TIMESTRING")
-        Log.i("testtest","ONRECEIVE CALLED")
 
         val chipIds = chipIdsArray?.toMutableList()
 
@@ -42,7 +41,7 @@ class WateringReceiver : BroadcastReceiver() {
         }
 
         val pairs = DateHelper.getDateForCurrentSchedule(chipIds!!,timeString!!)
-        Log.i("testtest","${pairs.first}")
+
         alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmIntent = Intent(context, WateringReceiver::class.java).let {
             it.putExtra("CHIPS",chipIdsArray)
@@ -52,7 +51,7 @@ class WateringReceiver : BroadcastReceiver() {
 
         setAlarmManager(alarmMgr,pairs.first.time,alarmIntent)
     }
-    
+
 
     private fun setAlarmManager(alarmManager : AlarmManager?, dateTime : Long, intent: PendingIntent) {
         alarmManager?.set(

@@ -1,8 +1,6 @@
 package com.example.irrigationsystem.viewmodels
 
-import android.app.AlarmManager
 import android.app.Application
-import android.app.PendingIntent
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.irrigationsystem.database.IrrigationSystemDatabase

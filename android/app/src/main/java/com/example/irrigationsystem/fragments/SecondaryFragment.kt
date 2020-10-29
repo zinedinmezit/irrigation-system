@@ -18,12 +18,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
 import com.example.irrigationsystem.helpers.DateHelper
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.SecondaryViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SecondaryFragment : Fragment() {
 
@@ -59,14 +61,14 @@ class SecondaryFragment : Fragment() {
 
                 //Conversion to IntArray because we want to putExtra chip ids in Intent and send it to Receiver
                 val chipsIntArray = checkedChipsIds.toIntArray()
+                //Every plan created will be set as active
+                val plan = Plan(
+                    Name = planName,
+                    IsActive = true
+                )
                 Log.i("servicetest","Secondary fragment, chipsIntArray $chipsIntArray")
                 lifecycleScope.launchWhenStarted {
 
-                    //Every plan created will be set as active
-                    val plan = Plan(
-                        Name = planName,
-                        IsActive = true
-                    )
                     model.insertNote(plan)
 
                     //Part where we create schedule and pair schedule with days that we chose
@@ -83,11 +85,19 @@ class SecondaryFragment : Fragment() {
                     alarmIntent = Intent(context, WateringReceiver::class.java).let {
                         it.putExtra("CHIPS",chipsIntArray)
                         it.putExtra("TIMESTRING",timeString)
-                        PendingIntent.getBroadcast(context,1,it,FLAG_UPDATE_CURRENT) //Consider replacing flag with FLAG_UPDATE_CURRENT
+                        PendingIntent.getBroadcast(context,1,it,FLAG_UPDATE_CURRENT)
                     }
 
                     setAlarmManager(alarmMgr,scheduledDate,alarmIntent)
                 }
+
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(resources.getString(R.string.dialog_title))
+                    .setMessage(resources.getString(R.string.dialog_text))
+                    .setNeutralButton(resources.getString(R.string.dialog_button_neutral_text)){ _, _ ->
+                        this.findNavController().popBackStack()
+                    }
+                    .show()
             }
         }
 

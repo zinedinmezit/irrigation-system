@@ -7,10 +7,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.network.OkHttpProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener

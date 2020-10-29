@@ -18,4 +18,7 @@
     <string name="time_hint">Time</string>
     <string name="is_notification_channel_id" translatable="false">is_channel</string>
     <string name="is_notification_channel_name" translatable="false">Watering service</string>
+    <string name="dialog_title">Success</string>
+    <string name="dialog_text">You have created a new plan</string>
+    <string name="dialog_button_neutral_text">Back to main page</string>
 </resources>

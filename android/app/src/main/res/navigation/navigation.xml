@@ -18,5 +18,9 @@
         android:id="@+id/secondaryFragment"
         android:name="com.example.irrigationsystem.fragments.SecondaryFragment"
         android:label="fragment_secondary"
-        tools:layout="@layout/fragment_secondary" />
+        tools:layout="@layout/fragment_secondary" >
+        <action
+            android:id="@+id/action_secondaryFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
