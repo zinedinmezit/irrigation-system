@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.network.OkHttpProvider
