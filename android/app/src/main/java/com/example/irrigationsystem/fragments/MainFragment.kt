@@ -30,16 +30,11 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
 
-        //On fragment apperance, connect with websocket
-        lifecycleScope.launchWhenStarted {
-            OkHttpProvider.openWebSocketConnection(model.wsListener)
-        }
-
         //Purpose - visible if there is need for reconnection because of failed connection with websocket
          val reconnectButton = binding.buttonReconnect
         reconnectButton.setOnClickListener {
             model.signalCode=0
-            lifecycleScope.launchWhenStarted {
+            lifecycleScope.launch {
                 OkHttpProvider.openWebSocketConnection(model.wsListener)
             }        }
 
@@ -60,6 +55,14 @@ class MainFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        //On fragment apperance, connect with websocket
+        lifecycleScope.launch {
+            OkHttpProvider.openWebSocketConnection(model.wsListener)
+        }
     }
 
     override fun onStop() {

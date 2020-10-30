@@ -13,6 +13,10 @@ import com.example.irrigationsystem.models.*
                     WateringScheduler::class,
                     Day::class,
                     WateringSchedulerDays::class],
+            views = [
+                PlanWateringSchedulerView::class,
+                ScheduledDaysView::class
+            ],
             version = 2,
             exportSchema = false)
 abstract class IrrigationSystemDatabase : RoomDatabase() {
@@ -31,19 +35,10 @@ abstract class IrrigationSystemDatabase : RoomDatabase() {
                     IrrigationSystemDatabase::class.java,
                     "irrigation_system_database")
                         .fallbackToDestructiveMigration()
-                        .addMigrations(MIGRATION_1_2)
                         .build()
                     INSTANCE = instance
                 }
                 return instance
-            }
-        }
-
-        val MIGRATION_1_2 = object : Migration(1,2){
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL(
-                    "INSERT INTO Day VALUES (1,1,'SUN'),(2,2, 'MON'),(3,3, 'TUE'),(4,4, 'WED'),(5,5, 'THU'),(6,6, 'FRI'),(7,7, 'SAT')"
-                )
             }
         }
     }

@@ -1,12 +1,16 @@
 package com.example.irrigationsystem.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
+import com.example.irrigationsystem.database.IrrigationSystemDatabase
+import com.example.irrigationsystem.models.Plan
+import com.example.irrigationsystem.repositories.IrrigationRepository
+import kotlinx.coroutines.launch
 import okhttp3.*
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val repository : IrrigationRepository
     private var _isConnectionEstablished : MutableLiveData<Boolean> = MutableLiveData<Boolean>()
             val isConnectionEstablished : LiveData<Boolean>
                 get() = _isConnectionEstablished
@@ -19,10 +23,15 @@ class MainViewModel : ViewModel() {
     val hummidityPercentageValue: LiveData<String>
         get() = _hummidityPercentageValue
 
+    val activePlan : LiveData<Plan>
+
     init {
+        val dao = IrrigationSystemDatabase.getInstance(application).IrrigationDatabaseDao
         _isConnectionEstablished.value = false
         _isConnectionEstablishedString.value = "DISCONNECTED"
+        repository = IrrigationRepository(dao)
 
+        activePlan = repository.activePlan
     }
 
     var signalCode : Int = 0
