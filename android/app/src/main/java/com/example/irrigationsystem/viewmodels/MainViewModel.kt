@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.models.Plan
+import com.example.irrigationsystem.models.PlanWateringSchedulerView
+import com.example.irrigationsystem.models.ScheduledDaysView
 import com.example.irrigationsystem.repositories.IrrigationRepository
 import kotlinx.coroutines.launch
 import okhttp3.*
@@ -23,7 +25,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val hummidityPercentageValue: LiveData<String>
         get() = _hummidityPercentageValue
 
-    val activePlan : LiveData<Plan>
+    val activePlan : LiveData<PlanWateringSchedulerView>
+    val scheduledDays : LiveData<List<ScheduledDaysView>>
 
     init {
         val dao = IrrigationSystemDatabase.getInstance(application).IrrigationDatabaseDao
@@ -32,6 +35,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         repository = IrrigationRepository(dao)
 
         activePlan = repository.activePlan
+        scheduledDays = repository.schedulerDays
     }
 
     var signalCode : Int = 0

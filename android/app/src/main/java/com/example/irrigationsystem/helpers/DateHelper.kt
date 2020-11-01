@@ -7,9 +7,9 @@ import java.util.*
 object DateHelper {
 
     private val chipIdMap = mapOf(
-        2131230828 to 2, 2131230829 to 3, 2131230830 to 4,
-        2131230831 to 5, 2131230832 to 6, 2131230833 to 7,
-        2131230834 to 1
+        2131230829 to 2, 2131230830 to 3, 2131230831 to 4,
+        2131230832 to 5, 2131230833 to 6, 2131230834 to 7,
+        2131230835 to 1
     )
 
     @SuppressLint("SimpleDateFormat")

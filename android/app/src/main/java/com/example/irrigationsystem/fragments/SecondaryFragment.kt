@@ -52,7 +52,10 @@ class SecondaryFragment : Fragment() {
 
             //Since chip ids have strange unique id values and each chip represents day where days, based on Calendar class, have their
             //own ids from 1 to 7 starting with Sunday as 1, this method just transforms these ids to be meaningful with Calendar class
-            val checkedChipsIds = DateHelper.transformListIds(binding.chipGroup.checkedChipIds)
+
+            val chips = binding.chipGroup.checkedChipIds
+
+            val checkedChipsIds = DateHelper.transformListIds(chips)
 
             val planName : String = binding.textFieldText.text.toString()
             val timeString = binding.editTextTime.text.toString()

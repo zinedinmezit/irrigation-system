@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentMainBinding
+import com.example.irrigationsystem.helpers.DaysAdapter
 import com.example.irrigationsystem.network.OkHttpProvider
 import com.example.irrigationsystem.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
@@ -19,6 +22,7 @@ class MainFragment : Fragment() {
 
     private val model: MainViewModel by activityViewModels()
     lateinit var binding : FragmentMainBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +33,7 @@ class MainFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
+
 
         //Purpose - visible if there is need for reconnection because of failed connection with websocket
          val reconnectButton = binding.buttonReconnect
@@ -53,6 +58,15 @@ class MainFragment : Fragment() {
             val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment()
             this.findNavController().navigate(action)
         }
+
+        val adapter = DaysAdapter()
+        binding.recyclerView.adapter = adapter
+
+        model.scheduledDays.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
 
         return binding.root
     }
