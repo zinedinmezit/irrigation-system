@@ -6,7 +6,9 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.irrigationsystem.R
+import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.network.OkHttpProvider
+import com.example.irrigationsystem.repositories.IrrigationRepository
 import kotlinx.coroutines.*
 import okhttp3.Response
 import okhttp3.WebSocket
@@ -35,6 +37,7 @@ class WateringService : Service() {
     }
 
     override fun onCreate() {
+
 
         val notification: Notification = NotificationCompat.Builder(this,applicationContext.getString(R.string.is_notification_channel_id))
             .setContentTitle("Irrigation system service")

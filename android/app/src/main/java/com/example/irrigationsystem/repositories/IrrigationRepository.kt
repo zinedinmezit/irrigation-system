@@ -30,4 +30,8 @@ class IrrigationRepository(private val dao : IrrigationDao) {
     suspend fun setPlanAsActive(planId : Int){
         dao.setPlanAsActive(planId)
     }
+
+    suspend fun setWateringTimeNow(time : Long){
+        dao.setWateringTimeNow(time)
+    }
 }
