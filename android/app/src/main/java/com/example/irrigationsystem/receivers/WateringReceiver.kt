@@ -46,7 +46,7 @@ class WateringReceiver : BroadcastReceiver() {
         alarmIntent = Intent(context, WateringReceiver::class.java).let {
             it.putExtra("CHIPS",chipIdsArray)
             it.putExtra("TIMESTRING",timeString)
-            PendingIntent.getBroadcast(context,0,it,FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context,1,it,FLAG_UPDATE_CURRENT)
         }
 
         setAlarmManager(alarmMgr,pairs.first.time,alarmIntent)
