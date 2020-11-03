@@ -13,14 +13,22 @@
         <action
             android:id="@+id/action_mainFragment_to_secondaryFragment"
             app:destination="@id/secondaryFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
     <fragment
         android:id="@+id/secondaryFragment"
         android:name="com.example.irrigationsystem.fragments.SecondaryFragment"
         android:label="fragment_secondary"
-        tools:layout="@layout/fragment_secondary" >
-        <action
-            android:id="@+id/action_secondaryFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+        tools:layout="@layout/fragment_secondary" />
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.irrigationsystem.fragments.EditFragment"
+        android:label="EditFragment"
+        tools:layout="@layout/fragment_edit">
+        <argument
+            android:name="planId"
+            app:argType="integer" />
     </fragment>
 </navigation>

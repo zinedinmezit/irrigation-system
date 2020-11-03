@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentMainBinding
 import com.example.irrigationsystem.helpers.DaysAdapter
@@ -21,7 +20,7 @@ import kotlinx.coroutines.launch
 class MainFragment : Fragment() {
 
     private val model: MainViewModel by activityViewModels()
-    lateinit var binding : FragmentMainBinding
+    private lateinit var binding : FragmentMainBinding
 
 
     override fun onCreateView(
@@ -41,7 +40,8 @@ class MainFragment : Fragment() {
             model.signalCode=0
             lifecycleScope.launch {
                 OkHttpProvider.openWebSocketConnection(model.wsListener)
-            }        }
+            }
+        }
 
         //Purpose - water plant on button pressed
         val actionButton = binding.buttonAction
@@ -50,6 +50,12 @@ class MainFragment : Fragment() {
             lifecycleScope.launchWhenStarted {
                 OkHttpProvider.openWebSocketConnection(model.wsListener)
             }
+        }
+
+        binding.editImageButton.setOnClickListener {
+            val planId = model.getPlanId()!!
+            val action = MainFragmentDirections.actionMainFragmentToEditFragment(planId)
+            this.findNavController().navigate(action)
         }
 
         //Purpose - switch to selected fragment

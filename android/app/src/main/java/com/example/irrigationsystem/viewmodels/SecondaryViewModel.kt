@@ -44,7 +44,6 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun insertWateringSchedulerDays(id : Int, list : MutableList<Int>){
-        Log.i("testtest","starting list - $list")
         viewModelScope.launch {
             try {
                 Log.i("testtest","Inside try catch")
@@ -77,11 +76,4 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
             repository.changePlanActiveStatusExceptOne(planId)
         }
     }
-
-    fun setPlanAsActive(planId : Int){
-        viewModelScope.launch {
-            repository.setPlanAsActive(planId)
-        }
-    }
-
 }

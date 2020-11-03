@@ -21,4 +21,6 @@
     <string name="dialog_title">Success</string>
     <string name="dialog_text">You have created a new plan</string>
     <string name="dialog_button_neutral_text">Back to main page</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

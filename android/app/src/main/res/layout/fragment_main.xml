@@ -78,6 +78,7 @@
             android:text="@{mainVM.activePlan.name}"
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Plan 1" />
 
@@ -110,6 +111,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/plant" />
+
+        <ImageView
+            android:id="@+id/editImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/plan_name"
+            app:layout_constraintStart_toEndOf="@+id/plan_name"
+            app:layout_constraintTop_toTopOf="@+id/plan_name"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

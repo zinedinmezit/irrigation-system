@@ -83,6 +83,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+    fun getPlanId() : Int? = activePlan.value?.PlanId
 }
 
 //TODO Extract stringove u enumeracij (npr.DISCONNECTED i CONNECTED)

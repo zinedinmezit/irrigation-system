@@ -33,11 +33,8 @@ class WateringReceiver : BroadcastReceiver() {
         val myBundle = intent?.extras
 
         val chipIdsArray = myBundle?.getIntArray("CHIPS")
-        val timeString = myBundle?.getString("TIMESTRING")
-
         val chipIds = chipIdsArray?.toMutableList()
-
-
+        val timeString = myBundle?.getString("TIMESTRING")
 
         val pairs = DateHelper.getDateForCurrentSchedule(chipIds!!,timeString!!)
 
@@ -71,5 +68,4 @@ class WateringReceiver : BroadcastReceiver() {
             intent
         )
     }
-
 }
