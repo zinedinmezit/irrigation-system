@@ -12,10 +12,12 @@
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_secondaryFragment"
-            app:destination="@id/secondaryFragment" />
+            app:destination="@id/secondaryFragment"
+            app:enterAnim="@anim/fragment_open_enter" />
         <action
             android:id="@+id/action_mainFragment_to_editFragment"
-            app:destination="@id/editFragment" />
+            app:destination="@id/editFragment"
+            app:enterAnim="@anim/fragment_open_enter" />
     </fragment>
     <fragment
         android:id="@+id/secondaryFragment"
@@ -27,8 +29,8 @@
         android:name="com.example.irrigationsystem.fragments.EditFragment"
         android:label="EditFragment"
         tools:layout="@layout/fragment_edit">
-        <argument
-            android:name="planId"
-            app:argType="integer" />
+        <action
+            android:id="@+id/action_editFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>

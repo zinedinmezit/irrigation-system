@@ -7,9 +7,15 @@ import java.util.*
 object DateHelper {
 
     private val chipIdMap = mapOf(
-        2131230829 to 2, 2131230830 to 3, 2131230831 to 4,
-        2131230832 to 5, 2131230833 to 6, 2131230834 to 7,
-        2131230835 to 1
+        2131230830 to 2, 2131230831 to 3, 2131230832 to 4,
+        2131230833 to 5, 2131230834 to 6, 2131230835 to 7,
+        2131230836 to 1
+    )
+
+    private val chipIdMapE = mapOf(
+        2131230837 to 2, 2131230838 to 3, 2131230839 to 4,
+        2131230840 to 5, 2131230841 to 6, 2131230842 to 7,
+        2131230843 to 1
     )
 
     @SuppressLint("SimpleDateFormat")
@@ -55,10 +61,16 @@ object DateHelper {
         return  Pair(dateFormatWithTime.parse(newDateStr)!!, list)
     }
 
-     fun transformListIds(list : MutableList<Int>) : MutableList<Int>{
+     fun transformListIds(list : MutableList<Int>, listCode : Int = 1) : MutableList<Int>{
 
         val listTransformed = mutableListOf<Int>()
-        list.forEach { it -> chipIdMap[it]?.let { it1 -> listTransformed.add(it1) } }
+         if(listCode == 1) {
+             list.forEach { it -> chipIdMap[it]?.let { it1 -> listTransformed.add(it1) } }
+         }
+         else if(listCode == 2){
+             list.forEach { it -> chipIdMapE[it]?.let { it1 -> listTransformed.add(it1) } }
+         }
+
 
         return listTransformed
     }

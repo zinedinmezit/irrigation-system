@@ -13,29 +13,9 @@ interface IrrigationDao  {
     @Query("SELECT * FROM `Plan` WHERE IsActive=1")
     fun getActivePlan() : LiveData<Plan>
 
-    //GET - View that gives us info about relation between active plan and his scheduler
-    @Query("SELECT * FROM PlanWateringSchedulerView")
-    fun getPlanWateringView() : LiveData<PlanWateringSchedulerView>
-
-    //GET - View that gives us info about active plan's scheduled days
-    @Query("SELECT * FROM ScheduledDaysView")
-    fun getScheduledDaysView() : LiveData<List<ScheduledDaysView>>
-
     //POST - Plan
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-   suspend fun insertPlan(plan: Plan): Long
-
-    //POST - WateringScheduler
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-   suspend fun insertWateringScheduler(wateringScheduler: WateringScheduler): Long
-
-    //POST - NotificationScheduler
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-   suspend fun insertNotificationScheduler(notificationScheduler : NotificationScheduler)
-
-    //POST - WateringSchedulerDay
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWateringSchedulerDay(xy : WateringSchedulerDays)
+    suspend fun insertPlan(plan: Plan): Long
 
     //UPDATE - Set all plans inactive except targeted
     @Query("UPDATE `Plan` SET IsActive=0 WHERE PlanId!=:planId")
@@ -45,7 +25,45 @@ interface IrrigationDao  {
     @Query("UPDATE `Plan` SET IsActive=1 WHERE PlanId=:planId")
     suspend fun setPlanAsActive(planId : Int)
 
+    @Query("UPDATE `Plan` SET Name=:name WHERE PlanId=:planId")
+    suspend fun updatePlan(planId:Int, name:String)
+
+
+
+
+
+    //POST - WateringScheduler
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWateringScheduler(wateringScheduler: WateringScheduler): Long
+
+    //UPDATE - Update datetime for next watering
     @Query("UPDATE `WateringScheduler` SET WateringTimeNow=:time")
     suspend fun setWateringTimeNow(time : Long)
 
+
+
+
+
+    //POST - WateringSchedulerDay
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWateringSchedulerDay(xy : WateringSchedulerDays)
+
+    @Query("DELETE FROM WateringSchedulerDays WHERE WateringSchedulerId=:wsId")
+    suspend fun deleteDaysFromScheduler(wsId : Int)
+
+
+
+
+
+
+    //GET - View that gives us info about relation between active plan and his scheduler
+    @Query("SELECT * FROM PlanWateringSchedulerView")
+    fun getPlanWateringView() : LiveData<PlanWateringSchedulerView>
+
+    //GET - View that gives us info about active plan's scheduled days
+    @Query("SELECT * FROM ScheduledDaysView")
+    fun getScheduledDaysView() : LiveData<List<ScheduledDaysView>>
+
+    @Query("UPDATE WateringScheduler SET WateringTimeNow=:time WHERE WateringSchedulerId=:wsId")
+    suspend fun updateWateringTimeNow(wsId: Int, time : Long)
 }

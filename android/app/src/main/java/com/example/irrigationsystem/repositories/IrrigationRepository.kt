@@ -26,11 +26,20 @@ class IrrigationRepository(private val dao : IrrigationDao) {
         dao.changePlanActiveStatusExceptOne(planId)
     }
 
-    suspend fun setPlanAsActive(planId : Int){
-        dao.setPlanAsActive(planId)
-    }
-
     suspend fun setWateringTimeNow(time : Long){
         dao.setWateringTimeNow(time)
+    }
+
+
+    suspend fun deleteDaysFromScheduler(wsId : Int){
+        dao.deleteDaysFromScheduler(wsId)
+    }
+
+    suspend fun updatePlan(planId: Int, name: String){
+        dao.updatePlan(planId,name)
+    }
+
+    suspend fun updateWateringScheduler(wsId: Int, time: Long){
+        dao.updateWateringTimeNow(wsId, time)
     }
 }

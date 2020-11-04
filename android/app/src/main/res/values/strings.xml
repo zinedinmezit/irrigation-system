@@ -23,4 +23,11 @@
     <string name="dialog_button_neutral_text">Back to main page</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_button_label">Create</string>
+    <string name="edit_plan">Edit</string>
+    <string name="current_plan_name">Current plan name</string>
+    <string name="scheduled_days">Scheduled days</string>
+    <string name="scheduled_time">Scheduled time</string>
+    <string name="input_data">Input data</string>
+    <string name="update">Update</string>
 </resources>

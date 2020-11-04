@@ -53,8 +53,7 @@ class MainFragment : Fragment() {
         }
 
         binding.editImageButton.setOnClickListener {
-            val planId = model.getPlanId()!!
-            val action = MainFragmentDirections.actionMainFragmentToEditFragment(planId)
+            val action = MainFragmentDirections.actionMainFragmentToEditFragment()
             this.findNavController().navigate(action)
         }
 

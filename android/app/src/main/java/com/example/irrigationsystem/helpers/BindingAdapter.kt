@@ -11,3 +11,10 @@ fun TextView.convertDateToString(value : Long){
     val date = format.format(TypeConverters.fromTimestamp(value))
     text = date.toString()
 }
+
+@BindingAdapter("TimeSetter")
+fun TextView.convertDateToTimeString(value : Long){
+    val format = SimpleDateFormat("HH:mm")
+    val date = format.format(TypeConverters.fromTimestamp(value))
+    text = date.toString()
+}

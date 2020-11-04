@@ -9,11 +9,11 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_edit.*
 import kotlinx.android.synthetic.main.fragment_secondary.*
 import java.util.*
 
-class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
+class TimePickerFragment(val fragmentCode : Int) : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
     lateinit var ctx : Context
 
@@ -34,7 +34,13 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
     @SuppressLint("SetTextI18n")
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         val activity : Activity = ctx as Activity
-        val timeEditText : EditText = activity.editTextTime
+        var timeEditText : EditText? = null
+
+        when(fragmentCode){
+            1 -> timeEditText = activity.editTextTime
+            2 -> timeEditText = activity.edit_timeText
+        }
+
         var hourString : String = hourOfDay.toString()
         var minuteString : String = minute.toString()
         if(hourOfDay < 10){
@@ -43,6 +49,6 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
         if(minute < 10){
             minuteString = "0${minute}"
         }
-        timeEditText.setText("${hourString}:${minuteString}")
+        timeEditText?.setText("${hourString}:${minuteString}")
     }
 }

@@ -44,7 +44,7 @@ class SecondaryFragment : Fragment() {
 
         //Display time picker when edit field is pressed
         binding.editTextTime.setOnClickListener {
-            TimePickerFragment().show(parentFragmentManager,"timePicker")
+            TimePickerFragment(1).show(parentFragmentManager,"timePicker")
         }
 
         //When create plan button is pressed
