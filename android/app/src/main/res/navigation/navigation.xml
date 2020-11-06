@@ -13,11 +13,15 @@
         <action
             android:id="@+id/action_mainFragment_to_secondaryFragment"
             app:destination="@id/secondaryFragment"
-            app:enterAnim="@anim/fragment_open_enter" />
+            app:enterAnim="@anim/fragment_open_enter"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_mainFragment_to_editFragment"
             app:destination="@id/editFragment"
-            app:enterAnim="@anim/fragment_open_enter" />
+            app:enterAnim="@anim/fragment_open_enter"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/secondaryFragment"
@@ -28,9 +32,5 @@
         android:id="@+id/editFragment"
         android:name="com.example.irrigationsystem.fragments.EditFragment"
         android:label="EditFragment"
-        tools:layout="@layout/fragment_edit">
-        <action
-            android:id="@+id/action_editFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_edit"/>
 </navigation>
