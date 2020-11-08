@@ -54,7 +54,6 @@ class SecondaryFragment : Fragment() {
             //own ids from 1 to 7 starting with Sunday as 1, this method just transforms these ids to be meaningful with Calendar class
 
             val chips = binding.chipGroup.checkedChipIds
-
             val checkedChipsIds = DateHelper.transformListIds(chips)
 
             val planName : String = binding.textFieldText.text.toString()
@@ -69,7 +68,7 @@ class SecondaryFragment : Fragment() {
                     Name = planName,
                     IsActive = true
                 )
-                Log.i("servicetest","Secondary fragment, chipsIntArray $chipsIntArray")
+
                 lifecycleScope.launchWhenStarted {
 
                     model.insertNote(plan)
@@ -94,13 +93,7 @@ class SecondaryFragment : Fragment() {
                     setAlarmManager(alarmMgr,scheduledDate,alarmIntent)
                 }
 
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(resources.getString(R.string.dialog_title))
-                    .setMessage(resources.getString(R.string.dialog_text))
-                    .setNeutralButton(resources.getString(R.string.dialog_button_neutral_text)){ _, _ ->
-                        this.findNavController().popBackStack()
-                    }
-                    .show()
+                showSuccessDialog()
             }
         }
 
@@ -146,5 +139,15 @@ class SecondaryFragment : Fragment() {
 
             notificationManager?.createNotificationChannel(notificationChannel)
         }
+    }
+
+    private fun showSuccessDialog(){
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.dialog_title))
+            .setMessage(resources.getString(R.string.dialog_text))
+            .setNeutralButton(resources.getString(R.string.dialog_button_neutral_text)){ _, _ ->
+                this.findNavController().popBackStack()
+            }
+            .show()
     }
 }

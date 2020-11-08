@@ -57,7 +57,6 @@ class EditFragment : Fragment() {
         binding.editButtonUpdate.setOnClickListener{
 
             val checkedChipIds = binding.editChipGroup.checkedChipIds
-
             val transformedChipIds = DateHelper.transformListIds(checkedChipIds,2)
 
             val planName = binding.editInputText.text.toString()

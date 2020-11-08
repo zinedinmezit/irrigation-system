@@ -10,6 +10,8 @@ class IrrigationRepository(private val dao : IrrigationDao) {
     val activePlan = dao.getPlanWateringView()
     val schedulerDays = dao.getScheduledDaysView()
 
+    val allPlans = dao.getAllPlans()
+
     suspend fun insertPlan(plan : Plan) : Long{
       return dao.insertPlan(plan)
     }

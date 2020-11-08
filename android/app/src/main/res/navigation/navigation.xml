@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.irrigationsystem.fragments.MainFragment"
-        android:label="fragment_main"
+        android:label="Irrigation system"
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_secondaryFragment"
@@ -26,11 +26,11 @@
     <fragment
         android:id="@+id/secondaryFragment"
         android:name="com.example.irrigationsystem.fragments.SecondaryFragment"
-        android:label="fragment_secondary"
+        android:label="Create fragment"
         tools:layout="@layout/fragment_secondary" />
     <fragment
         android:id="@+id/editFragment"
         android:name="com.example.irrigationsystem.fragments.EditFragment"
-        android:label="EditFragment"
+        android:label="Edit fragment"
         tools:layout="@layout/fragment_edit"/>
 </navigation>

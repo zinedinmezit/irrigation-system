@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="@string/create_a_new_plan"
-        android:textSize="30sp"
+        android:textSize="@dimen/heading1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,11 +45,10 @@
         android:id="@+id/chipGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textField">
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_1"
@@ -113,25 +112,26 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="32dp"
         android:text="@string/chipgroup_label"
-        app:layout_constraintBottom_toTopOf="@+id/chipGroup"
-        app:layout_constraintStart_toStartOf="@+id/chipGroup" />
+        android:textSize="@dimen/subtitle1"
+        app:layout_constraintStart_toStartOf="@+id/chipGroup"
+        app:layout_constraintTop_toBottomOf="@+id/textField" />
 
     <EditText
         android:id="@+id/editTextTime"
         android:layout_width="wrap_content"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:importantForAutofill="no"
-        android:longClickable="false"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
+        android:clickable="false"
         android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:hint="@string/time_hint"
+        android:importantForAutofill="no"
         android:inputType="time"
+        android:longClickable="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
 

@@ -13,6 +13,9 @@ interface IrrigationDao  {
     @Query("SELECT * FROM `Plan` WHERE IsActive=1")
     fun getActivePlan() : LiveData<Plan>
 
+    @Query("SELECT * FROM `Plan`")
+    fun getAllPlans() : LiveData<List<Plan>>
+
     //POST - Plan
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlan(plan: Plan): Long

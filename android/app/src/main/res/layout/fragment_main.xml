@@ -78,7 +78,7 @@
             android:text="@{mainVM.activePlan.name}"
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="24sp"
+            android:textSize="@dimen/heading1"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Plan 1" />
 
@@ -110,7 +110,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/plant" />
+            app:srcCompat="@drawable/plant"
+            android:contentDescription="@string/image_that_represents_app" />
 
         <ImageView
             android:id="@+id/editImageButton"
@@ -120,7 +121,16 @@
             app:layout_constraintBottom_toBottomOf="@+id/plan_name"
             app:layout_constraintStart_toEndOf="@+id/plan_name"
             app:layout_constraintTop_toTopOf="@+id/plan_name"
+            android:contentDescription="@string/icon_that_navigates_to_next_fragment"
             app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

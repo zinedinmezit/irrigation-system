@@ -1,11 +1,10 @@
 package com.example.irrigationsystem.fragments
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +40,12 @@ class MainFragment : Fragment() {
             lifecycleScope.launch {
                 OkHttpProvider.openWebSocketConnection(model.wsListener)
             }
+        }
+
+        binding.button2.setOnClickListener {
+
+            val bottomSheetFragment = BottomSheetFragment()
+            bottomSheetFragment.show(requireActivity().supportFragmentManager, "test")
         }
 
         //Purpose - water plant on button pressed

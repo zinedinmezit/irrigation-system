@@ -28,6 +28,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val activePlan : LiveData<PlanWateringSchedulerView>
     val scheduledDays : LiveData<List<ScheduledDaysView>>
 
+    val allPlans : LiveData<List<Plan>>
+
     init {
         val dao = IrrigationSystemDatabase.getInstance(application).IrrigationDatabaseDao
         _isConnectionEstablished.value = false
@@ -36,6 +38,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         activePlan = repository.activePlan
         scheduledDays = repository.schedulerDays
+        allPlans = repository.allPlans
     }
 
     var signalCode : Int = 0
