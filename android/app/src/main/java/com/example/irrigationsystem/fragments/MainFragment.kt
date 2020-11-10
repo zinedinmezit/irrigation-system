@@ -31,6 +31,7 @@ class MainFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
+        binding.executePendingBindings()
 
 
         //Purpose - visible if there is need for reconnection because of failed connection with websocket

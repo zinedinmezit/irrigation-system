@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentEditBinding
 import com.example.irrigationsystem.helpers.DateHelper
@@ -40,6 +39,7 @@ class EditFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_edit,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.editVM = model
+        binding.executePendingBindings()
 
         val adapter = DaysAdapter()
         binding.recyclerView.adapter = adapter

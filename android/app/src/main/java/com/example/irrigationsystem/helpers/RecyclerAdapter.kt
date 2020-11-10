@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.irrigationsystem.R
+import com.example.irrigationsystem.databinding.RecyclerviewItemBinding
 import com.example.irrigationsystem.models.ScheduledDaysView
 
 class DaysAdapter() : ListAdapter<ScheduledDaysView, DaysAdapter.DayHolder>(DaysDiffCallback()) {
@@ -24,17 +25,18 @@ class DaysAdapter() : ListAdapter<ScheduledDaysView, DaysAdapter.DayHolder>(Days
         holder.bind(item)
     }
 
-    class DayHolder private constructor(v : View) : RecyclerView.ViewHolder(v){
-        private val dayText : TextView = v.findViewById(R.id.day_id)
+    class DayHolder private constructor(val binding : RecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(data : ScheduledDaysView){
-            dayText.text = data.Name
+            binding.scheduledDays = data
+            binding.executePendingBindings()
         }
 
         companion object{
             fun inflate(parent : ViewGroup) : DayHolder{
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item,parent,false)
-                return DayHolder(view)
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = RecyclerviewItemBinding.inflate(layoutInflater, parent, false)
+                return DayHolder(binding)
             }
         }
     }

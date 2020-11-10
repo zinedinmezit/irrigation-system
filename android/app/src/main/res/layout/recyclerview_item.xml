@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
        <data>
-
+              <variable
+                  name="scheduledDays"
+                  type="com.example.irrigationsystem.models.ScheduledDaysView" />
        </data>
 
        <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +19,7 @@
                   android:layout_height="wrap_content"
                   app:layout_constraintBottom_toBottomOf="parent"
                   app:layout_constraintEnd_toEndOf="parent"
+                  android:text="@{scheduledDays.name}"
                   android:textSize="@dimen/subtitle1"
                   app:layout_constraintStart_toStartOf="parent"
                   app:layout_constraintTop_toTopOf="parent"
