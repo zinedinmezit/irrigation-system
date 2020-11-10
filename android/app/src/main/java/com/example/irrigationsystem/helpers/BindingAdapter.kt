@@ -2,6 +2,7 @@ package com.example.irrigationsystem.helpers
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.ScheduledDaysView
 import java.text.SimpleDateFormat
 
@@ -20,9 +21,24 @@ fun TextView.convertDateToTimeString(value : Long){
     text = date.toString()
 }
 
+@BindingAdapter("ScheduledDayViewString")
 fun TextView.setScheduledDayString(value : ScheduledDaysView){
 
     value.let {
         text = value.Name
+    }
+}
+
+@BindingAdapter("BottomSheetPlanName")
+fun TextView.setPlanName(value : Plan){
+
+    value.let {
+
+        if(value.IsActive){
+            text = "${value.Name} (Current active)"
+        }
+        else{
+            text = value.Name
+        }
     }
 }

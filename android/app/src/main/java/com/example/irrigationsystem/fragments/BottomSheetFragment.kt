@@ -5,9 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.irrigationsystem.R
+import com.example.irrigationsystem.databinding.BottomsheetPlansBinding
+import com.example.irrigationsystem.helpers.PlanAdapter
+import com.example.irrigationsystem.models.Plan
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class BottomSheetFragment : BottomSheetDialogFragment() {
+class BottomSheetFragment() : BottomSheetDialogFragment() {
+
+     var  plans : List<Plan>? = null
+
+    private lateinit var binding : BottomsheetPlansBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -15,6 +23,13 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.bottomsheet_plans, container, false)
+        binding = BottomsheetPlansBinding.inflate(inflater, container, false)
+
+        val adapter = PlanAdapter()
+        binding.planRecyclerview.adapter = adapter
+
+        adapter.submitList(plans)
+
+        return binding.root
     }
 }

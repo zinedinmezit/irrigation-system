@@ -33,6 +33,15 @@ class MainFragment : Fragment() {
         binding.mainVM = model
         binding.executePendingBindings()
 
+        val bottomSheetFragment = BottomSheetFragment()
+        model.allPlans.observe(viewLifecycleOwner, Observer {
+            bottomSheetFragment.plans = it
+        })
+
+        binding.button2.setOnClickListener {
+            bottomSheetFragment.show(requireActivity().supportFragmentManager, "test")
+        }
+
 
         //Purpose - visible if there is need for reconnection because of failed connection with websocket
          val reconnectButton = binding.buttonReconnect
@@ -43,11 +52,7 @@ class MainFragment : Fragment() {
             }
         }
 
-        binding.button2.setOnClickListener {
 
-            val bottomSheetFragment = BottomSheetFragment()
-            bottomSheetFragment.show(requireActivity().supportFragmentManager, "test")
-        }
 
         //Purpose - water plant on button pressed
         val actionButton = binding.buttonAction
@@ -88,6 +93,7 @@ class MainFragment : Fragment() {
         lifecycleScope.launch {
             OkHttpProvider.openWebSocketConnection(model.wsListener)
         }
+
     }
 
     override fun onStop() {
