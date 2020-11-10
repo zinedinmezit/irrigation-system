@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.irrigationsystem.databinding.PlanBottomsheetRecyclerviewItemBinding
 import com.example.irrigationsystem.models.Plan
 
-class PlanAdapter : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()) {
+class PlanAdapter(val clickListener : PlanListener) : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()) {
 
 
 
@@ -19,13 +19,14 @@ class PlanAdapter : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()
 
     override fun onBindViewHolder(holder: PlanHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item,clickListener)
     }
 
     class PlanHolder private constructor(val binding : PlanBottomsheetRecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(data : Plan){
+        fun bind(data : Plan, listener:PlanListener){
             binding.plan = data
+            binding.clickListener = listener
         }
 
         companion object{
@@ -47,5 +48,8 @@ class PlanDiffCallback : DiffUtil.ItemCallback<Plan>(){
     override fun areContentsTheSame(oldItem: Plan, newItem: Plan): Boolean {
         return oldItem==newItem
     }
+}
 
+class PlanListener(val clickListener : (planId : Int) -> Unit){
+    fun onClick(plan : Plan) = clickListener(plan.PlanId)
 }
