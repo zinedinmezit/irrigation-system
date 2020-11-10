@@ -46,7 +46,7 @@ class EditFragment : Fragment() {
 
         model.scheduledDays.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                adapter.submitList(it)
             }
         })
 

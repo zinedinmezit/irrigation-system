@@ -4,17 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.models.ScheduledDaysView
 
-class DaysAdapter() : RecyclerView.Adapter<DaysAdapter.DayHolder>() {
+class DaysAdapter() : ListAdapter<ScheduledDaysView, DaysAdapter.DayHolder>(DaysDiffCallback()) {
 
-    var data = listOf<ScheduledDaysView>()
-        set(value) {
-            field=value
-            notifyDataSetChanged()
-        }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayHolder {
       return DayHolder.inflate(parent)
@@ -22,15 +20,12 @@ class DaysAdapter() : RecyclerView.Adapter<DaysAdapter.DayHolder>() {
 
 
     override fun onBindViewHolder(holder: DayHolder, position: Int) {
-        val item = data[position]
+        val item = getItem(position)
         holder.bind(item)
     }
 
-    override fun getItemCount(): Int = data.size
-
-
     class DayHolder private constructor(v : View) : RecyclerView.ViewHolder(v){
-        val dayText : TextView = v.findViewById(R.id.day_id)
+        private val dayText : TextView = v.findViewById(R.id.day_id)
 
         fun bind(data : ScheduledDaysView){
             dayText.text = data.Name
@@ -43,5 +38,19 @@ class DaysAdapter() : RecyclerView.Adapter<DaysAdapter.DayHolder>() {
             }
         }
     }
+}
+
+class DaysDiffCallback : DiffUtil.ItemCallback<ScheduledDaysView>(){
+    override fun areItemsTheSame(oldItem: ScheduledDaysView, newItem: ScheduledDaysView): Boolean {
+        return oldItem.OrdinalNumber == newItem.OrdinalNumber
+    }
+
+    override fun areContentsTheSame(
+        oldItem: ScheduledDaysView,
+        newItem: ScheduledDaysView
+    ): Boolean {
+        return oldItem==newItem
+    }
+
 }
 
