@@ -17,20 +17,31 @@ class DaysAdapter() : RecyclerView.Adapter<DaysAdapter.DayHolder>() {
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item,parent,false)
-        return DayHolder(view)
+      return DayHolder.inflate(parent)
     }
+
 
     override fun onBindViewHolder(holder: DayHolder, position: Int) {
         val item = data[position]
-        holder.dayText.text = item.Name
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int = data.size
 
 
-    class DayHolder(v : View) : RecyclerView.ViewHolder(v){
+    class DayHolder private constructor(v : View) : RecyclerView.ViewHolder(v){
         val dayText : TextView = v.findViewById(R.id.day_id)
+
+        fun bind(data : ScheduledDaysView){
+            dayText.text = data.Name
+        }
+
+        companion object{
+            fun inflate(parent : ViewGroup) : DayHolder{
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item,parent,false)
+                return DayHolder(view)
+            }
+        }
     }
 }
 
