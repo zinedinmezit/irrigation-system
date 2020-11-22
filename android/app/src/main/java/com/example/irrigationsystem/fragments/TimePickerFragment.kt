@@ -28,7 +28,7 @@ class TimePickerFragment(val fragmentCode : Int) : DialogFragment(), TimePickerD
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
 
-        return TimePickerDialog(context, this, hour, minute, true) //is24HourView provjeriti
+        return TimePickerDialog(context, this, hour, minute, true)
     }
 
     @SuppressLint("SetTextI18n")

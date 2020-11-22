@@ -28,7 +28,6 @@ class EditFragment : Fragment() {
     private val model: EditViewModel by activityViewModels()
 
     private var alarmMgr: AlarmManager? = null
-    private lateinit var alarmIntent: PendingIntent
 
 
     override fun onCreateView(
@@ -66,34 +65,19 @@ class EditFragment : Fragment() {
 
                 val chipsIntArray = transformedChipIds.toIntArray()
 
-                alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                alarmIntent = Intent(context, WateringReceiver::class.java).let {
-                    it.putExtra("CHIPS",chipsIntArray)
-                    it.putExtra("TIMESTRING",timeString)
-                    PendingIntent.getBroadcast(context,1,it, PendingIntent.FLAG_UPDATE_CURRENT)
-                }
+                alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
                 model.updatePlan(planName)
                 model.deleteDaysFromScheduler()
                 model.insertWateringSchedulerDays(transformedChipIds)
-                val scheduledDate = model.updateWateringScheduler(transformedChipIds, timeString)
 
-                setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
+                val scheduledDate = model.updateWateringScheduler(transformedChipIds, timeString)
+                alarmMgr?.scheduleWatering(requireContext(), chipsIntArray, timeString, scheduledDate)
 
                 this.findNavController().popBackStack()
             }
         }
 
-        // Inflate the layout for this fragment
         return binding.root
     }
-
-    private fun setAlarmManager(alarmManager : AlarmManager?, dateTime : Long, intent: PendingIntent) {
-        alarmManager?.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            dateTime,
-            intent
-        )
-    }
-
 }

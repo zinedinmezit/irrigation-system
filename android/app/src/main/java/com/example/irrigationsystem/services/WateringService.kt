@@ -43,6 +43,7 @@ class WateringService : Service() {
             .setContentTitle("Irrigation system service")
             .setContentText("Watering action started")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setOngoing(true)
             .build()
 
         startForeground(1,notification)

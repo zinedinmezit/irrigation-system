@@ -27,7 +27,6 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        //Binding setup
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
@@ -42,8 +41,6 @@ class MainFragment : Fragment() {
             bottomSheetFragment.show(requireActivity().supportFragmentManager, "test")
         }
 
-
-        //Purpose - visible if there is need for reconnection because of failed connection with websocket
          val reconnectButton = binding.buttonReconnect
         reconnectButton.setOnClickListener {
             model.signalCode=0
@@ -52,9 +49,6 @@ class MainFragment : Fragment() {
             }
         }
 
-
-
-        //Purpose - water plant on button pressed
         val actionButton = binding.buttonAction
         actionButton.setOnClickListener {
             model.signalCode=1
@@ -68,7 +62,6 @@ class MainFragment : Fragment() {
             this.findNavController().navigate(action)
         }
 
-        //Purpose - switch to selected fragment
         val floatingButton = binding.floatingActionButton
         floatingButton.setOnClickListener{
             val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment()
@@ -89,11 +82,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        //On fragment apperance, connect with websocket
         lifecycleScope.launch {
             OkHttpProvider.openWebSocketConnection(model.wsListener)
         }
-
     }
 
     override fun onStop() {

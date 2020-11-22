@@ -33,7 +33,6 @@ class SecondaryFragment : Fragment() {
     private val model : SecondaryViewModel by activityViewModels()
 
     private var alarmMgr: AlarmManager? = null
-    private lateinit var alarmIntent: PendingIntent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,16 +41,11 @@ class SecondaryFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_secondary, container, false)
 
-        //Display time picker when edit field is pressed
         binding.editTextTime.setOnClickListener {
             TimePickerFragment(1).show(parentFragmentManager,"timePicker")
         }
 
-        //When create plan button is pressed
         binding.button.setOnClickListener{
-
-            //Since chip ids have strange unique id values and each chip represents day where days, based on Calendar class, have their
-            //own ids from 1 to 7 starting with Sunday as 1, this method just transforms these ids to be meaningful with Calendar class
 
             val chips = binding.chipGroup.checkedChipIds
             val checkedChipsIds = DateHelper.transformListIds(chips)
@@ -61,9 +55,8 @@ class SecondaryFragment : Fragment() {
 
             if(checkedChipsIds.count() > 0) {
 
-                //Conversion to IntArray because we want to putExtra chip ids in Intent and send it to Receiver
                 val chipsIntArray = checkedChipsIds.toIntArray()
-                //Every plan created will be set as active
+
                 val plan = Plan(
                     Name = planName,
                     IsActive = true
@@ -73,7 +66,6 @@ class SecondaryFragment : Fragment() {
 
                     model.insertNote(plan)
 
-                    //Part where we create schedule and pair schedule with days that we chose
                     val planId = model.getLatestPlanId().toInt()
                     model.changePlanActiveStatusExceptOne(planId)
                     val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, planId)
@@ -81,25 +73,13 @@ class SecondaryFragment : Fragment() {
                     val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                     model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
-
-                    //Set alarm and when the time comes, "wake up" receiver
-                    alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    alarmIntent = Intent(context, WateringReceiver::class.java).let {
-                        it.putExtra("CHIPS",chipsIntArray)
-                        it.putExtra("TIMESTRING",timeString)
-                        PendingIntent.getBroadcast(context,1,it,FLAG_UPDATE_CURRENT)
-                    }
-
-                    setAlarmManager(alarmMgr,scheduledDate,alarmIntent)
+                    alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    alarmMgr?.scheduleWatering(requireContext(), chipsIntArray,timeString, scheduledDate)
                 }
-
                 showSuccessDialog()
             }
         }
 
-
-
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -108,15 +88,6 @@ class SecondaryFragment : Fragment() {
         createChannel(
             getString(R.string.is_notification_channel_id),
             getString(R.string.is_notification_channel_name))
-
-    }
-
-    private fun setAlarmManager(alarmManager : AlarmManager?, dateTime : Long, intent: PendingIntent) {
-        alarmManager?.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            dateTime,
-            intent
-        )
     }
 
     private fun createChannel(channelId : String, channelName : String) {
@@ -125,7 +96,7 @@ class SecondaryFragment : Fragment() {
             val notificationChannel = NotificationChannel(
                 channelId,
                 channelName,
-                NotificationManager.IMPORTANCE_LOW
+                NotificationManager.IMPORTANCE_HIGH
             )
 
             notificationChannel.enableLights(true)
@@ -136,7 +107,6 @@ class SecondaryFragment : Fragment() {
             val notificationManager = requireActivity().getSystemService(
                 NotificationManager::class.java
             )
-
             notificationManager?.createNotificationChannel(notificationChannel)
         }
     }

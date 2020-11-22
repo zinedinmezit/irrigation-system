@@ -13,6 +13,7 @@ class NotificationBuilder(val context: Context, val channelId:String) {
             .setContentTitle(textTitle)
             .setContentText(textContent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setOngoing(true)
     }
 
 }

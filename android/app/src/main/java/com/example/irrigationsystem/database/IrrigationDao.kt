@@ -67,6 +67,9 @@ interface IrrigationDao  {
     @Query("SELECT * FROM ScheduledDaysView")
     fun getScheduledDaysView() : LiveData<List<ScheduledDaysView>>
 
+    @Query("SELECT OrdinalNumber FROM ScheduledDaysView")
+    fun getOrdinalNumbersFromScheduledDays() : LiveData<List<Int>>
+
     @Query("UPDATE WateringScheduler SET WateringTimeNow=:time WHERE WateringSchedulerId=:wsId")
     suspend fun updateWateringTimeNow(wsId: Int, time : Long)
 }

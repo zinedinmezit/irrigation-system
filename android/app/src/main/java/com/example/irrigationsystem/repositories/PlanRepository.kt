@@ -5,6 +5,8 @@ import com.example.irrigationsystem.models.Plan
 
 class PlanRepository(private val dao : IrrigationDao) {
 
+    val scheduledDays = dao.getOrdinalNumbersFromScheduledDays()
+
     suspend fun changePlanActiveStatusExceptOne(planId : Int){
         dao.changePlanActiveStatusExceptOne(planId)
     }

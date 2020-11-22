@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
+import com.example.irrigationsystem.fragments.scheduleWatering
 import com.example.irrigationsystem.helpers.DateHelper
 import com.example.irrigationsystem.repositories.IrrigationRepository
 import com.example.irrigationsystem.services.WateringService
@@ -22,9 +23,6 @@ class WateringReceiver : BroadcastReceiver() {
     private var alarmMgr: AlarmManager? = null
     private lateinit var alarmIntent: PendingIntent
 
-
-    //When onReceive is called, service is started that opens connection with websocket and sends signal to water
-    //Also, new alarm manager is setup on the next day we chose
     override fun onReceive(context: Context, intent: Intent?) {
 
         val dao = IrrigationSystemDatabase.getInstance(context.applicationContext).IrrigationDatabaseDao
@@ -43,6 +41,7 @@ class WateringReceiver : BroadcastReceiver() {
             }
 
         alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
         alarmIntent = Intent(context, WateringReceiver::class.java).let {
             it.putExtra("CHIPS",chipIdsArray)
             it.putExtra("TIMESTRING",timeString)
@@ -62,7 +61,7 @@ class WateringReceiver : BroadcastReceiver() {
     }
 
     private fun setAlarmManager(alarmManager : AlarmManager?, dateTime : Long, intent: PendingIntent) {
-        alarmManager?.set(
+        alarmManager?.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             dateTime,
             intent
