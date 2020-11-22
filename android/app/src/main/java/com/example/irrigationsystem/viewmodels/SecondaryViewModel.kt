@@ -36,7 +36,7 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
     fun insertWateringScheduler(list : MutableList<Int>,timeString : String,planId : Int = 0) : Long{
         val pair : Pair<Date, MutableList<Int>> = DateHelper.getDateForCurrentSchedule(list, timeString)
         viewModelScope.launch {
-            val ws = WateringScheduler(WateringTimeNow = TypeConverters.dateToTimestamp(pair.first),PlanId_FK = planId, WateringTimeNext = 0)
+            val ws = WateringScheduler(WateringTimeNow = TypeConverters.dateToTimestamp(pair.first),PlanId_FK = planId,TimeString = timeString)
             wateringSchedulerDeffered.complete(repository.insertWateringScheduler(ws))
         }
 

@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class WateringScheduler(
     @PrimaryKey(autoGenerate = true) val WateringSchedulerId : Int = 0,
     var WateringTimeNow : Long,
-    var WateringTimeNext : Long,
+    var TimeString : String,
     val PlanId_FK : Int
     )
