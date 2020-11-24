@@ -7,8 +7,8 @@ import com.example.irrigationsystem.models.WateringSchedulerDays
 
 class IrrigationRepository(private val dao : IrrigationDao) {
 
-    val activePlan = dao.getPlanWateringView()
-    val schedulerDays = dao.getScheduledDaysView()
+    val activePlan = dao.getPlanWateringViewLiveData()
+    val schedulerDays = dao.getScheduledDaysViewLiveData()
 
     val allPlans = dao.getAllPlans()
 

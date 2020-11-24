@@ -10,9 +10,6 @@ import com.example.irrigationsystem.models.Plan
 
 class PlanAdapter(val clickListener : PlanListener) : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()) {
 
-
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanHolder {
         return PlanHolder.inflate(parent)
     }

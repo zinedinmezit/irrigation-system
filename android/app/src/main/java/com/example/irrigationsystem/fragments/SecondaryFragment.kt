@@ -3,10 +3,7 @@ package com.example.irrigationsystem.fragments
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -23,7 +20,6 @@ import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
 import com.example.irrigationsystem.helpers.DateHelper
 import com.example.irrigationsystem.models.Plan
-import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.SecondaryViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -37,7 +33,7 @@ class SecondaryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_secondary, container, false)
 
