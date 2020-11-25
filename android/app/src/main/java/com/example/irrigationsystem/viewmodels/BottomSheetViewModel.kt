@@ -23,9 +23,14 @@ class BottomSheetViewModel(app : Application) : AndroidViewModel(app) {
     val days : LiveData<List<Int>>
         get() = _days
 
+    private val _fetched : MutableLiveData<Boolean> = MutableLiveData()
+    val fetched : LiveData<Boolean>
+        get() = _fetched
+
     init {
         val dao = IrrigationSystemDatabase.getInstance(app).IrrigationDatabaseDao
         repo = PlanRepository(dao)
+        _fetched.value = false
     }
 
     fun changePlanActiveStatusExceptOne(planId : Int){
@@ -39,7 +44,13 @@ class BottomSheetViewModel(app : Application) : AndroidViewModel(app) {
             repo.setPlanAsActive(planId)
             _scheduler.postValue(repo.getPlanWatering())
             _days.postValue(repo.getDays())
+
+            _fetched.postValue(true)
         }
+    }
+
+    fun fetchedToFalse(){
+        _fetched.value = false
     }
 
 }

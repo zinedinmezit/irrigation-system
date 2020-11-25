@@ -60,15 +60,18 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
             days = it
         })
 
-        binding.button3.setOnClickListener {
-           if(scheduler != null && days != null){
+        model.fetched.observe(viewLifecycleOwner, Observer {
+            if(it){
+                if(scheduler != null && days != null){
 
-               val pair = DateHelper.getDateForCurrentSchedule(days?.toMutableList()!!,scheduler?.TimeString!!)
-               alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-               alarmMgr?.scheduleWatering(requireContext(), days?.toIntArray()!!,scheduler?.TimeString!!, pair.first.time)
-               this.dismiss()
-           }
-        }
+                    val pair = DateHelper.getDateForCurrentSchedule(days?.toMutableList()!!,scheduler?.TimeString!!)
+                    alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    alarmMgr?.scheduleWatering(requireContext(), days?.toIntArray()!!,scheduler?.TimeString!!, pair.first.time)
+                    model.fetchedToFalse()
+                    this.dismiss()
+                }
+            }
+        })
 
         return binding.root
     }
