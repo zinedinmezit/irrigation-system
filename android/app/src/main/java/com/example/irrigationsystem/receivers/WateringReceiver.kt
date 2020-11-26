@@ -33,6 +33,7 @@ class WateringReceiver : BroadcastReceiver() {
         val chipIdsArray = myBundle?.getIntArray("CHIPS")
         val chipIds = chipIdsArray?.toMutableList()
         val timeString = myBundle?.getString("TIMESTRING")
+        val ipAddress = myBundle?.getString("IPADDRESS")
 
         val pairs = DateHelper.getDateForCurrentSchedule(chipIds!!,timeString!!)
 
@@ -45,14 +46,17 @@ class WateringReceiver : BroadcastReceiver() {
         alarmIntent = Intent(context, WateringReceiver::class.java).let {
             it.putExtra("CHIPS",chipIdsArray)
             it.putExtra("TIMESTRING",timeString)
+            it.putExtra("IPADDRESS", ipAddress)
             PendingIntent.getBroadcast(context,1,it,FLAG_UPDATE_CURRENT)
         }
 
         setAlarmManager(alarmMgr,pairs.first.time,alarmIntent)
 
         Intent(context,WateringService::class.java).also {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            it.putExtra("IPADDRESS", ipAddress)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(it)
+            }
             else
             {
                 context.startService(it)

@@ -9,7 +9,8 @@ import com.example.irrigationsystem.models.*
 @Database(entities = [Plan::class,
                     WateringScheduler::class,
                     Day::class,
-                    WateringSchedulerDays::class],
+                    WateringSchedulerDays::class,
+                     WebSocketServer::class],
             views = [
                 PlanWateringSchedulerView::class,
                 ScheduledDaysView::class

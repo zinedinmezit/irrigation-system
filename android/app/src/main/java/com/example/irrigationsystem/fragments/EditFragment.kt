@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentEditBinding
 import com.example.irrigationsystem.helpers.DateHelper
@@ -29,11 +30,15 @@ class EditFragment : Fragment() {
 
     private var alarmMgr: AlarmManager? = null
 
+    val args : EditFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val address = args.ipAddress
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_edit,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -72,7 +77,7 @@ class EditFragment : Fragment() {
                 model.insertWateringSchedulerDays(transformedChipIds)
 
                 val scheduledDate = model.updateWateringScheduler(transformedChipIds, timeString)
-                alarmMgr?.scheduleWatering(requireContext(), chipsIntArray, timeString, scheduledDate)
+                alarmMgr?.scheduleWatering(requireContext(), chipsIntArray, timeString, scheduledDate,address)
 
                 this.findNavController().popBackStack()
             }

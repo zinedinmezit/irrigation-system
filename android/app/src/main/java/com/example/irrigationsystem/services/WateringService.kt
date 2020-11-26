@@ -38,7 +38,6 @@ class WateringService : Service() {
 
     override fun onCreate() {
 
-
         val notification: Notification = NotificationCompat.Builder(this,applicationContext.getString(R.string.is_notification_channel_id))
             .setContentTitle("Irrigation system service")
             .setContentText("Watering action started")
@@ -50,8 +49,10 @@ class WateringService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val myBundle = intent?.extras
+        val address = myBundle?.getString("IPADDRESS")!!
         scope.launch {
-            OkHttpProvider.openWebSocketConnection(wsListener)
+            OkHttpProvider.openWebSocketConnection(wsListener, address)
             stopForeground(false)
         }
         return START_NOT_STICKY

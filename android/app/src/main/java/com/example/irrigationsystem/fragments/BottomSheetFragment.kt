@@ -25,6 +25,8 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
 
     var  plans : List<Plan>? = null
 
+     var ipAddress : String? = null
+
     var scheduler : PlanWateringSchedulerView? = null
     var days : List<Int>? = null
 
@@ -65,8 +67,8 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
                 if(scheduler != null && days != null){
 
                     val pair = DateHelper.getDateForCurrentSchedule(days?.toMutableList()!!,scheduler?.TimeString!!)
-                    alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    alarmMgr?.scheduleWatering(requireContext(), days?.toIntArray()!!,scheduler?.TimeString!!, pair.first.time)
+                    alarmMgr = this.requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    alarmMgr?.scheduleWatering(requireContext(), days?.toIntArray()!!,scheduler?.TimeString!!, pair.first.time, ipAddress!!)
                     model.fetchedToFalse()
                     this.dismiss()
                 }

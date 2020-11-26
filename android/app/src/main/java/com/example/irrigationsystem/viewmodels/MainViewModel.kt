@@ -39,6 +39,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         activePlan = repository.activePlan
         scheduledDays = repository.schedulerDays
         allPlans = repository.allPlans
+
     }
 
     var signalCode : Int = 0

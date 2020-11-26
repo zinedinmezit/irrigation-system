@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentMainBinding
 import com.example.irrigationsystem.helpers.DaysAdapter
@@ -22,20 +23,27 @@ class MainFragment : Fragment() {
     private val model: MainViewModel by activityViewModels()
     private lateinit var binding : FragmentMainBinding
 
+    val args : MainFragmentArgs by navArgs()
+    lateinit var IpAddress : String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
+        IpAddress = args.ipAddress
+
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
         binding.executePendingBindings()
 
+
         val bottomSheetFragment = BottomSheetFragment()
         model.allPlans.observe(viewLifecycleOwner, Observer {
             bottomSheetFragment.plans = it
+            bottomSheetFragment.ipAddress = IpAddress
         })
 
         binding.button2.setOnClickListener {
@@ -46,7 +54,7 @@ class MainFragment : Fragment() {
         reconnectButton.setOnClickListener {
             model.signalCode=0
             lifecycleScope.launch {
-                OkHttpProvider.openWebSocketConnection(model.wsListener)
+                OkHttpProvider.openWebSocketConnection(model.wsListener,IpAddress!!)
             }
         }
 
@@ -54,18 +62,18 @@ class MainFragment : Fragment() {
         actionButton.setOnClickListener {
             model.signalCode=1
             lifecycleScope.launchWhenStarted {
-                OkHttpProvider.openWebSocketConnection(model.wsListener)
+                OkHttpProvider.openWebSocketConnection(model.wsListener,IpAddress!!)
             }
         }
 
         binding.editImageButton.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToEditFragment()
+            val action = MainFragmentDirections.actionMainFragmentToEditFragment(IpAddress!!)
             this.findNavController().navigate(action)
         }
 
         val floatingButton = binding.floatingActionButton
         floatingButton.setOnClickListener{
-            val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment()
+            val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(IpAddress!!)
             this.findNavController().navigate(action)
         }
 
@@ -84,7 +92,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         lifecycleScope.launch {
-            OkHttpProvider.openWebSocketConnection(model.wsListener)
+            OkHttpProvider.openWebSocketConnection(model.wsListener,IpAddress!!)
         }
     }
 

@@ -11,6 +11,7 @@ import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_edit.*
 import kotlinx.android.synthetic.main.fragment_secondary.*
+import kotlinx.android.synthetic.main.fragment_setup.*
 import java.util.*
 
 class TimePickerFragment(val fragmentCode : Int) : DialogFragment(), TimePickerDialog.OnTimeSetListener {
@@ -39,6 +40,7 @@ class TimePickerFragment(val fragmentCode : Int) : DialogFragment(), TimePickerD
         when(fragmentCode){
             1 -> timeEditText = activity.editTextTime
             2 -> timeEditText = activity.edit_timeText
+            3 -> timeEditText = activity.setup_time_string
         }
 
         var hourString : String = hourOfDay.toString()

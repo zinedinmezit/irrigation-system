@@ -8,8 +8,8 @@ object OkHttpProvider{
 
     private val instance : OkHttpClient = OkHttpClient()
 
-     fun openWebSocketConnection(wsListener : WebSocketListener){
-             val request : Request = Request.Builder().url("ws://192.168.0.102:81").build()
+     fun openWebSocketConnection(wsListener : WebSocketListener, ipAddress : String){
+             val request : Request = Request.Builder().url("ws://$ipAddress:81").build()
              instance.newWebSocket(request, wsListener)
     }
 

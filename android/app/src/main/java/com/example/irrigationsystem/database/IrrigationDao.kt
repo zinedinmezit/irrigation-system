@@ -13,6 +13,9 @@ interface IrrigationDao  {
     @Query("SELECT * FROM `Plan`")
     fun getAllPlans() : LiveData<List<Plan>>
 
+    @Query("SELECT COUNT(PlanId) FROM `Plan`")
+    suspend fun getPlansNumber() : Int
+
     @Query("SELECT * FROM `Plan` WHERE IsActive=1")
     fun getActivePlan() : LiveData<Plan>
 
@@ -40,6 +43,12 @@ interface IrrigationDao  {
     @Query("UPDATE WateringScheduler SET WateringTimeNow=:datetime, TimeString = :timeString WHERE WateringSchedulerId=:wsId")
     suspend fun updateWateringTimeNow(wsId: Int, datetime : Long, timeString: String)
 
+    /* *****DAYS***** */
+    @Query("SELECT COUNT(DayId) FROM Day")
+    suspend fun getWeekDaysNumber() : Int
+
+    @Query("INSERT INTO Day VALUES (1,1,'SUN'),(2,2, 'MON'),(3,3, 'TUE'),(4,4, 'WED'),(5,5, 'THU'),(6,6, 'FRI'),(7,7, 'SAT')")
+    suspend fun insertWeekDays()
 
     /* *****WATERING DAYS***** */
 
@@ -64,6 +73,12 @@ interface IrrigationDao  {
     @Query("SELECT OrdinalNumber FROM ScheduledDaysView")
    suspend fun getDays() : List<Int>
 
+    /* *****WEBSOCKET SERVER***** */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWSServer(wsServer: WebSocketServer)
+
+    @Query("SELECT IpAddress FROM WebSocketServer LIMIT 1")
+    suspend fun getIpAddress() : String
 
 
 }

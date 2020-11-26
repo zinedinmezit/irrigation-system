@@ -1,11 +1,7 @@
 package com.example.irrigationsystem.fragments
 
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,43 +12,43 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
-import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
+import com.example.irrigationsystem.databinding.FragmentSetupBinding
 import com.example.irrigationsystem.helpers.DateHelper
 import com.example.irrigationsystem.models.Plan
-import com.example.irrigationsystem.viewmodels.SecondaryViewModel
+import com.example.irrigationsystem.models.WebSocketServer
+import com.example.irrigationsystem.viewmodels.SetupViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class SecondaryFragment : Fragment() {
+class SetupFragment : Fragment() {
 
-    lateinit var binding : FragmentSecondaryBinding
-    private val model : SecondaryViewModel by activityViewModels()
+    lateinit var binding : FragmentSetupBinding
 
+    private val model : SetupViewModel by activityViewModels()
     private var alarmMgr: AlarmManager? = null
 
-    val args : SecondaryFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
 
-        val address = args.ipAddress
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_setup,container,false)
+        binding.lifecycleOwner = this
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_secondary, container, false)
 
-        binding.editTextTime.setOnClickListener {
-            TimePickerFragment(1).show(parentFragmentManager,"timePicker")
+        binding.setupTimeString.setOnClickListener {
+            TimePickerFragment(3).show(parentFragmentManager,"timePicker")
         }
 
-        binding.button.setOnClickListener{
+        binding.setupCreateButton.setOnClickListener{
 
-            val chips = binding.chipGroup.checkedChipIds
-            val checkedChipsIds = DateHelper.transformListIds(chips)
+            val chips = binding.setupChipGroup.checkedChipIds
+            val checkedChipsIds = DateHelper.transformListIds(chips,3)
 
-            val planName : String = binding.textFieldText.text.toString()
-            val timeString = binding.editTextTime.text.toString()
+            val planName : String = binding.setupTextFieldText.text.toString()
+            val timeString = binding.setupTimeString.text.toString()
+            val wsIpAddress = binding.setupIpAdressText.text.toString()
 
             if(checkedChipsIds.count() > 0) {
 
@@ -63,9 +59,12 @@ class SecondaryFragment : Fragment() {
                     IsActive = true
                 )
 
-                lifecycleScope.launchWhenStarted {
+                val server = WebSocketServer(IpAddress = wsIpAddress)
 
+                lifecycleScope.launchWhenStarted {
+                    model.insertWeekDays()
                     model.insertNote(plan)
+                    model.insertServer(server)
 
                     val planId = model.getLatestPlanId().toInt()
                     model.changePlanActiveStatusExceptOne(planId)
@@ -75,8 +74,9 @@ class SecondaryFragment : Fragment() {
                     model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
                     alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    alarmMgr?.scheduleWatering(requireContext(), chipsIntArray,timeString, scheduledDate, address)
+                    alarmMgr?.scheduleWatering(requireContext(), chipsIntArray,timeString, scheduledDate,wsIpAddress)
                 }
+
                 showSuccessDialog()
             }
         }

@@ -18,6 +18,12 @@ object DateHelper {
         2131230845 to 1
     )
 
+    private val chipIdMapS = mapOf(
+        2131231074 to 2, 2131231075 to 3, 2131231076 to 4,
+        2131231077 to 5, 2131231078 to 6, 2131231079 to 7,
+        2131231080 to 1
+    )
+
     @SuppressLint("SimpleDateFormat")
     val dateFormat = SimpleDateFormat("dd-MM-yyyy")
     @SuppressLint("SimpleDateFormat")
@@ -69,6 +75,9 @@ object DateHelper {
          }
          else if(listCode == 2){
              list.forEach { it -> chipIdMapE[it]?.let { it1 -> listTransformed.add(it1) } }
+         }
+         else if(listCode == 3){
+             list.forEach { it -> chipIdMapS[it]?.let { it1 -> listTransformed.add(it1) } }
          }
 
 
