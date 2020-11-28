@@ -1,8 +1,11 @@
 package com.example.irrigationsystem.helpers
 
+import android.graphics.Color
+import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.example.irrigationsystem.R
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.ScheduledDaysView
 import java.text.SimpleDateFormat
@@ -35,11 +38,29 @@ fun TextView.setPlanName(value : Plan){
 
     value.let {
 
-        if(value.IsActive){
-            text = "${value.Name} (Current active)"
+        text = if(value.IsActive){
+            "${value.Name} (Current active)"
+        } else{
+            value.Name
         }
-        else{
-            text = value.Name
+    }
+}
+
+@BindingAdapter("BackgroundBehaviour")
+fun Button.BackgroundBehaviour(state : Boolean){
+
+    state.let {
+
+        text = if(state) {
+            setBackgroundColor(Color.parseColor("#00E315"))
+            setTextColor(resources.getColor(R.color.black,null))
+            setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+            "CONNECTED"
+
+        } else{
+            setBackgroundColor(Color.parseColor("#F45F55"))
+            setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_cached_24,0)
+            "DISCONNECTED"
         }
     }
 }

@@ -66,12 +66,12 @@ class MainFragment : Fragment() {
             }
         }
 
-        binding.editImageButton.setOnClickListener {
+        binding.planName.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToEditFragment(IpAddress!!)
             this.findNavController().navigate(action)
         }
 
-        val floatingButton = binding.floatingActionButton
+        val floatingButton = binding.extendedFab
         floatingButton.setOnClickListener{
             val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(IpAddress!!)
             this.findNavController().navigate(action)

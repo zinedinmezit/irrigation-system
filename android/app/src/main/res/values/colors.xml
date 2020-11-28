@@ -6,4 +6,8 @@
     <color name="colorSecondary">#795548</color>
     <color name="colorOnSecondary">#fff</color>
     <color name="black">#000</color>
+    <color name="gray">#9E9E9E</color>
+    <color name="Success">#00E315</color>
+    <color name="Danger">#F45F55</color>
+    <color name="cardColor">#f7f7f7</color>
 </resources>

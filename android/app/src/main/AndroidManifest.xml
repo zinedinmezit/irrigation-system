@@ -28,6 +28,9 @@
         <receiver android:name=".receivers.WateringReceiver"
             android:enabled="true"
             android:exported="false"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
     </application>
 
