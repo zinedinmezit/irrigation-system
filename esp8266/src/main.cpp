@@ -85,7 +85,7 @@ void loop()
   {
     previousMillis = currentMillis;
     value = analogRead(hummidityPin);
-    String result = (String)( 100 - ( (value/1024.00) * 100 ) );
+    String result = (String)(100 - ((value / 1024.00) * 100));
     Serial.println(result);
     webSocket.sendTXT(0, result);
   }
