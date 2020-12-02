@@ -15,6 +15,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/buttonReconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{mainVM.connectionEstablished ? false : true}"
+            app:BackgroundBehaviour="@{mainVM.connectionEstablished}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="50dp" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_main"
             android:layout_width="match_parent"
@@ -114,18 +130,18 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
-
         <Button
-            android:id="@+id/buttonReconnect"
+            android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="@{mainVM.connectionEstablished ? false : true}"
-            app:BackgroundBehaviour="@{mainVM.connectionEstablished}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="16dp"
+            android:text="@string/select_plan"
+            app:layout_constraintEnd_toStartOf="@+id/buttonAction"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_main" />
 
         <Button
             android:id="@+id/buttonAction"
@@ -153,34 +169,52 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-
-        <Button
-            android:id="@+id/button2"
+        <TextView
+            android:id="@+id/city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/select_plan"
-            app:layout_constraintEnd_toStartOf="@+id/buttonAction"
-            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginTop="24dp"
+            android:textSize="@dimen/heading2"
+            app:WeatherCity="@{mainVM.apiResponse}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_main" />
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            tools:text="Sarajevo" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
+        <TextView
+            android:id="@+id/city_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:WeatherCountry="@{mainVM.apiResponse}"
+            android:textSize="@dimen/subtitle1"
+            app:layout_constraintBottom_toBottomOf="@+id/city_name"
+            app:layout_constraintStart_toEndOf="@id/city_name"
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            tools:text="BA" />
+
+        <TextView
+            android:id="@+id/city_current_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="2°"
+            android:textSize="@dimen/heading1"
+            app:layout_constraintEnd_toEndOf="@+id/city_name"
+            app:layout_constraintStart_toStartOf="@+id/city_name"
+            app:layout_constraintTop_toBottomOf="@+id/city_name"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/weatherRecycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="50dp" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{mainVM.apiResponse}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/card_main"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" />
-
+            app:layout_constraintTop_toBottomOf="@+id/city_current_temperature" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

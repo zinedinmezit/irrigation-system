@@ -14,6 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentMainBinding
 import com.example.irrigationsystem.helpers.DaysAdapter
+import com.example.irrigationsystem.helpers.ForecastAdapter
+import com.example.irrigationsystem.models.weatherapi.Forecast
 import com.example.irrigationsystem.network.OkHttpProvider
 import com.example.irrigationsystem.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
@@ -86,6 +88,14 @@ class MainFragment : Fragment() {
             }
         })
 
+        val weatherAdapter = ForecastAdapter()
+        binding.weatherRecycler.adapter = weatherAdapter
+        model.apiResponse.observe(viewLifecycleOwner,{
+            it?.forecast.let { forecast ->
+                weatherAdapter.submitList(forecast)
+            }
+        })
+
         return binding.root
     }
 
@@ -94,6 +104,8 @@ class MainFragment : Fragment() {
         lifecycleScope.launch {
             OkHttpProvider.openWebSocketConnection(model.wsListener,IpAddress!!)
         }
+
+        model.getApiResponse()
     }
 
     override fun onStop() {

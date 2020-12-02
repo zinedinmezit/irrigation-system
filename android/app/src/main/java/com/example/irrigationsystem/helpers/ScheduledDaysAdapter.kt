@@ -53,6 +53,5 @@ class DaysDiffCallback : DiffUtil.ItemCallback<ScheduledDaysView>(){
     ): Boolean {
         return oldItem==newItem
     }
-
 }
 
