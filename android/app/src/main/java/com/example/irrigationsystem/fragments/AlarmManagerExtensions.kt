@@ -15,7 +15,7 @@ fun AlarmManager.scheduleWatering(context: Context, chipsArray : IntArray, timeS
         PendingIntent.getBroadcast(context,1,it, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    setExactAndAllowWhileIdle(
+    this.setExactAndAllowWhileIdle(
         AlarmManager.RTC_WAKEUP,
         scheduledDateLong,
         alarmIntent
