@@ -64,7 +64,8 @@ fun Button.BackgroundBehaviour(state : Boolean){
             "CONNECTED"
 
         } else{
-            setBackgroundColor(Color.parseColor("#F45F55"))
+            setBackgroundColor(Color.parseColor("#795548"))
+            setTextColor(resources.getColor(R.color.colorOnSecondary,null))
             setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_cached_24,0)
             "DISCONNECTED"
         }
@@ -114,9 +115,9 @@ fun bindImage(imgView : ImageView, forecast : Forecast?){
             .apply(RequestOptions().placeholder(R.drawable.ic_baseline_cached_24).error(R.drawable.ic_search_black_24dp))
             .into(imgView)
     }
-
-
 }
+
+
 
 
 

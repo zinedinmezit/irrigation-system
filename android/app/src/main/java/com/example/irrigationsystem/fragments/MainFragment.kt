@@ -52,30 +52,28 @@ class MainFragment : Fragment() {
             bottomSheetFragment.show(requireActivity().supportFragmentManager, "test")
         }
 
-         val reconnectButton = binding.buttonReconnect
+        model.openWebSocketConnection(IpAddress)
+
+        val reconnectButton = binding.buttonReconnect
         reconnectButton.setOnClickListener {
             model.signalCode=0
-            lifecycleScope.launch {
-                OkHttpProvider.openWebSocketConnection(model.wsListener,IpAddress!!)
-            }
+            model.openWebSocketConnection(IpAddress)
         }
 
         val actionButton = binding.buttonAction
         actionButton.setOnClickListener {
             model.signalCode=1
-            lifecycleScope.launchWhenStarted {
-                OkHttpProvider.openWebSocketConnection(model.wsListener,IpAddress!!)
-            }
+            model.openWebSocketConnection(IpAddress)
         }
 
         binding.planName.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToEditFragment(IpAddress!!)
+            val action = MainFragmentDirections.actionMainFragmentToEditFragment(IpAddress)
             this.findNavController().navigate(action)
         }
 
         val floatingButton = binding.extendedFab
         floatingButton.setOnClickListener{
-            val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(IpAddress!!)
+            val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(IpAddress)
             this.findNavController().navigate(action)
         }
 
@@ -101,17 +99,11 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        lifecycleScope.launch {
-            OkHttpProvider.openWebSocketConnection(model.wsListener,IpAddress!!)
-        }
-
         model.getApiResponse()
     }
 
     override fun onStop() {
         super.onStop()
-        lifecycleScope.launch {
-            OkHttpProvider.closeConnections()
-        }
+        model.closeWebSocketConnection()
     }
 }

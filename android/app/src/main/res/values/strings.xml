@@ -38,4 +38,5 @@
     <string name="fab_text">New plan</string>
     <string name="app_title">Irrigation system</string>
     <string name="select_plan">Select plan</string>
+    <string name="enter">Enter</string>
 </resources>
