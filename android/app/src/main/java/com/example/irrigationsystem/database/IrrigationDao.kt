@@ -13,6 +13,9 @@ interface IrrigationDao  {
     @Query("SELECT * FROM `Plan`")
     fun getAllPlans() : LiveData<List<Plan>>
 
+    @Query("DELETE FROM `Plan` WHERE PlanId=:planId")
+    suspend fun deletePlan(planId: Int)
+
     @Query("SELECT COUNT(PlanId) FROM `Plan`")
     suspend fun getPlansNumber() : Int
 
@@ -75,10 +78,10 @@ interface IrrigationDao  {
 
     /* *****WEBSOCKET SERVER***** */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWSServer(wsServer: WebSocketServer)
+    suspend fun insertWSServer(wsServer: SetupInfo)
 
-    @Query("SELECT IpAddress FROM WebSocketServer LIMIT 1")
-    suspend fun getIpAddress() : String
+    @Query("SELECT * FROM SetupInfo LIMIT 1")
+    suspend fun getSetupInfo() : SetupInfo
 
 
 }

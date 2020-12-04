@@ -4,7 +4,7 @@ import com.example.irrigationsystem.database.IrrigationDao
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.WateringScheduler
 import com.example.irrigationsystem.models.WateringSchedulerDays
-import com.example.irrigationsystem.models.WebSocketServer
+import com.example.irrigationsystem.models.SetupInfo
 
 class IrrigationRepository(private val dao : IrrigationDao) {
 
@@ -17,7 +17,7 @@ class IrrigationRepository(private val dao : IrrigationDao) {
       return dao.insertPlan(plan)
     }
 
-    suspend fun insertServer(server : WebSocketServer){
+    suspend fun insertServer(server : SetupInfo){
          dao.insertWSServer(server)
     }
 

@@ -1,6 +1,7 @@
 package com.example.irrigationsystem.helpers
 
 import android.graphics.Color
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RadioButton
@@ -48,6 +49,17 @@ fun TextView.setPlanName(value : Plan){
             "${value.Name} (Current active)"
         } else{
             value.Name
+        }
+    }
+}
+
+@BindingAdapter("BottomSheetDeleteButtonStatus")
+fun ImageView.buttonStatus(value : Plan?){
+    value?.let {
+        visibility = if(value.IsActive){
+            View.GONE
+        } else{
+            View.VISIBLE
         }
     }
 }

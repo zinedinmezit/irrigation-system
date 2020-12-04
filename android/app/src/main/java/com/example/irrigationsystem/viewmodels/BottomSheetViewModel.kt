@@ -49,6 +49,12 @@ class BottomSheetViewModel(app : Application) : AndroidViewModel(app) {
         }
     }
 
+    fun deletePlan(planId : Int){
+        viewModelScope.launch {
+            repo.deletePlan(planId)
+        }
+    }
+
     fun fetchedToFalse(){
         _fetched.value = false
     }

@@ -11,6 +11,11 @@
         <variable
             name="clickListener"
             type="com.example.irrigationsystem.helpers.PlanListener" />
+
+        <variable
+            name="deleteListener"
+            type="com.example.irrigationsystem.helpers.DeleteListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,11 +29,24 @@
             android:id="@+id/bottomsheet_plan_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:BottomSheetPlanName="@{plan}"
             android:textSize="@dimen/subtitle1"
+            app:BottomSheetPlanName="@{plan}"
 
-            tools:text="Plan 1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Plan 1" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:BottomSheetDeleteButtonStatus="@{plan}"
+            android:onClick="@{() -> deleteListener.onClick(plan)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_delete" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

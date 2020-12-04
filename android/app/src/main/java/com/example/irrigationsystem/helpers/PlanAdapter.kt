@@ -11,7 +11,7 @@ import com.example.irrigationsystem.databinding.PlanBottomsheetRecyclerviewItemB
 import com.example.irrigationsystem.models.Plan
 import kotlinx.android.synthetic.main.plan_bottomsheet_recyclerview_item.view.*
 
-class PlanAdapter(val clickListener : PlanListener) : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()) {
+class PlanAdapter(val clickListener : PlanListener, val DeleteListener : DeleteListener ) : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanHolder {
         return PlanHolder.inflate(parent)
@@ -19,14 +19,15 @@ class PlanAdapter(val clickListener : PlanListener) : ListAdapter<Plan, PlanAdap
 
     override fun onBindViewHolder(holder: PlanHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item,clickListener)
+        holder.bind(item,clickListener, DeleteListener)
     }
 
     class PlanHolder private constructor(val binding : PlanBottomsheetRecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(data : Plan, listener:PlanListener){
+        fun bind(data : Plan, listener:PlanListener, deleteListener : DeleteListener){
             binding.plan = data
             binding.clickListener = listener
+            binding.deleteListener = deleteListener
         }
 
         companion object{
@@ -50,6 +51,10 @@ class PlanDiffCallback : DiffUtil.ItemCallback<Plan>(){
     }
 }
 
-class PlanListener(val clickListener : (planId : Int) -> Unit){
-    fun onClick(plan : Plan) = clickListener(plan.PlanId)
+class PlanListener(val clickListener : (planId : Plan) -> Unit){
+    fun onClick(plan : Plan) = clickListener(plan)
+}
+
+class DeleteListener(val deleteListener : (planId : Int) -> Unit){
+    fun onClick(plan : Plan) = deleteListener(plan.PlanId)
 }

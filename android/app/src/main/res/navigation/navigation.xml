@@ -25,6 +25,9 @@
         <argument
             android:name="IpAddress"
             app:argType="string" />
+        <argument
+            android:name="CIty"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/secondaryFragment"

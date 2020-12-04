@@ -25,4 +25,8 @@ class PlanRepository(private val dao : IrrigationDao) {
         return dao.getDays()
     }
 
+    suspend fun deletePlan(planId : Int){
+        return dao.deletePlan(planId)
+    }
+
 }

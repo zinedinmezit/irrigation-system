@@ -4,7 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class WebSocketServer(
+data class SetupInfo(
     @PrimaryKey(autoGenerate = true) val ServerId : Int = 0,
-    var IpAddress : String
+    var IpAddress : String,
+    var City : String
     )

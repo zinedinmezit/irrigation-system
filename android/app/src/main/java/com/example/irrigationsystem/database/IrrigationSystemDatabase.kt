@@ -10,7 +10,7 @@ import com.example.irrigationsystem.models.*
                     WateringScheduler::class,
                     Day::class,
                     WateringSchedulerDays::class,
-                     WebSocketServer::class],
+                     SetupInfo::class],
             views = [
                 PlanWateringSchedulerView::class,
                 ScheduledDaysView::class

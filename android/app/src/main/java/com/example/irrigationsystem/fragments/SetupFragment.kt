@@ -16,7 +16,7 @@ import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSetupBinding
 import com.example.irrigationsystem.helpers.DateHelper
 import com.example.irrigationsystem.models.Plan
-import com.example.irrigationsystem.models.WebSocketServer
+import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.viewmodels.SetupViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -48,7 +48,8 @@ class SetupFragment : Fragment() {
 
             val planName : String = binding.setupTextFieldText.text.toString()
             val timeString = binding.setupTimeString.text.toString()
-            val wsIpAddress = binding.setupIpAdressText.text.toString()
+            val wsIpAddress = binding.setupIpAddressText.text.toString()
+            val city = binding.setupCityText.text.toString()
 
             if(checkedChipsIds.count() > 0) {
 
@@ -59,7 +60,7 @@ class SetupFragment : Fragment() {
                     IsActive = true
                 )
 
-                val server = WebSocketServer(IpAddress = wsIpAddress)
+                val server = SetupInfo(IpAddress = wsIpAddress, City = city)
 
                 lifecycleScope.launchWhenStarted {
                     model.insertWeekDays()

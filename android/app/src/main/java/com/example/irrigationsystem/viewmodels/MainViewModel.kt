@@ -93,10 +93,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getPlanId() : Int? = activePlan.value?.PlanId
 
-     fun getApiResponse() {
+     fun getApiResponse(city : String) {
         scope.launch {
             try {
-                val response = WeatherApi.retrofitService.getWeatherForCity("Sarajevo")
+                val response = WeatherApi.retrofitService.getWeatherForCity(city)
                 _apiResponse.postValue(response)
             } catch (t: Throwable) {
                 Log.i("testtest1", "${t.message}")

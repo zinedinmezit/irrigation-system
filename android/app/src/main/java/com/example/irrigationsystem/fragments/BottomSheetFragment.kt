@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.irrigationsystem.databinding.BottomsheetPlansBinding
 import com.example.irrigationsystem.helpers.DateHelper
+import com.example.irrigationsystem.helpers.DeleteListener
 import com.example.irrigationsystem.helpers.PlanAdapter
 import com.example.irrigationsystem.helpers.PlanListener
 import com.example.irrigationsystem.models.Plan
@@ -24,7 +25,6 @@ import kotlinx.coroutines.launch
 class BottomSheetFragment() : BottomSheetDialogFragment() {
 
     var  plans : List<Plan>? = null
-
      var ipAddress : String? = null
 
     var scheduler : PlanWateringSchedulerView? = null
@@ -45,10 +45,14 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
         binding = BottomsheetPlansBinding.inflate(inflater, container, false)
 
         val adapter = PlanAdapter(PlanListener {
+            if(!it.IsActive) {
+                model.changePlanActiveStatusExceptOne(it.PlanId)
+                model.setPlanAsActive(it.PlanId)
+            }
 
-             model.changePlanActiveStatusExceptOne(it)
-             model.setPlanAsActive(it)
-
+        }, DeleteListener {
+            model.deletePlan(it)
+            this.dismiss()
         })
         binding.planRecyclerview.adapter = adapter
 

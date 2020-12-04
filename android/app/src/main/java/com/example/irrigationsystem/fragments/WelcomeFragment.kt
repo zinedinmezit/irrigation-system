@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentWelcomeBinding
+import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.viewmodels.WelcomeViewModel
 
 class WelcomeFragment : Fragment() {
@@ -20,7 +21,7 @@ class WelcomeFragment : Fragment() {
 
     private var flag : Boolean = false
 
-    private var address : String? = null
+    private var info : SetupInfo? = null
 
     private var _binding : FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
@@ -32,9 +33,9 @@ class WelcomeFragment : Fragment() {
         _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
 
         binding.button3.setOnClickListener {
-            Log.i("testtest1","$address")
+            Log.i("testtest1","$info")
             if(!flag)
-                this.findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToMainFragment(address!!))
+                this.findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToMainFragment(info?.IpAddress!!,info?.City!!))
             else this.findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToSetupFragment())
         }
 
@@ -43,7 +44,7 @@ class WelcomeFragment : Fragment() {
         })
 
         model.address.observe(viewLifecycleOwner, {
-            address = it
+            info = it
         })
 
         return binding.root

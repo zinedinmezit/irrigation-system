@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.models.PlanWateringSchedulerView
 import com.example.irrigationsystem.models.ScheduledDaysView
+import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.repositories.SetupRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -18,8 +19,8 @@ class WelcomeViewModel(app : Application) : AndroidViewModel(app) {
     private val _toSetup : MutableLiveData<Boolean> = MutableLiveData()
             val toSetup : LiveData<Boolean> get() = _toSetup
 
-    private val _address : MutableLiveData<String> = MutableLiveData()
-    val address : LiveData<String> get() = _address
+    private val _address : MutableLiveData<SetupInfo> = MutableLiveData()
+    val address : LiveData<SetupInfo> get() = _address
 
     init {
         val dao = IrrigationSystemDatabase.getInstance(app.applicationContext).IrrigationDatabaseDao
@@ -41,7 +42,7 @@ class WelcomeViewModel(app : Application) : AndroidViewModel(app) {
 
     private fun getAddress(){
         viewModelScope.launch {
-            _address.postValue(repo.getAddress())
+            _address.postValue(repo.getSetupInfo())
         }
     }
 }

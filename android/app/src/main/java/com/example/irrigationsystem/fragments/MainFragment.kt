@@ -27,6 +27,7 @@ class MainFragment : Fragment() {
 
     val args : MainFragmentArgs by navArgs()
     lateinit var IpAddress : String
+    lateinit var City : String
 
 
     override fun onCreateView(
@@ -35,6 +36,7 @@ class MainFragment : Fragment() {
     ): View {
 
         IpAddress = args.ipAddress
+        City = args.cIty
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -99,7 +101,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        model.getApiResponse()
+        model.getApiResponse(City)
     }
 
     override fun onStop() {

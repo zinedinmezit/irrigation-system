@@ -10,7 +10,7 @@ import com.example.irrigationsystem.helpers.TypeConverters
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.WateringScheduler
 import com.example.irrigationsystem.models.WateringSchedulerDays
-import com.example.irrigationsystem.models.WebSocketServer
+import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.repositories.IrrigationRepository
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.launch
@@ -35,7 +35,7 @@ class SetupViewModel(app : Application) : AndroidViewModel(app) {
         }
     }
 
-    fun insertServer(server : WebSocketServer)
+    fun insertServer(server : SetupInfo)
     {
         viewModelScope.launch {
             repository.insertServer(server)
