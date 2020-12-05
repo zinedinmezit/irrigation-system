@@ -124,7 +124,7 @@ fun bindImage(imgView : ImageView, forecast : Forecast?){
 
         Glide.with(imgView.context)
             .load(imageUri)
-            .apply(RequestOptions().placeholder(R.drawable.ic_baseline_cached_24).error(R.drawable.ic_search_black_24dp))
+            .apply(RequestOptions().placeholder(R.drawable.ic_baseline_image_24).error(R.drawable.ic_baseline_broken_image_24))
             .into(imgView)
     }
 }

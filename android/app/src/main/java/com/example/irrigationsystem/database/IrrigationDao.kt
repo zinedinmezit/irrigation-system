@@ -83,5 +83,8 @@ interface IrrigationDao  {
     @Query("SELECT * FROM SetupInfo LIMIT 1")
     suspend fun getSetupInfo() : SetupInfo
 
+    @Query("UPDATE SetupInfo SET IpAddress=:address,City=:city WHERE :address IS NOT NULL AND :city IS NOT NULL")
+    suspend fun updateSetupInfo(address : String, city : String)
+
 
 }

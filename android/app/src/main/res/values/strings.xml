@@ -41,4 +41,6 @@
     <string name="enter">Enter</string>
     <string name="city">City</string>
     <string name="irrigation_system">Irrigation system</string>
+    <string name="edit_basic_setup">Edit basic setup</string>
+    <string name="cancel">Cancel</string>
 </resources>

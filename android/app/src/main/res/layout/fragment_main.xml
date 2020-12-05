@@ -147,7 +147,6 @@
 
         <Button
             android:id="@+id/buttonAction"
-            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -175,12 +174,12 @@
             android:id="@+id/city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             android:textSize="@dimen/heading2"
             app:WeatherCity="@{mainVM.apiResponse}"
+            app:layout_constraintBottom_toTopOf="@+id/weatherRecycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
             tools:text="Sarajevo" />
 
         <TextView
@@ -188,24 +187,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            app:WeatherCountry="@{mainVM.apiResponse}"
             android:textSize="@dimen/subtitle1"
-            app:layout_constraintBottom_toBottomOf="@+id/city_name"
+            app:WeatherCountry="@{mainVM.apiResponse}"
             app:layout_constraintStart_toEndOf="@id/city_name"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/city_name"
             tools:text="BA" />
 
         <TextView
             android:id="@+id/city_current_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="2°"
             android:textSize="@dimen/heading1"
-            app:layout_constraintEnd_toEndOf="@+id/city_name"
-            app:layout_constraintStart_toStartOf="@+id/city_name"
-            app:layout_constraintTop_toBottomOf="@+id/city_name"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/weatherRecycler"

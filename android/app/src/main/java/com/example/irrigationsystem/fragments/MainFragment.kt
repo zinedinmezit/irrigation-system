@@ -73,6 +73,11 @@ class MainFragment : Fragment() {
             this.findNavController().navigate(action)
         }
 
+        binding.cityName.setOnClickListener {
+            val dialogFragment = BasicSetupDialogFragment()
+            dialogFragment.show(requireActivity().supportFragmentManager, "testz")
+        }
+
         val floatingButton = binding.extendedFab
         floatingButton.setOnClickListener{
             val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(IpAddress)

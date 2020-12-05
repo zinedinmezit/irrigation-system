@@ -20,4 +20,8 @@ class SetupRepository(private val dao : IrrigationDao) {
         return dao.getSetupInfo()
     }
 
+    suspend fun updateSetupInfo(address:String, city:String){
+        dao.updateSetupInfo(address,city)
+    }
+
 }
