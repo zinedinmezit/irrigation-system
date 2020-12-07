@@ -66,31 +66,40 @@ class EditFragment : Fragment() {
             val planName = binding.editInputText.text.toString()
             val timeString = binding.editTimeText.text.toString()
 
-            if(transformedChipIds.count() > 0){
+            if(transformedChipIds.count() > 0) {
 
-                val chipsIntArray = transformedChipIds.toIntArray()
+                if (validateForm(planName, timeString)) {
 
-                model.updatePlan(planName)
-                model.deleteDaysFromScheduler()
-                model.insertWateringSchedulerDays(transformedChipIds)
+                    val chipsIntArray = transformedChipIds.toIntArray()
 
-                val scheduledDate = model.updateWateringScheduler(transformedChipIds, timeString)
-                //alarmMgr?.scheduleWatering(requireContext(), chipsIntArray, timeString, scheduledDate,address)
+                    model.updatePlan(planName)
+                    model.deleteDaysFromScheduler()
+                    model.insertWateringSchedulerDays(transformedChipIds)
 
-                val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                Log.i("testtest1","${model.activePlan.value?.WateringSchedulerId}")
-                Log.i("Checkup","EditFragment(activePlan) : \n${model.activePlan.value}")
-                val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
-                    intent.putExtra("CHIPS",chipsIntArray)
-                    intent.putExtra("TIMESTRING",timeString)
-                    intent.putExtra("IPADDRESS", address)
-                    intent.putExtra("SCHEDULERID",model.activePlan.value?.WateringSchedulerId)
-                    PendingIntent.getBroadcast(context,1,intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    val scheduledDate =
+                        model.updateWateringScheduler(transformedChipIds, timeString)
+                    //alarmMgr?.scheduleWatering(requireContext(), chipsIntArray, timeString, scheduledDate,address)
+
+                    val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    Log.i("testtest1", "${model.activePlan.value?.WateringSchedulerId}")
+                    Log.i("Checkup", "EditFragment(activePlan) : \n${model.activePlan.value}")
+                    val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
+                        intent.putExtra("CHIPS", chipsIntArray)
+                        intent.putExtra("TIMESTRING", timeString)
+                        intent.putExtra("IPADDRESS", address)
+                        intent.putExtra("SCHEDULERID", model.activePlan.value?.WateringSchedulerId)
+                        PendingIntent.getBroadcast(
+                            context,
+                            1,
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+                    }
+
+                    setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
+
+                    this.findNavController().popBackStack()
                 }
-
-                setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
-
-                this.findNavController().popBackStack()
             }
         }
 
@@ -113,5 +122,28 @@ class EditFragment : Fragment() {
                 notifyIntent
             )
         }
+    }
+
+    private fun validateForm(planName : String?, timeString : String?) : Boolean{
+        var flag = true
+
+
+        if(planName.isNullOrBlank()){
+            binding.editInputLayout.error = "Plan name can't be empty"
+            flag = false
+        }
+        else{
+            binding.editInputLayout.error = null
+        }
+
+        if(timeString.isNullOrBlank()){
+            binding.editTimeText.error = "Time can't be empty"
+            flag = false
+        }
+        else{
+            binding.editTimeText.error = null
+        }
+
+        return flag
     }
 }

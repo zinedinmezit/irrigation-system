@@ -56,41 +56,54 @@ class SetupFragment : Fragment() {
 
             if(checkedChipsIds.count() > 0) {
 
-                val chipsIntArray = checkedChipsIds.toIntArray()
+                if (validateForm(planName, timeString, wsIpAddress, city)) {
+                    val chipsIntArray = checkedChipsIds.toIntArray()
 
-                val plan = Plan(
-                    Name = planName,
-                    IsActive = true
-                )
+                    val plan = Plan(
+                        Name = planName,
+                        IsActive = true
+                    )
 
-                val server = SetupInfo(IpAddress = wsIpAddress, City = city)
+                    val server = SetupInfo(IpAddress = wsIpAddress, City = city)
 
-                lifecycleScope.launchWhenStarted {
-                    model.insertWeekDays()
-                    model.insertNote(plan)
-                    model.insertServer(server)
+                    lifecycleScope.launchWhenStarted {
+                        model.insertWeekDays()
+                        model.insertNote(plan)
+                        model.insertServer(server)
 
-                    val planId = model.getLatestPlanId().toInt()
-                    model.changePlanActiveStatusExceptOne(planId)
-                    val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, planId)
-                    Log.i("testtest","Scheduled date - $scheduledDate")
-                    val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
-                    model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
+                        val planId = model.getLatestPlanId().toInt()
+                        model.changePlanActiveStatusExceptOne(planId)
+                        val scheduledDate =
+                            model.insertWateringScheduler(checkedChipsIds, timeString, planId)
+                        Log.i("testtest", "Scheduled date - $scheduledDate")
+                        val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
+                        model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
-                    Log.i("Checkup","SetupFragment/WateringSchedulerId (wsId) : \n$wateringSchedulerId")
-                    val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
-                        intent.putExtra("CHIPS",chipsIntArray)
-                        intent.putExtra("TIMESTRING",timeString)
-                        intent.putExtra("IPADDRESS", wsIpAddress)
-                        intent.putExtra("SCHEDULERID",wateringSchedulerId)
-                        PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        Log.i(
+                            "Checkup",
+                            "SetupFragment/WateringSchedulerId (wsId) : \n$wateringSchedulerId"
+                        )
+                        val alarmMgr =
+                            context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        val alarmIntent =
+                            Intent(context, WateringReceiver::class.java).let { intent ->
+                                intent.putExtra("CHIPS", chipsIntArray)
+                                intent.putExtra("TIMESTRING", timeString)
+                                intent.putExtra("IPADDRESS", wsIpAddress)
+                                intent.putExtra("SCHEDULERID", wateringSchedulerId)
+                                PendingIntent.getBroadcast(
+                                    context,
+                                    1,
+                                    intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                )
+                            }
+
+                        setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
                     }
 
-                    setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
+                    showSuccessDialog()
                 }
-
-                showSuccessDialog()
             }
         }
 
@@ -123,5 +136,42 @@ class SetupFragment : Fragment() {
                 notifyIntent
             )
         }
+    }
+
+    private fun validateForm(planName : String?, timeString : String?, ipAddress : String?, city : String?) : Boolean{
+        var flag = true
+        if(planName.isNullOrBlank()){
+            binding.setupTextField.error = "Plan name can't be empty"
+            flag = false
+        }
+        else{
+            binding.setupTextField.error = null
+        }
+
+        if(timeString.isNullOrBlank()){
+            binding.setupTimeString.error = "Time can't be empty"
+            flag = false
+        }
+        else{
+            binding.setupTimeString.error = null
+        }
+
+        if(ipAddress.isNullOrBlank()){
+            binding.setupIpAddress.error = "Websocket IP Address can't be empty"
+            flag = false
+        }
+        else{
+            binding.setupIpAddress.error = null
+        }
+
+        if(city.isNullOrBlank()){
+            binding.setupCity.error = "City can't be empty"
+            flag = false
+        }
+        else{
+            binding.setupCity.error = null
+        }
+
+        return flag
     }
 }

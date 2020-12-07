@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_bold"
             android:textSize="@dimen/heading2"
             app:WeatherCity="@{mainVM.apiResponse}"
             app:layout_constraintBottom_toTopOf="@+id/weatherRecycler"

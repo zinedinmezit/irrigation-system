@@ -54,37 +54,50 @@ class SecondaryFragment : Fragment() {
 
             if(checkedChipsIds.count() > 0) {
 
-                val chipsIntArray = checkedChipsIds.toIntArray()
+                if (validateForm(planName, timeString)) {
+                    val chipsIntArray = checkedChipsIds.toIntArray()
 
-                val plan = Plan(
-                    Name = planName,
-                    IsActive = true
-                )
+                    val plan = Plan(
+                        Name = planName,
+                        IsActive = true
+                    )
 
-                lifecycleScope.launchWhenStarted {
+                    lifecycleScope.launchWhenStarted {
 
-                    model.insertNote(plan)
+                        model.insertNote(plan)
 
-                    val planId = model.getLatestPlanId().toInt()
-                    model.changePlanActiveStatusExceptOne(planId)
-                    val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, planId)
-                    Log.i("testtest","Scheduled date - $scheduledDate")
-                    val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
-                    model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
+                        val planId = model.getLatestPlanId().toInt()
+                        model.changePlanActiveStatusExceptOne(planId)
+                        val scheduledDate =
+                            model.insertWateringScheduler(checkedChipsIds, timeString, planId)
+                        Log.i("testtest", "Scheduled date - $scheduledDate")
+                        val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
+                        model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
-                    Log.i("Checkup","SecondaryFragment/WateringSchedulerId (wateringSchedulerId) : \n$wateringSchedulerId")
-                    val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
-                        intent.putExtra("CHIPS",chipsIntArray)
-                        intent.putExtra("TIMESTRING",timeString)
-                        intent.putExtra("IPADDRESS", address)
-                        intent.putExtra("SCHEDULERID",wateringSchedulerId)
-                        PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        Log.i(
+                            "Checkup",
+                            "SecondaryFragment/WateringSchedulerId (wateringSchedulerId) : \n$wateringSchedulerId"
+                        )
+                        val alarmMgr =
+                            context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        val alarmIntent =
+                            Intent(context, WateringReceiver::class.java).let { intent ->
+                                intent.putExtra("CHIPS", chipsIntArray)
+                                intent.putExtra("TIMESTRING", timeString)
+                                intent.putExtra("IPADDRESS", address)
+                                intent.putExtra("SCHEDULERID", wateringSchedulerId)
+                                PendingIntent.getBroadcast(
+                                    context,
+                                    1,
+                                    intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT
+                                )
+                            }
+
+                        setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
                     }
-
-                    setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
+                    showSuccessDialog()
                 }
-                showSuccessDialog()
             }
         }
 
@@ -117,5 +130,28 @@ class SecondaryFragment : Fragment() {
                 notifyIntent
             )
         }
+    }
+
+    private fun validateForm(planName : String?, timeString : String?) : Boolean{
+        var flag = true
+
+
+        if(planName.isNullOrBlank()){
+            binding.secondaryTextField.error = "Plan name can't be empty"
+            flag = false
+        }
+        else{
+            binding.secondaryTextField.error = null
+        }
+
+        if(timeString.isNullOrBlank()){
+            binding.secondaryEditTextTime.error = "Time can't be empty"
+            flag = false
+        }
+        else{
+            binding.secondaryEditTextTime.error = null
+        }
+
+        return flag
     }
 }
