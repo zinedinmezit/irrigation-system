@@ -15,22 +15,22 @@ class BottomSheetViewModel(app : Application) : AndroidViewModel(app) {
 
     private val repo : PlanRepository
 
-    private val _scheduler : MutableLiveData<PlanWateringSchedulerView> = MutableLiveData()
-            val scheduler : LiveData<PlanWateringSchedulerView>
-                get() = _scheduler
+    private val _planSchedulerView : MutableLiveData<PlanWateringSchedulerView> = MutableLiveData()
+            val planSchedulerView : LiveData<PlanWateringSchedulerView>
+                get() = _planSchedulerView
 
-    private val _days : MutableLiveData<List<Int>> = MutableLiveData()
-    val days : LiveData<List<Int>>
-        get() = _days
+    private val _scheduledDays : MutableLiveData<List<Int>> = MutableLiveData()
+    val scheduledDays : LiveData<List<Int>>
+        get() = _scheduledDays
 
-    private val _fetched : MutableLiveData<Boolean> = MutableLiveData()
-    val fetched : LiveData<Boolean>
-        get() = _fetched
+    private val _isFetched : MutableLiveData<Boolean> = MutableLiveData()
+    val isFetched : LiveData<Boolean>
+        get() = _isFetched
 
     init {
         val dao = IrrigationSystemDatabase.getInstance(app).IrrigationDatabaseDao
         repo = PlanRepository(dao)
-        _fetched.value = false
+        _isFetched.value = false
     }
 
     fun changePlanActiveStatusExceptOne(planId : Int){
@@ -42,10 +42,10 @@ class BottomSheetViewModel(app : Application) : AndroidViewModel(app) {
     fun setPlanAsActive(planId : Int) {
         viewModelScope.launch {
             repo.setPlanAsActive(planId)
-            _scheduler.postValue(repo.getPlanWatering())
-            _days.postValue(repo.getDays())
+            _planSchedulerView.postValue(repo.getPlanWatering())
+            _scheduledDays.postValue(repo.getDays())
 
-            _fetched.postValue(true)
+            _isFetched.postValue(true)
         }
     }
 
@@ -56,7 +56,13 @@ class BottomSheetViewModel(app : Application) : AndroidViewModel(app) {
     }
 
     fun fetchedToFalse(){
-        _fetched.value = false
+        _isFetched.value = false
+    }
+
+    fun setWateringTImeNow(time : Long, wsId : Int){
+        viewModelScope.launch {
+            repo.setWateringTimeNow(time,wsId)
+        }
     }
 
 }

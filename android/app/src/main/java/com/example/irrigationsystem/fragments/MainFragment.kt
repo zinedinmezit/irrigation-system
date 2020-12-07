@@ -5,29 +5,23 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentMainBinding
 import com.example.irrigationsystem.helpers.DaysAdapter
 import com.example.irrigationsystem.helpers.ForecastAdapter
-import com.example.irrigationsystem.models.weatherapi.Forecast
-import com.example.irrigationsystem.network.OkHttpProvider
 import com.example.irrigationsystem.viewmodels.MainViewModel
-import kotlinx.coroutines.launch
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(){
 
     private val model: MainViewModel by activityViewModels()
     private lateinit var binding : FragmentMainBinding
 
     val args : MainFragmentArgs by navArgs()
-    lateinit var IpAddress : String
-    lateinit var City : String
+    lateinit var webSocketIpAddress : String
+    lateinit var city : String
 
 
     override fun onCreateView(
@@ -35,64 +29,24 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        IpAddress = args.ipAddress
-        City = args.cIty
+        //Assigned from arguments (Navigation : WelcomeFragment -> MainFragment(IpAddress:String, City:String))
+        webSocketIpAddress = args.ipAddress
+        city = args.cIty
 
+        /*   ***BINDING SETUP***   */
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
         binding.executePendingBindings()
 
 
-        val bottomSheetFragment = BottomSheetFragment()
-        model.allPlans.observe(viewLifecycleOwner, Observer {
-            bottomSheetFragment.plans = it
-            bottomSheetFragment.ipAddress = IpAddress
-        })
 
-        binding.button2.setOnClickListener {
-            bottomSheetFragment.show(requireActivity().supportFragmentManager, "test")
-        }
+        //Open websocket connection with signal code 0
+        model.openWebSocketConnection(webSocketIpAddress)
 
-        model.openWebSocketConnection(IpAddress)
 
-        val reconnectButton = binding.buttonReconnect
-        reconnectButton.setOnClickListener {
-            model.signalCode=0
-            model.openWebSocketConnection(IpAddress)
-        }
 
-        val actionButton = binding.buttonAction
-        actionButton.setOnClickListener {
-            model.signalCode=1
-            model.openWebSocketConnection(IpAddress)
-        }
-
-        binding.planName.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToEditFragment(IpAddress)
-            this.findNavController().navigate(action)
-        }
-
-        binding.cityName.setOnClickListener {
-            val dialogFragment = BasicSetupDialogFragment()
-            dialogFragment.show(requireActivity().supportFragmentManager, "testz")
-        }
-
-        val floatingButton = binding.extendedFab
-        floatingButton.setOnClickListener{
-            val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(IpAddress)
-            this.findNavController().navigate(action)
-        }
-
-        val adapter = DaysAdapter()
-        binding.recyclerView.adapter = adapter
-
-        model.scheduledDays.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.submitList(it)
-            }
-        })
-
+        //Forecast is presented using recyclerview
         val weatherAdapter = ForecastAdapter()
         binding.weatherRecycler.adapter = weatherAdapter
         model.apiResponse.observe(viewLifecycleOwner,{
@@ -101,16 +55,79 @@ class MainFragment : Fragment() {
             }
         })
 
+        //Register livedata to track if models.SetupInfo is updated
+        //If true, update variables and send network request to refresh forecast
+        model.setupInfo.observe(viewLifecycleOwner,{
+            if(city != it.City) {
+                city = it.City
+                webSocketIpAddress = it.IpAddress
+                model.getApiResponse(city)
+            }
+        })
+
+
+
+        //Active's plan scheduled days are displayed using recyclerview
+        val adapter = DaysAdapter()
+        binding.recyclerView.adapter = adapter
+        model.scheduledDays.observe(viewLifecycleOwner, {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
+
+
+
+        //Initialize BottomSheetFragment and as soon is required info for BottomSheetFragment available, ship it
+        val bottomSheetFragment = BottomSheetFragment()
+        model.allPlans.observe(viewLifecycleOwner, {
+            bottomSheetFragment.listOfPlans = it
+            bottomSheetFragment.webSocketIpAddress = webSocketIpAddress
+        })
+
+
+
+        /*   ***CLICK LISTENERS***   */
+        binding.cityName.setOnClickListener {
+            val dialogFragment = BasicSetupDialogFragment()
+            dialogFragment.show(childFragmentManager, "BasicSetupDialogFragment")
+        }
+
+        binding.mainButtonSelectPlan.setOnClickListener {
+            bottomSheetFragment.show(requireActivity().supportFragmentManager, "BottomSheetFragment")
+        }
+
+        binding.buttonReconnect.setOnClickListener {
+            model.signalCode=0
+            model.openWebSocketConnection(webSocketIpAddress)
+        }
+
+        binding.buttonWater.setOnClickListener {
+            model.signalCode=1
+            model.openWebSocketConnection(webSocketIpAddress)
+        }
+
+        binding.planName.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToEditFragment(webSocketIpAddress)
+            this.findNavController().navigate(action)
+        }
+
+        binding.extendedFab.setOnClickListener{
+            val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(webSocketIpAddress)
+            this.findNavController().navigate(action)
+        }
+
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        model.getApiResponse(City)
+        model.getApiResponse(city)
     }
 
     override fun onStop() {
         super.onStop()
         model.closeWebSocketConnection()
     }
+
 }

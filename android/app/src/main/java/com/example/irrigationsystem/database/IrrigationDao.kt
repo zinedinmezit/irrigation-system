@@ -40,8 +40,8 @@ interface IrrigationDao  {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWateringScheduler(wateringScheduler: WateringScheduler): Long
 
-    @Query("UPDATE `WateringScheduler` SET WateringTimeNow=:time")
-    suspend fun setWateringTimeNow(time : Long)
+    @Query("UPDATE `WateringScheduler` SET WateringTimeNow=:time WHERE WateringSchedulerId=:wsId")
+    suspend fun setWateringTimeNow(time : Long, wsId: Int)
 
     @Query("UPDATE WateringScheduler SET WateringTimeNow=:datetime, TimeString = :timeString WHERE WateringSchedulerId=:wsId")
     suspend fun updateWateringTimeNow(wsId: Int, datetime : Long, timeString: String)
@@ -74,7 +74,7 @@ interface IrrigationDao  {
    suspend fun getPlanWatering() : PlanWateringSchedulerView
 
     @Query("SELECT OrdinalNumber FROM ScheduledDaysView")
-   suspend fun getDays() : List<Int>
+   suspend fun getScheduledDays() : List<Int>
 
     /* *****WEBSOCKET SERVER***** */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -85,6 +85,9 @@ interface IrrigationDao  {
 
     @Query("UPDATE SetupInfo SET IpAddress=:address,City=:city WHERE :address IS NOT NULL AND :city IS NOT NULL")
     suspend fun updateSetupInfo(address : String, city : String)
+
+    @Query("SELECT * FROM SetupInfo")
+    fun getSetupInfoLiveData() : LiveData<SetupInfo>
 
 
 }

@@ -22,11 +22,15 @@ class PlanRepository(private val dao : IrrigationDao) {
     }
 
     suspend fun getDays() : List<Int>{
-        return dao.getDays()
+        return dao.getScheduledDays()
     }
 
     suspend fun deletePlan(planId : Int){
         return dao.deletePlan(planId)
+    }
+
+    suspend fun setWateringTimeNow(time : Long, wsId : Int){
+        dao.setWateringTimeNow(time,wsId)
     }
 
 }

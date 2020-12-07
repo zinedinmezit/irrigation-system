@@ -11,6 +11,8 @@ class IrrigationRepository(private val dao : IrrigationDao) {
     val activePlan = dao.getPlanWateringViewLiveData()
     val schedulerDays = dao.getScheduledDaysViewLiveData()
 
+    val setupInfo = dao.getSetupInfoLiveData()
+
     val allPlans = dao.getAllPlans()
 
     suspend fun insertPlan(plan : Plan) : Long{
@@ -25,7 +27,6 @@ class IrrigationRepository(private val dao : IrrigationDao) {
         dao.insertWeekDays()
     }
 
-
     suspend fun insertWateringSchDay(xy : WateringSchedulerDays){
         dao.insertWateringSchedulerDay(xy)
     }
@@ -38,10 +39,9 @@ class IrrigationRepository(private val dao : IrrigationDao) {
         dao.changePlanActiveStatusExceptOne(planId)
     }
 
-    suspend fun setWateringTimeNow(time : Long){
-        dao.setWateringTimeNow(time)
+    suspend fun setWateringTimeNow(time : Long, wsId : Int){
+        dao.setWateringTimeNow(time,wsId)
     }
-
 
     suspend fun deleteDaysFromScheduler(wsId : Int){
         dao.deleteDaysFromScheduler(wsId)

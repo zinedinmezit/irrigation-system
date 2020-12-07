@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class BasicSetupViewModel(app : Application) : AndroidViewModel(app) {
 
-    val repository : SetupRepository
+    private val repository : SetupRepository
     private val scope = CoroutineScope(context = Dispatchers.IO)
 
     init {

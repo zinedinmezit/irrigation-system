@@ -6,8 +6,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
-import com.example.irrigationsystem.fragments.scheduleWatering
 import com.example.irrigationsystem.helpers.DateHelper
 import com.example.irrigationsystem.repositories.IrrigationRepository
 import com.example.irrigationsystem.services.WateringService
@@ -20,7 +20,6 @@ class WateringReceiver : BroadcastReceiver() {
     private val scope = CoroutineScope(context = Dispatchers.IO)
     private lateinit var repository : IrrigationRepository
 
-    private var alarmMgr: AlarmManager? = null
     private lateinit var alarmIntent: PendingIntent
 
     override fun onReceive(context: Context, intent: Intent?) {
@@ -34,19 +33,23 @@ class WateringReceiver : BroadcastReceiver() {
         val chipIds = chipIdsArray?.toMutableList()
         val timeString = myBundle?.getString("TIMESTRING")
         val ipAddress = myBundle?.getString("IPADDRESS")
+        val schedulerId = myBundle?.getInt("SCHEDULERID")
+
+        Log.i("Checkup","WateringReceiver/BundleValues (chipIdsArray, chipIds, timeString, ipAddress, schedulerId) : \n$chipIdsArray\n$chipIds\n$timeString\n$ipAddress\n$schedulerId")
 
         val pairs = DateHelper.getDateForCurrentSchedule(chipIds!!,timeString!!)
 
             scope.launch {
-                repository.setWateringTimeNow(pairs.first.time)
+                repository.setWateringTimeNow(pairs.first.time,schedulerId!!)
             }
 
-        alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+       val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         alarmIntent = Intent(context, WateringReceiver::class.java).let {
             it.putExtra("CHIPS",chipIdsArray)
             it.putExtra("TIMESTRING",timeString)
             it.putExtra("IPADDRESS", ipAddress)
+            it.putExtra("SCHEDULERID",schedulerId)
             PendingIntent.getBroadcast(context,1,it,FLAG_UPDATE_CURRENT)
         }
 
@@ -64,11 +67,21 @@ class WateringReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun setAlarmManager(alarmManager : AlarmManager?, dateTime : Long, intent: PendingIntent) {
-        alarmManager?.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            dateTime,
-            intent
-        )
+    private fun setAlarmManager(alarmManager : AlarmManager, dateTime : Long, notifyIntent: PendingIntent)
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                dateTime,
+                notifyIntent
+            )
+        }
+        else{
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                dateTime,
+                notifyIntent
+            )
+        }
     }
 }

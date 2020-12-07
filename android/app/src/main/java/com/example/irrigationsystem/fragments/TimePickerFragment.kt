@@ -38,7 +38,7 @@ class TimePickerFragment(val fragmentCode : Int) : DialogFragment(), TimePickerD
         var timeEditText : EditText? = null
 
         when(fragmentCode){
-            1 -> timeEditText = activity.editTextTime
+            1 -> timeEditText = activity.secondary_edit_text_time
             2 -> timeEditText = activity.edit_timeText
             3 -> timeEditText = activity.setup_time_string
         }

@@ -1,7 +1,10 @@
 package com.example.irrigationsystem.fragments
 
 import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,23 +21,22 @@ import com.example.irrigationsystem.helpers.PlanListener
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.PlanWateringSchedulerView
 import com.example.irrigationsystem.models.WateringScheduler
+import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.BottomSheetViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 
 class BottomSheetFragment() : BottomSheetDialogFragment() {
 
-    var  plans : List<Plan>? = null
-     var ipAddress : String? = null
+    var  listOfPlans : List<Plan>? = null
+     var webSocketIpAddress : String? = null
 
-    var scheduler : PlanWateringSchedulerView? = null
+    var planSchedulerView : PlanWateringSchedulerView? = null
     var days : List<Int>? = null
 
     private lateinit var binding : BottomsheetPlansBinding
 
     private val model: BottomSheetViewModel by activityViewModels()
-
-    private var alarmMgr: AlarmManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,23 +58,37 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
         })
         binding.planRecyclerview.adapter = adapter
 
-        adapter.submitList(plans)
+        adapter.submitList(listOfPlans)
 
-        model.scheduler.observe(viewLifecycleOwner, Observer {
-           scheduler = it
+        model.planSchedulerView.observe(viewLifecycleOwner, {
+            planSchedulerView = it
         })
 
-        model.days.observe(viewLifecycleOwner, Observer {
+        model.scheduledDays.observe(viewLifecycleOwner, {
             days = it
         })
 
-        model.fetched.observe(viewLifecycleOwner, Observer {
+        model.isFetched.observe(viewLifecycleOwner, {
             if(it){
-                if(scheduler != null && days != null){
+                if(planSchedulerView != null && days != null){
 
-                    val pair = DateHelper.getDateForCurrentSchedule(days?.toMutableList()!!,scheduler?.TimeString!!)
-                    alarmMgr = this.requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    alarmMgr?.scheduleWatering(requireContext(), days?.toIntArray()!!,scheduler?.TimeString!!, pair.first.time, ipAddress!!)
+                    val pair = DateHelper.getDateForCurrentSchedule(days?.toMutableList()!!,planSchedulerView?.TimeString!!)
+
+                    Log.i("Checkup","BottomSheetFragment/Ids(scheduler, days) : \n$planSchedulerView \n$days")
+
+                    val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
+                        intent.putExtra("CHIPS",days?.toIntArray())
+                        intent.putExtra("TIMESTRING",planSchedulerView?.TimeString!!)
+                        intent.putExtra("IPADDRESS", webSocketIpAddress!!)
+                        intent.putExtra("SCHEDULERID", planSchedulerView?.WateringSchedulerId)
+                        PendingIntent.getBroadcast(context,1,intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    }
+
+                    model.setWateringTImeNow(pair.first.time, planSchedulerView?.WateringSchedulerId!!)
+
+                    setAlarmManager(alarmMgr, pair.first.time, alarmIntent)
+
                     model.fetchedToFalse()
                     this.dismiss()
                 }
@@ -80,5 +96,24 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
         })
 
         return binding.root
+    }
+
+
+    private fun setAlarmManager(alarmManager : AlarmManager, dateTime : Long, notifyIntent: PendingIntent)
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                dateTime,
+                notifyIntent
+            )
+        }
+        else{
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                dateTime,
+                notifyIntent
+            )
+        }
     }
 }

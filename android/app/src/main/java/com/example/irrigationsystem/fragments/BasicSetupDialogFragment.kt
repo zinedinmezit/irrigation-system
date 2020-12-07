@@ -2,13 +2,16 @@ package com.example.irrigationsystem.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.viewmodels.BasicSetupViewModel
+import java.lang.ClassCastException
 
 class BasicSetupDialogFragment : DialogFragment() {
 
@@ -25,10 +28,9 @@ class BasicSetupDialogFragment : DialogFragment() {
                     val addressEditText = layout.findViewById(R.id.edit_setup_address_text) as EditText
                     val cityEditText = layout.findViewById(R.id.edit_setup_city_text) as EditText
 
-                    val address : String = addressEditText.text.toString()
-                    val city : String = cityEditText.text.toString()
-
-                    model.updateSetupInfo(address,city)
+                    val addressString : String = addressEditText.text.toString()
+                    val cityString : String = cityEditText.text.toString()
+                    model.updateSetupInfo(addressString,cityString)
                     getDialog()?.dismiss()
                 })
                 .setNegativeButton(R.string.cancel,DialogInterface.OnClickListener { dialog, id -> getDialog()?.dismiss() })

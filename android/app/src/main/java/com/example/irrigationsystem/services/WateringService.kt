@@ -1,8 +1,12 @@
 package com.example.irrigationsystem.services
 
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.irrigationsystem.R
@@ -38,6 +42,9 @@ class WateringService : Service() {
 
     override fun onCreate() {
 
+        createChannel(getString(R.string.is_notification_channel_id),
+                      getString(R.string.is_notification_channel_name))
+
         val notification: Notification = NotificationCompat.Builder(this,applicationContext.getString(R.string.is_notification_channel_id))
             .setContentTitle("Irrigation system service")
             .setContentText("Watering action started")
@@ -61,5 +68,26 @@ class WateringService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         scope.cancel("Scope in service is done so it is canceled")
+    }
+
+    private fun createChannel(channelId : String, channelName : String) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "You got things to do"
+
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager?.createNotificationChannel(notificationChannel)
+        }
     }
 }

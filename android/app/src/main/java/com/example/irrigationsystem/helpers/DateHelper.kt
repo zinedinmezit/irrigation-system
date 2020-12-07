@@ -21,9 +21,9 @@ object DateHelper {
     )
 
     private val chipIdMapS = mapOf(
-        2131362151 to 2, 2131362152 to 3, 2131362153 to 4,
-        2131362154 to 5, 2131362155 to 6, 2131362156 to 7,
-        2131362157 to 1
+        2131362154 to 2, 2131362155 to 3, 2131362156 to 4,
+        2131362157 to 5, 2131362158 to 6, 2131362159 to 7,
+        2131362160 to 1
     )
 
     @SuppressLint("SimpleDateFormat")

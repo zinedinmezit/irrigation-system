@@ -1,10 +1,9 @@
 package com.example.irrigationsystem.fragments
 
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
-import android.graphics.Color
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +20,7 @@ import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
 import com.example.irrigationsystem.helpers.DateHelper
 import com.example.irrigationsystem.models.Plan
+import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.SecondaryViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -28,8 +28,6 @@ class SecondaryFragment : Fragment() {
 
     lateinit var binding : FragmentSecondaryBinding
     private val model : SecondaryViewModel by activityViewModels()
-
-    private var alarmMgr: AlarmManager? = null
 
     val args : SecondaryFragmentArgs by navArgs()
 
@@ -42,17 +40,17 @@ class SecondaryFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_secondary, container, false)
 
-        binding.editTextTime.setOnClickListener {
+        binding.secondaryEditTextTime.setOnClickListener {
             TimePickerFragment(1).show(parentFragmentManager,"timePicker")
         }
 
-        binding.button.setOnClickListener{
+        binding.secondaryButtonCreate.setOnClickListener{
 
             val chips = binding.chipGroup.checkedChipIds
             val checkedChipsIds = DateHelper.transformListIds(chips)
 
-            val planName : String = binding.textFieldText.text.toString()
-            val timeString = binding.editTextTime.text.toString()
+            val planName : String = binding.secondaryTextFieldText.text.toString()
+            val timeString = binding.secondaryEditTextTime.text.toString()
 
             if(checkedChipsIds.count() > 0) {
 
@@ -74,8 +72,17 @@ class SecondaryFragment : Fragment() {
                     val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                     model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
-                    alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    alarmMgr?.scheduleWatering(requireContext(), chipsIntArray,timeString, scheduledDate, address)
+                    Log.i("Checkup","SecondaryFragment/WateringSchedulerId (wateringSchedulerId) : \n$wateringSchedulerId")
+                    val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
+                        intent.putExtra("CHIPS",chipsIntArray)
+                        intent.putExtra("TIMESTRING",timeString)
+                        intent.putExtra("IPADDRESS", address)
+                        intent.putExtra("SCHEDULERID",wateringSchedulerId)
+                        PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    }
+
+                    setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
                 }
                 showSuccessDialog()
             }
@@ -92,5 +99,23 @@ class SecondaryFragment : Fragment() {
                 this.findNavController().popBackStack()
             }
             .show()
+    }
+
+    private fun setAlarmManager(alarmManager : AlarmManager, dateTime : Long, notifyIntent: PendingIntent)
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                dateTime,
+                notifyIntent
+            )
+        }
+        else{
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                dateTime,
+                notifyIntent
+            )
+        }
     }
 }
