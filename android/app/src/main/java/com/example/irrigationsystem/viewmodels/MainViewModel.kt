@@ -26,7 +26,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val allPlans : LiveData<List<Plan>>
     val setupInfo : LiveData<SetupInfo>
 
-
     private val scope = CoroutineScope(context = Dispatchers.IO)
 
 
@@ -41,6 +40,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _apiResponse : MutableLiveData<WeatherObject> = MutableLiveData()
             val apiResponse : LiveData<WeatherObject>
               get() = _apiResponse
+
+    var responseFlag = true
 
 
     init {
@@ -110,8 +111,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      fun getApiResponse(city : String) {
         scope.launch {
             try {
-                val response = WeatherApi.retrofitService.getWeatherForCity(city)
-                _apiResponse.postValue(response)
+                if(responseFlag) {
+                    val response = WeatherApi.retrofitService.getWeatherForCity(city)
+                    responseFlag = false
+                    _apiResponse.postValue(response)
+                }
             } catch (t: Throwable) {
                 Log.i("testtest1", "${t.message}")
             }

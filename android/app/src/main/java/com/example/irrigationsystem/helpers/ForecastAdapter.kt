@@ -48,4 +48,5 @@ class ForecastDiffCallback : DiffUtil.ItemCallback<Forecast>(){
     ): Boolean {
         return oldItem==newItem
     }
+
 }

@@ -45,12 +45,12 @@ class WateringReceiver : BroadcastReceiver() {
 
        val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        alarmIntent = Intent(context, WateringReceiver::class.java).let {
+        alarmIntent = Intent(context.applicationContext, WateringReceiver::class.java).let {
             it.putExtra("CHIPS",chipIdsArray)
             it.putExtra("TIMESTRING",timeString)
             it.putExtra("IPADDRESS", ipAddress)
             it.putExtra("SCHEDULERID",schedulerId)
-            PendingIntent.getBroadcast(context,1,it,FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context,173839173,it,FLAG_UPDATE_CURRENT)
         }
 
         setAlarmManager(alarmMgr,pairs.first.time,alarmIntent)

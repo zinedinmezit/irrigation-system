@@ -9,21 +9,21 @@ object DateHelper {
     //Maps for 3 groups of chips so we can transform their ids with DAY_OF_WEEK
 
     private val chipIdMap = mapOf(
-        2131361908 to 2, 2131361909 to 3, 2131361910 to 4,
-        2131361911 to 5, 2131361912 to 6, 2131361913 to 7,
-        2131361914 to 1
+        2131361906 to 2, 2131361907 to 3, 2131361908 to 4,
+        2131361909 to 5, 2131361910 to 6, 2131361911 to 7,
+        2131361912 to 1
     )
 
     private val chipIdMapE = mapOf(
-        2131361915 to 2, 2131361916 to 3, 2131361917 to 4,
-        2131361918 to 5, 2131361919 to 6, 2131361920 to 7,
-        2131361921 to 1
+        2131361913 to 2, 2131361914 to 3, 2131361915 to 4,
+        2131361916 to 5, 2131361917 to 6, 2131361918 to 7,
+        2131361919 to 1
     )
 
     private val chipIdMapS = mapOf(
-        2131362154 to 2, 2131362155 to 3, 2131362156 to 4,
-        2131362157 to 5, 2131362158 to 6, 2131362159 to 7,
-        2131362160 to 1
+        2131362158 to 2, 2131362159 to 3, 2131362160 to 4,
+        2131362161 to 5, 2131362162 to 6, 2131362163 to 7,
+        2131362164 to 1
     )
 
     @SuppressLint("SimpleDateFormat")

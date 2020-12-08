@@ -90,7 +90,7 @@ class EditFragment : Fragment() {
                         intent.putExtra("SCHEDULERID", model.activePlan.value?.WateringSchedulerId)
                         PendingIntent.getBroadcast(
                             context,
-                            1,
+                            173839173,
                             intent,
                             PendingIntent.FLAG_UPDATE_CURRENT
                         )

@@ -21,7 +21,7 @@ class MainFragment : Fragment(){
 
     val args : MainFragmentArgs by navArgs()
     lateinit var webSocketIpAddress : String
-    lateinit var city : String
+     var city : String? = null
 
 
     override fun onCreateView(
@@ -31,6 +31,7 @@ class MainFragment : Fragment(){
 
         //Assigned from arguments (Navigation : WelcomeFragment -> MainFragment(IpAddress:String, City:String))
         webSocketIpAddress = args.ipAddress
+        if(city == null)
         city = args.cIty
 
         /*   ***BINDING SETUP***   */
@@ -59,9 +60,10 @@ class MainFragment : Fragment(){
         //If true, update variables and send network request to refresh forecast
         model.setupInfo.observe(viewLifecycleOwner,{
             if(city != it.City) {
+                model.responseFlag = true
                 city = it.City
                 webSocketIpAddress = it.IpAddress
-                model.getApiResponse(city)
+                model.getApiResponse(city!!)
             }
         })
 
@@ -122,7 +124,7 @@ class MainFragment : Fragment(){
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        model.getApiResponse(city)
+        model.getApiResponse(city!!)
     }
 
     override fun onStop() {

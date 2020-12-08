@@ -93,7 +93,7 @@ class SetupFragment : Fragment() {
                                 intent.putExtra("SCHEDULERID", wateringSchedulerId)
                                 PendingIntent.getBroadcast(
                                     context,
-                                    1,
+                                    173839173,
                                     intent,
                                     PendingIntent.FLAG_UPDATE_CURRENT
                                 )

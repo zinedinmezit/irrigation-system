@@ -82,7 +82,7 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
                         intent.putExtra("TIMESTRING",planSchedulerView?.TimeString!!)
                         intent.putExtra("IPADDRESS", webSocketIpAddress!!)
                         intent.putExtra("SCHEDULERID", planSchedulerView?.WateringSchedulerId)
-                        PendingIntent.getBroadcast(context,1,intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        PendingIntent.getBroadcast(context,173839173,intent, PendingIntent.FLAG_UPDATE_CURRENT)
                     }
 
                     model.setWateringTImeNow(pair.first.time, planSchedulerView?.WateringSchedulerId!!)
