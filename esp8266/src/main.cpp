@@ -3,19 +3,24 @@
 #include <WebSocketsServer.h>
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
+#include <DHT.h>
+
+#define DHTTYPE DHT11
 
 const char *ssid = "Tenda_29DC88";
 const char *password = "alifakovac1";
 
 const char *option = "ON";
 
-int relayPin = 14;
+int relayPin = 12;
+int roomTemperaturePin = 14;
 
 unsigned long previousMillis = 0;
 const long interval = 2000;
 int hummidityPin = A0;
 int value = 0;
 
+DHT dht(roomTemperaturePin, DHTTYPE);
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 
 WebSocketsServer webSocket(81);
@@ -64,12 +69,12 @@ void setup()
 
   delay(10);
   Serial.println("\n");
-
-  lcd.begin(16,2);
+  dht.begin();
+  lcd.begin(16, 2);
   lcd.clear();
-  lcd.setCursor(0,0);
+  lcd.setCursor(0, 0);
   lcd.print("IP Address");
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
 
   pinMode(relayPin, OUTPUT);
 
@@ -90,6 +95,27 @@ void loop()
     previousMillis = currentMillis;
     value = analogRead(hummidityPin);
     String result = (String)(100 - ((value / 1024.00) * 100));
+
+    float h = dht.readHumidity();
+    // Read temperature as Celsius (the default)
+    float t = dht.readTemperature();
+
+    if (isnan(h) || isnan(t))
+    {
+      Serial.println(F("Failed to read from DHT sensor!"));
+    }
+    else
+    {
+      // Compute heat index in Celsius (isFahreheit = false)
+      float hic = dht.computeHeatIndex(t, h, false);
+      Serial.print(F("Humidity: "));
+      Serial.print(h);
+      Serial.print(F("%  Temperature: "));
+      Serial.print(hic);
+      Serial.print(F("°C "));
+    }
+
+    Serial.println("-------------------------------------------------");
     Serial.println(result);
     webSocket.sendTXT(0, result);
   }
