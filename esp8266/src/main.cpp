@@ -1,12 +1,22 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <WebSocketsServer.h>
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
 
 const char *ssid = "Tenda_29DC88";
 const char *password = "alifakovac1";
 
 const char *option = "ON";
-int relayPin = 5;
+
+int relayPin = 14;
+
+unsigned long previousMillis = 0;
+const long interval = 2000;
+int hummidityPin = A0;
+int value = 0;
+
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 
 WebSocketsServer webSocket(81);
 
@@ -48,24 +58,18 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
   }
 }
 
-unsigned long previousMillis = 0;
-const long interval = 2000;
-
-int hummidityPin = A0;
-int value = 0;
-
-int trigPin = 4;
-int echoPin = 14;
-
-long duration;
-int distance;
-
 void setup()
 {
   Serial.begin(9600);
 
   delay(10);
   Serial.println("\n");
+
+  lcd.begin(16,2);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("IP Address");
+  lcd.setCursor(0,1);
 
   pinMode(relayPin, OUTPUT);
 
@@ -106,5 +110,5 @@ void ConnectToWiFi(const char *ssid, const char *password)
   String localIP = WiFi.localIP().toString();
   Serial.println("\n");
   Serial.println("Connected");
-  Serial.println(localIP);
+  lcd.print(localIP);
 }
