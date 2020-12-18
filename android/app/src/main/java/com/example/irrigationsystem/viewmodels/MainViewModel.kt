@@ -37,6 +37,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             val hummidityPercentageValue: LiveData<String>
               get() = _hummidityPercentageValue
 
+    private val _dht11HummidityPercentageValue = MutableLiveData<String>()
+    val dht11HummidityPercentageValue: LiveData<String>
+        get() = _dht11HummidityPercentageValue
+
+    private val _dht11TemperatureValue = MutableLiveData<String>()
+    val dht11TemperatureValue: LiveData<String>
+        get() = _dht11TemperatureValue
+
     private val _apiResponse : MutableLiveData<WeatherObject> = MutableLiveData()
             val apiResponse : LiveData<WeatherObject>
               get() = _apiResponse
@@ -86,7 +94,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
-            _hummidityPercentageValue.postValue(text)
+            val splitString = text.split("|")
+            _hummidityPercentageValue.postValue("${splitString[0]}%")
+            _dht11HummidityPercentageValue.postValue("${splitString[1]}%")
+            _dht11TemperatureValue.postValue("${splitString[2]}°C")
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

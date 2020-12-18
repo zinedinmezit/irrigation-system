@@ -107,17 +107,14 @@ void loop()
     else
     {
       // Compute heat index in Celsius (isFahreheit = false)
-      float hic = dht.computeHeatIndex(t, h, false);
+      String append = result + "|" + (String)h + "|" + String(t);
       Serial.print(F("Humidity: "));
       Serial.print(h);
       Serial.print(F("%  Temperature: "));
-      Serial.print(hic);
+      Serial.print(t);
       Serial.print(F("°C "));
+      webSocket.sendTXT(0, append);
     }
-
-    Serial.println("-------------------------------------------------");
-    Serial.println(result);
-    webSocket.sendTXT(0, result);
   }
 }
 
