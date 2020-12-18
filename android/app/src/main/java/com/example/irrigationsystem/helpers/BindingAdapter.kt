@@ -109,10 +109,10 @@ fun TextView.forecastDateTime(obj : Forecast?){
     }
 }
 
-@BindingAdapter("ForecastMinMaxTemperature")
+@BindingAdapter("ForecastTemperature")
 fun TextView.minMaxTemperature(obj:Forecast?){
     obj?.let {
-        text = "${obj.weatherMainValues.minTemperature.toInt()}/${obj.weatherMainValues.maxTemperature.toInt()}"
+        text = "${obj.weatherMainValues.currentTemp.toInt()}°C"
     }
 }
 

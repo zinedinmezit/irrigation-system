@@ -15,6 +15,76 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_temperature"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/colorSecondary"
+            app:strokeWidth="2dp">
+
+         <androidx.constraintlayout.widget.ConstraintLayout
+             android:layout_width="match_parent"
+             android:padding="8dp"
+             android:background="@color/cardColor"
+             android:layout_height="wrap_content">
+
+             <TextView
+                 android:id="@+id/main_dht11_hummidity_label"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/subtitle1"
+                 app:layout_constraintEnd_toStartOf="@+id/view3"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toTopOf="parent"
+                 android:text="@string/hummidty" />
+
+             <TextView
+                 android:id="@+id/main_dht11_hummidity_value"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/heading1"
+                 app:layout_constraintEnd_toEndOf="@+id/main_dht11_hummidity_label"
+                 app:layout_constraintStart_toStartOf="@id/main_dht11_hummidity_label"
+                 app:layout_constraintTop_toBottomOf="@id/main_dht11_hummidity_label"
+                 tools:text="80%" />
+
+             <TextView
+                 android:id="@+id/main_dht11_temperature_label"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/subtitle1"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toEndOf="@+id/view3"
+                 app:layout_constraintTop_toTopOf="parent"
+                 android:text="@string/temperature" />
+
+             <TextView
+                 android:id="@+id/main_dht11_temperature_value"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/heading1"
+                 app:layout_constraintEnd_toEndOf="@+id/main_dht11_temperature_label"
+                 app:layout_constraintStart_toStartOf="@+id/main_dht11_temperature_label"
+                 app:layout_constraintTop_toBottomOf="@+id/main_dht11_temperature_label"
+                 tools:text="24°C" />
+
+             <View
+                 android:id="@+id/view3"
+                 android:layout_width="2dp"
+                 android:layout_height="0dp"
+                 android:background="@color/colorSecondary"                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toTopOf="parent" />
+
+
+         </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView
             android:id="@+id/city_name"
             android:layout_width="wrap_content"
@@ -55,7 +125,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/cardColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

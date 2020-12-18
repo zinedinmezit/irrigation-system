@@ -43,4 +43,6 @@
     <string name="irrigation_system">Irrigation system</string>
     <string name="edit_basic_setup">Edit basic setup</string>
     <string name="cancel">Cancel</string>
+    <string name="hummidty">Hummidty</string>
+    <string name="temperature">Temperature</string>
 </resources>
