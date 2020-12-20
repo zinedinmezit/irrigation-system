@@ -45,4 +45,8 @@
     <string name="cancel">Cancel</string>
     <string name="hummidty">Hummidty</string>
     <string name="temperature">Temperature</string>
+    <string name="hummidity_maximum">Hummidity maximum</string>
+    <string name="hummidity_minimum">Hummidity minimum</string>
+    <string name="temperature_maximum">Temperature maximum</string>
+    <string name="temperature_minimum">Temperature minimum</string>
 </resources>

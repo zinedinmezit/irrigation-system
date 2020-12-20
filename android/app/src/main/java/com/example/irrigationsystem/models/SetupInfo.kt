@@ -7,5 +7,9 @@ import androidx.room.PrimaryKey
 data class SetupInfo(
     @PrimaryKey(autoGenerate = true) val ServerId : Int = 0,
     var IpAddress : String,
-    var City : String
+    var City : String,
+    var TemperatureMinLimit : Double,
+    var TemperatureMaxLimit : Double,
+    var HummidityMinLimit : Double,
+    var HummidityMaxLimit : Double
     )

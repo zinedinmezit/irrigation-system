@@ -17,7 +17,7 @@
             android:id="@+id/setup_title"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="32dp"
             android:text="@string/setup_heading"
             android:textSize="@dimen/heading1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:hint="@string/plan_name_hint"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
             android:id="@+id/setup_chip_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="@string/chipgroup_label"
             android:textSize="@dimen/subtitle1"
             app:layout_constraintStart_toStartOf="@+id/setup_chip_group"
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:clickable="false"
             android:ems="10"
             android:focusable="false"
@@ -143,7 +143,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:hint="@string/websocket_ip_address"
             app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +162,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:hint="@string/city"
             app:layout_constraintEnd_toEndOf="parent"
@@ -175,11 +175,95 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/setup_temp_min_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/temperature_minimum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setup_city" />
+
+        <EditText
+            android:id="@+id/setup_temp_min_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="@+id/setup_temp_min_label"
+            app:layout_constraintStart_toStartOf="@+id/setup_temp_min_label"
+            app:layout_constraintTop_toBottomOf="@+id/setup_temp_min_label" />
+
+        <TextView
+            android:id="@+id/setup_temp_max_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/temperature_maximum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setup_city" />
+
+        <EditText
+            android:id="@+id/setup_temp_max_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="@+id/setup_temp_max_label"
+            app:layout_constraintStart_toStartOf="@+id/setup_temp_max_label"
+            app:layout_constraintTop_toBottomOf="@+id/setup_temp_max_label" />
+
+        <TextView
+            android:id="@+id/setup_humm_min_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/hummidity_minimum"
+            app:layout_constraintEnd_toEndOf="@+id/setup_temp_min_edit_text"
+            app:layout_constraintStart_toStartOf="@+id/setup_temp_min_edit_text"
+            app:layout_constraintTop_toBottomOf="@+id/setup_temp_min_edit_text" />
+
+        <EditText
+            android:id="@+id/setup_humm_min_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="@+id/setup_temp_min_edit_text"
+            app:layout_constraintStart_toStartOf="@+id/setup_temp_min_edit_text"
+            app:layout_constraintTop_toBottomOf="@+id/setup_humm_min_label" />
+
+        <TextView
+            android:id="@+id/setup_humm_max_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/hummidity_maximum"
+            app:layout_constraintEnd_toEndOf="@+id/setup_temp_max_edit_text"
+            app:layout_constraintStart_toStartOf="@+id/setup_temp_max_edit_text"
+            app:layout_constraintTop_toBottomOf="@+id/setup_temp_max_edit_text" />
+
+        <EditText
+            android:id="@+id/setup_humm_max_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="@+id/setup_temp_max_edit_text"
+            app:layout_constraintStart_toStartOf="@+id/setup_temp_max_edit_text"
+            app:layout_constraintTop_toBottomOf="@+id/setup_humm_max_label" />
+
         <Button
             android:id="@+id/setup_create_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/create_button_label"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

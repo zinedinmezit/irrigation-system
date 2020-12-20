@@ -9,11 +9,13 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.ScheduledDaysView
+import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.models.weatherapi.Forecast
 import com.example.irrigationsystem.models.weatherapi.WeatherObject
 import java.text.SimpleDateFormat
@@ -127,6 +129,64 @@ fun bindImage(imgView : ImageView, forecast : Forecast?){
             .load(imageUri)
             .apply(RequestOptions().placeholder(R.drawable.ic_baseline_image_24).error(R.drawable.ic_baseline_broken_image_24))
             .into(imgView)
+    }
+}
+
+@BindingAdapter("tempValue","setupInfo")
+fun TextView.temperatureValueWithIndicator(tempValue : LiveData<String>, setupInfo : LiveData<SetupInfo>){
+    val setupInfoValue = setupInfo.value
+    tempValue.value?.let {
+
+        if(setupInfoValue != null) {
+            val doubleValue: Double = it.toDouble()
+            when {
+                doubleValue > setupInfoValue.TemperatureMaxLimit -> {
+                    text = "$it°C"
+                    setTextColor(resources.getColor(R.color.Danger, null))
+                }
+                doubleValue < setupInfoValue.TemperatureMinLimit -> {
+                    text = "$it°C"
+                    setTextColor(resources.getColor(R.color.Cold, null))
+                }
+                else -> {
+                    text = it
+                    setTextColor(resources.getColor(R.color.black, null))
+                }
+            }
+        }
+        else{
+            text = "$it°C"
+            setTextColor(resources.getColor(R.color.black, null))
+        }
+    }
+}
+
+@BindingAdapter("hummValue","setupInfo2")
+fun TextView.hummidityValueWithIndicator(hummValue : LiveData<String>, setupInfo2 : LiveData<SetupInfo>){
+    val setupInfoValue = setupInfo2.value
+    hummValue.value?.let {
+
+        if(setupInfoValue != null) {
+            val doubleValue: Double = it.toDouble()
+            when {
+                doubleValue > setupInfoValue.HummidityMaxLimit -> {
+                    text = "$it%"
+                    setTextColor(resources.getColor(R.color.Danger, null))
+                }
+                doubleValue < setupInfoValue.HummidityMinLimit -> {
+                    text = "$it%"
+                    setTextColor(resources.getColor(R.color.Cold, null))
+                }
+                else -> {
+                    text = "$it%"
+                    setTextColor(resources.getColor(R.color.black, null))
+                }
+            }
+        }
+        else{
+            text = it
+            setTextColor(resources.getColor(R.color.black, null))
+        }
     }
 }
 

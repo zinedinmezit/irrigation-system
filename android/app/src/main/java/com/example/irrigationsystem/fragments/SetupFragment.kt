@@ -54,9 +54,14 @@ class SetupFragment : Fragment() {
             val wsIpAddress = binding.setupIpAddressText.text.toString()
             val city = binding.setupCityText.text.toString()
 
+            val tempMin = binding.setupTempMinEditText.text.toString().toDouble()
+            val tempMax = binding.setupTempMaxEditText.text.toString().toDouble()
+            val hummMin = binding.setupHummMinEditText.text.toString().toDouble()
+            val hummMax = binding.setupHummMaxEditText.text.toString().toDouble()
+
             if(checkedChipsIds.count() > 0) {
 
-                if (validateForm(planName, timeString, wsIpAddress, city)) {
+                if (validateForm(planName, timeString, wsIpAddress, city,tempMin,tempMax,hummMin,hummMax)) {
                     val chipsIntArray = checkedChipsIds.toIntArray()
 
                     val plan = Plan(
@@ -64,7 +69,13 @@ class SetupFragment : Fragment() {
                         IsActive = true
                     )
 
-                    val server = SetupInfo(IpAddress = wsIpAddress, City = city)
+                    val server = SetupInfo(
+                        IpAddress = wsIpAddress,
+                        City = city,
+                        TemperatureMinLimit = tempMin,
+                        TemperatureMaxLimit = tempMax,
+                        HummidityMinLimit = hummMin,
+                        HummidityMaxLimit = hummMax)
 
                     lifecycleScope.launchWhenStarted {
                         model.insertWeekDays()
@@ -138,7 +149,14 @@ class SetupFragment : Fragment() {
         }
     }
 
-    private fun validateForm(planName : String?, timeString : String?, ipAddress : String?, city : String?) : Boolean{
+    private fun validateForm(planName : String?,
+                             timeString : String?,
+                             ipAddress : String?,
+                             city : String?,
+                             tempMin : Double,
+                             tempMax : Double,
+                             hummMin : Double,
+                             hummMax : Double) : Boolean{
         var flag = true
         if(planName.isNullOrBlank()){
             binding.setupTextField.error = "Plan name can't be empty"
@@ -170,6 +188,38 @@ class SetupFragment : Fragment() {
         }
         else{
             binding.setupCity.error = null
+        }
+
+        if(tempMin.isNaN()){
+            binding.setupTempMinEditText.error = "Can't be empty"
+            flag = false
+        }
+        else{
+            binding.setupTempMinEditText.error = null
+        }
+
+        if(tempMax.isNaN()){
+            binding.setupTempMaxEditText.error = "Can't be empty"
+            flag = false
+        }
+        else{
+            binding.setupTempMaxEditText.error = null
+        }
+
+        if(hummMin.isNaN()){
+            binding.setupHummMinEditText.error = "Can't be empty"
+            flag = false
+        }
+        else{
+            binding.setupHummMinEditText.error = null
+        }
+
+        if(hummMax.isNaN()){
+            binding.setupHummMaxEditText.error = "Can't be empty"
+            flag = false
+        }
+        else{
+            binding.setupHummMaxEditText.error = null
         }
 
         return flag

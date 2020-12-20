@@ -19,9 +19,14 @@ class BasicSetupViewModel(app : Application) : AndroidViewModel(app) {
         repository = SetupRepository(dao)
     }
 
-    fun updateSetupInfo(address : String, city : String){
+    fun updateSetupInfo(address : String,
+                        city : String,
+                        tempMinValue : Double,
+                        tempMaxValue : Double,
+                        hummMinValue : Double,
+                        hummMaxValue : Double){
         scope.launch {
-            repository.updateSetupInfo(address, city)
+            repository.updateSetupInfo(address, city, tempMinValue, tempMaxValue, hummMinValue, hummMaxValue)
         }
     }
 

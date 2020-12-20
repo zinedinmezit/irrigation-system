@@ -95,9 +95,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         override fun onMessage(webSocket: WebSocket, text: String) {
             val splitString = text.split("|")
-            _hummidityPercentageValue.postValue("${splitString[0]}%")
-            _dht11HummidityPercentageValue.postValue("${splitString[1]}%")
-            _dht11TemperatureValue.postValue("${splitString[2]}°C")
+            _hummidityPercentageValue.postValue(splitString[0])
+            _dht11HummidityPercentageValue.postValue(splitString[1])
+            _dht11TemperatureValue.postValue(splitString[2])
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

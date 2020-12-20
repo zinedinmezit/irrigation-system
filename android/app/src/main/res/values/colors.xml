@@ -10,7 +10,8 @@
     <color name="black">#000</color>
     <color name="gray">#9E9E9E</color>
     <color name="Success">#00E315</color>
-    <color name="Danger">#F45F55</color>
+    <color name="Danger">#FF4539</color>
+    <color name="Cold">#294AFD</color>
     <color name="cardColor">#CDCDCD</color>
     <color name="backgroundColor">#4E5254</color>
 </resources>
