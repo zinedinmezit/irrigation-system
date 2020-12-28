@@ -13,6 +13,7 @@ import com.example.irrigationsystem.databinding.FragmentMainBinding
 import com.example.irrigationsystem.helpers.DaysAdapter
 import com.example.irrigationsystem.helpers.ForecastAdapter
 import com.example.irrigationsystem.viewmodels.MainViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MainFragment : Fragment(){
 
@@ -105,8 +106,7 @@ class MainFragment : Fragment(){
         }
 
         binding.buttonWater.setOnClickListener {
-            model.signalCode=1
-            model.openWebSocketConnection(webSocketIpAddress)
+            showSuccessDialog()
         }
 
         binding.planName.setOnClickListener {
@@ -130,6 +130,20 @@ class MainFragment : Fragment(){
     override fun onStop() {
         super.onStop()
         model.closeWebSocketConnection()
+    }
+
+    private fun showSuccessDialog(){
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.dialog_title))
+            .setMessage(resources.getString(R.string.dialog_text))
+            .setPositiveButton(resources.getString(R.string.dialog_button_neutral_text)){ _, _ ->
+                model.signalCode=1
+                model.openWebSocketConnection(webSocketIpAddress)
+            }
+            .setNegativeButton(resources.getString(R.string.dialog_button_neutral_text)){ dialog, par ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
 }
