@@ -96,6 +96,11 @@ class MainFragment : Fragment(){
             dialogFragment.show(childFragmentManager, "BasicSetupDialogFragment")
         }
 
+        binding.cardTemperature.setOnClickListener{
+            val dialogFragment = ParamsSetupDialogFragment()
+            dialogFragment.show(childFragmentManager, "ParamsSetupDialogFragment")
+        }
+
         binding.mainButtonSelectPlan.setOnClickListener {
             bottomSheetFragment.show(requireActivity().supportFragmentManager, "BottomSheetFragment")
         }

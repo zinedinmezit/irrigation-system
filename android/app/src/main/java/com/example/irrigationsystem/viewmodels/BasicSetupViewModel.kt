@@ -20,13 +20,19 @@ class BasicSetupViewModel(app : Application) : AndroidViewModel(app) {
     }
 
     fun updateSetupInfo(address : String,
-                        city : String,
+                        city : String, ){
+        scope.launch {
+            repository.updateSetupInfo(address, city)
+        }
+    }
+
+    fun updateParameterValues(
                         tempMinValue : Double,
                         tempMaxValue : Double,
                         hummMinValue : Double,
                         hummMaxValue : Double){
         scope.launch {
-            repository.updateSetupInfo(address, city, tempMinValue, tempMaxValue, hummMinValue, hummMaxValue)
+            repository.updateParameterValues(tempMinValue, tempMaxValue, hummMinValue, hummMaxValue)
         }
     }
 

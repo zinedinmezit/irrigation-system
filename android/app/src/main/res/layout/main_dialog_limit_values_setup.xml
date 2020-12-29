@@ -31,32 +31,32 @@
                 android:textColor="@color/colorOnSecondary"
                 android:fontFamily="@font/roboto_bold"
                 android:layout_height="wrap_content"
-                android:text="@string/edit_basic_setup" />
+                android:text="@string/configure_parameters" />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edit_setup_city"
+            android:id="@+id/hummidity_minimum_parameter"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="64dp"
-            android:hint="@string/city"
+            android:hint="@string/hummidity_minimum"
             app:boxBackgroundColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialog_heading">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_setup_city_text"
+                android:id="@+id/edit_setup_hummMin_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edit_setup_address"
+            android:id="@+id/hummidity_maximum_parameter"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -64,19 +64,63 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="64dp"
             android:layout_marginBottom="8dp"
-            android:hint="@string/websocket_ip_address"
+            android:hint="@string/hummidity_maximum"
             app:boxBackgroundColor="#fff"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_setup_city">
+            app:layout_constraintTop_toBottomOf="@id/hummidity_minimum_parameter">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_setup_address_text"
+                android:id="@+id/edit_setup_hummMax_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/temperature_minimum_parameter"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="64dp"
+            android:hint="@string/temperature_minimum"
+            app:boxBackgroundColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hummidity_maximum_parameter">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_setup_tempMin_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/temperature_maximum_parameter"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/temperature_maximum"
+            app:boxBackgroundColor="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/temperature_minimum_parameter">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_setup_tempMax_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

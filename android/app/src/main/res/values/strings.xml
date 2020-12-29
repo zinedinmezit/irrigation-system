@@ -30,8 +30,6 @@
     <string name="image_that_represents_app">Image that represents app</string>
     <string name="icon_that_navigates_to_next_fragment">Icon that navigates to next fragment</string>
     <string name="menu_plan_submenu">Plans</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="setup_heading">Setup</string>
     <string name="websocket_ip_address">Websocket IP Adress</string>
     <string name="fab_description">Create plan</string>
@@ -49,4 +47,5 @@
     <string name="hummidity_minimum">Hummidity minimum</string>
     <string name="temperature_maximum">Temperature maximum</string>
     <string name="temperature_minimum">Temperature minimum</string>
+    <string name="configure_parameters">Configure parameters</string>
 </resources>

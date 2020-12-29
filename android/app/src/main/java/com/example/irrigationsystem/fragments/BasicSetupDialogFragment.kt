@@ -27,19 +27,13 @@ class BasicSetupDialogFragment : DialogFragment() {
                 .setPositiveButton(R.string.edit_plan,DialogInterface.OnClickListener { dialog, id ->
                     val addressEditText = layout.findViewById(R.id.edit_setup_address_text) as EditText
                     val cityEditText = layout.findViewById(R.id.edit_setup_city_text) as EditText
-                    val tempMinEditText = layout.findViewById(R.id.edit_setup_tempMin_text) as EditText
-                    val tempMaxEditText = layout.findViewById(R.id.edit_setup_tempMax_text) as EditText
-                    val hummMinEditText = layout.findViewById(R.id.edit_setup_hummMin_text) as EditText
-                    val hummMaxEditText = layout.findViewById(R.id.edit_setup_hummMax_text) as EditText
+
 
 
                     val addressString : String = addressEditText.text.toString()
                     val cityString : String = cityEditText.text.toString()
-                    val tempMinValue = tempMinEditText.text.toString().toDouble()
-                    val tempMaxValue = tempMaxEditText.text.toString().toDouble()
-                    val hummMinValue = hummMinEditText.text.toString().toDouble()
-                    val hummMaxValue = hummMaxEditText.text.toString().toDouble()
-                    model.updateSetupInfo(addressString,cityString,tempMinValue,tempMaxValue,hummMinValue,hummMaxValue)
+
+                    model.updateSetupInfo(addressString,cityString)
                     getDialog()?.dismiss()
                 })
                 .setNegativeButton(R.string.cancel,DialogInterface.OnClickListener { dialog, id -> getDialog()?.dismiss() })

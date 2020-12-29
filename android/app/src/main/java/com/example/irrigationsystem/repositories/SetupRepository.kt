@@ -21,12 +21,17 @@ class SetupRepository(private val dao : IrrigationDao) {
     }
 
     suspend fun updateSetupInfo(address:String,
-                                city:String,
+                                city:String){
+        dao.updateSetupInfo(address,city)
+    }
+
+
+    suspend fun updateParameterValues(
                                 tempMinValue : Double,
                                 tempMaxValue : Double,
                                 hummMinValue : Double,
                                 hummMaxValue : Double){
-        dao.updateSetupInfo(address,city,tempMinValue, tempMaxValue, hummMinValue, hummMaxValue)
+        dao.updateParameterValues(tempMinValue, tempMaxValue, hummMinValue, hummMaxValue)
     }
 
 }

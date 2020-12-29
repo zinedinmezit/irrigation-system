@@ -85,13 +85,17 @@ interface IrrigationDao  {
 
     @Query("UPDATE SetupInfo SET " +
             "IpAddress=:address," +
-            "City=:city," +
+            "City=:city" )
+    suspend fun updateSetupInfo(address : String,
+                                city : String,
+                               )
+
+    @Query("UPDATE SetupInfo SET " +
             "TemperatureMinLimit=:tempMinValue," +
             "TemperatureMaxLimit=:tempMaxValue," +
             "HummidityMinLimit=:hummMinValue," +
             "HummidityMaxLimit=:hummMaxValue")
-    suspend fun updateSetupInfo(address : String,
-                                city : String,
+    suspend fun updateParameterValues(
                                 tempMinValue : Double,
                                 tempMaxValue : Double,
                                 hummMinValue : Double,
