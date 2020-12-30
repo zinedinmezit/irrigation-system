@@ -48,4 +48,6 @@
     <string name="temperature_maximum">Temperature maximum</string>
     <string name="temperature_minimum">Temperature minimum</string>
     <string name="configure_parameters">Configure parameters</string>
+    <string name="soil_moisture">Soil moisture%</string>
+    <string name="watering_at">Watering at</string>
 </resources>

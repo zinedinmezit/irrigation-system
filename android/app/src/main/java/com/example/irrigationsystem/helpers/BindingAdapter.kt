@@ -135,58 +135,69 @@ fun bindImage(imgView : ImageView, forecast : Forecast?){
 @BindingAdapter("tempValue","setupInfo")
 fun TextView.temperatureValueWithIndicator(tempValue : LiveData<String>, setupInfo : LiveData<SetupInfo>){
     val setupInfoValue = setupInfo.value
-    tempValue.value?.let {
+    tempValue.value.let {
 
-        if(setupInfoValue != null) {
-            val doubleValue: Double = it.toDouble()
-            when {
-                doubleValue > setupInfoValue.TemperatureMaxLimit -> {
-                    text = "$it°C"
-                    setTextColor(resources.getColor(R.color.Danger, null))
+        if (!it.isNullOrEmpty()) {
+            if (setupInfoValue != null) {
+                val doubleValue: Double = it.toDouble()
+                when {
+                    doubleValue > setupInfoValue.TemperatureMaxLimit -> {
+                        text = "$it°C"
+                        setTextColor(resources.getColor(R.color.Danger, null))
+                    }
+                    doubleValue < setupInfoValue.TemperatureMinLimit -> {
+                        text = "$it°C"
+                        setTextColor(resources.getColor(R.color.Cold, null))
+                    }
+                    else -> {
+                        text = it
+                        setTextColor(resources.getColor(R.color.black, null))
+                    }
                 }
-                doubleValue < setupInfoValue.TemperatureMinLimit -> {
-                    text = "$it°C"
-                    setTextColor(resources.getColor(R.color.Cold, null))
-                }
-                else -> {
-                    text = it
-                    setTextColor(resources.getColor(R.color.black, null))
-                }
+            } else {
+                text = "$it°C"
+                setTextColor(resources.getColor(R.color.black, null))
             }
-        }
-        else{
-            text = "$it°C"
-            setTextColor(resources.getColor(R.color.black, null))
-        }
+        }else text = "NaN"
     }
 }
 
 @BindingAdapter("hummValue","setupInfo2")
 fun TextView.hummidityValueWithIndicator(hummValue : LiveData<String>, setupInfo2 : LiveData<SetupInfo>){
     val setupInfoValue = setupInfo2.value
-    hummValue.value?.let {
+    hummValue.value.let {
 
-        if(setupInfoValue != null) {
-            val doubleValue: Double = it.toDouble()
-            when {
-                doubleValue > setupInfoValue.HummidityMaxLimit -> {
-                    text = "$it%"
-                    setTextColor(resources.getColor(R.color.Danger, null))
+        if(!it.isNullOrEmpty()) {
+            if (setupInfoValue != null) {
+                val doubleValue: Double = it.toDouble()
+                when {
+                    doubleValue > setupInfoValue.HummidityMaxLimit -> {
+                        text = "$it%"
+                        setTextColor(resources.getColor(R.color.Danger, null))
+                    }
+                    doubleValue < setupInfoValue.HummidityMinLimit -> {
+                        text = "$it%"
+                        setTextColor(resources.getColor(R.color.Cold, null))
+                    }
+                    else -> {
+                        text = "$it%"
+                        setTextColor(resources.getColor(R.color.black, null))
+                    }
                 }
-                doubleValue < setupInfoValue.HummidityMinLimit -> {
-                    text = "$it%"
-                    setTextColor(resources.getColor(R.color.Cold, null))
-                }
-                else -> {
-                    text = "$it%"
-                    setTextColor(resources.getColor(R.color.black, null))
-                }
+            } else {
+                text = it
+                setTextColor(resources.getColor(R.color.black, null))
             }
-        }
-        else{
-            text = it
-            setTextColor(resources.getColor(R.color.black, null))
-        }
+        } else text = "NaN"
+    }
+}
+
+@BindingAdapter("soilMoistureValue")
+fun TextView.soilMoistureValue(moistureValue : LiveData<String>){
+
+    moistureValue.value.let {
+        text = if(it.isNullOrEmpty()) "NaN"
+        else it
     }
 }
 

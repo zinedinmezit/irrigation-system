@@ -191,33 +191,53 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/soil_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/soil_moisture"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                    <TextView
                         android:id="@+id/hummidity_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:fontFamily="@font/roboto"
-                        android:text="@{mainVM.hummidityPercentageValue}"
+                        app:soilMoistureValue="@{mainVM.hummidityPercentageValue}"
                         android:textColor="@color/black"
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/view"
+                        app:layout_constraintEnd_toEndOf="@+id/soil_label"
+                        app:layout_constraintStart_toStartOf="@+id/soil_label"
+                        app:layout_constraintTop_toBottomOf="@+id/soil_label"
                         tools:text="1024" />
+
+                    <TextView
+                        android:id="@+id/date_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:text="@string/watering_at"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view" />
 
                     <TextView
                         android:id="@+id/watering_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:fontFamily="@font/roboto"
                         android:textColor="@color/black"
                         android:textSize="24sp"
                         app:DateSetter="@{mainVM.activePlan.wateringTimeNow}"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/view"
+                        app:layout_constraintEnd_toEndOf="@+id/date_label"
+                        app:layout_constraintStart_toStartOf="@+id/date_label"
+                        app:layout_constraintTop_toBottomOf="@+id/date_label"
                         tools:text="12/20/2020" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
