@@ -6,15 +6,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
-import com.example.irrigationsystem.helpers.DateHelper
-import com.example.irrigationsystem.helpers.TypeConverters
+import com.example.irrigationsystem.helpers.DateDaysHelper
 import com.example.irrigationsystem.models.PlanWateringSchedulerView
 import com.example.irrigationsystem.models.ScheduledDaysView
 import com.example.irrigationsystem.models.WateringSchedulerDays
 import com.example.irrigationsystem.repositories.IrrigationRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EditViewModel(application : Application) : AndroidViewModel(application){
@@ -45,21 +43,21 @@ class EditViewModel(application : Application) : AndroidViewModel(application){
 
     fun insertWateringSchedulerDays(list : MutableList<Int>){
         val id = activePlan.value?.WateringSchedulerId!!
-        viewModelScope.launch {
             try {
-                Log.i("testtest","Inside try catch")
                 list.forEach {
                     val wsd = WateringSchedulerDays(id, it)
-                    irrigationRepository.insertWateringSchDay(wsd)
+                    viewModelScope.launch {
+                        irrigationRepository.insertWateringSchDay(wsd)
+                    }
                 }
             }catch (ex : Exception){
-                Log.i("testtest","aaaaa ${ex.message}")
+                Log.i("www", "${ex.message}")
             }
-        }
+
     }
 
     fun updateWateringScheduler(list : MutableList<Int>, timeString : String) : Long{
-        val pair : Pair<Date, MutableList<Int>> = DateHelper.getDateForCurrentSchedule(list, timeString)
+        val pair : Pair<Date, MutableList<Int>> = DateDaysHelper.getDateForCurrentSchedule(list, timeString)
         viewModelScope.launch {
             irrigationRepository.updateWateringScheduler(activePlan.value?.WateringSchedulerId!!,pair.first.time,timeString)
         }

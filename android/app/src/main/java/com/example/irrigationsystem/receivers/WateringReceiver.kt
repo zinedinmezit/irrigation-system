@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
-import com.example.irrigationsystem.helpers.DateHelper
+import com.example.irrigationsystem.helpers.DateDaysHelper
 import com.example.irrigationsystem.repositories.IrrigationRepository
 import com.example.irrigationsystem.services.WateringService
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +37,7 @@ class WateringReceiver : BroadcastReceiver() {
 
         Log.i("Checkup","WateringReceiver/BundleValues (chipIdsArray, chipIds, timeString, ipAddress, schedulerId) : \n$chipIdsArray\n$chipIds\n$timeString\n$ipAddress\n$schedulerId")
 
-        val pairs = DateHelper.getDateForCurrentSchedule(chipIds!!,timeString!!)
+        val pairs = DateDaysHelper.getDateForCurrentSchedule(chipIds!!,timeString!!)
 
             scope.launch {
                 repository.setWateringTimeNow(pairs.first.time,schedulerId!!)

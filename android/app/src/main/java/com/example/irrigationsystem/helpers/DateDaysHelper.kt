@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.*
 
-object DateHelper {
+object DateDaysHelper {
 
     //Maps for 3 groups of chips so we can transform their ids with DAY_OF_WEEK
 
@@ -21,9 +21,9 @@ object DateHelper {
     )
 
     private val chipIdMapS = mapOf(
-        2131362171 to 2, 2131362172 to 3, 2131362173 to 4,
-        2131362174 to 5, 2131362175 to 6, 2131362176 to 7,
-        2131362177 to 1
+        2131362170 to 2, 2131362171 to 3, 2131362172 to 4,
+        2131362173 to 5, 2131362174 to 6, 2131362175 to 7,
+        2131362176 to 1
     )
 
     @SuppressLint("SimpleDateFormat")

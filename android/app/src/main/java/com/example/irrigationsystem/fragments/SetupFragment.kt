@@ -17,7 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSetupBinding
-import com.example.irrigationsystem.helpers.DateHelper
+import com.example.irrigationsystem.helpers.DateDaysHelper
+import com.example.irrigationsystem.helpers.FormValidation
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.receivers.WateringReceiver
@@ -47,21 +48,21 @@ class SetupFragment : Fragment() {
         binding.setupCreateButton.setOnClickListener{
 
             val chips = binding.setupChipGroup.checkedChipIds
-            val checkedChipsIds = DateHelper.transformListIds(chips,3)
-
+            val checkedChipsIds = DateDaysHelper.transformListIds(chips,3)
+            Log.i("ListChips","Setup - $chips")
             val planName : String = binding.setupTextFieldText.text.toString()
             val timeString = binding.setupTimeString.text.toString()
             val wsIpAddress = binding.setupIpAddressText.text.toString()
             val city = binding.setupCityText.text.toString()
 
-            val tempMin = binding.setupTempMinEditText.text.toString().toDouble()
-            val tempMax = binding.setupTempMaxEditText.text.toString().toDouble()
-            val hummMin = binding.setupHummMinEditText.text.toString().toDouble()
-            val hummMax = binding.setupHummMaxEditText.text.toString().toDouble()
+            val tempMin  = binding.setupTempMinEditText.text.toString()
+            val tempMax  = binding.setupTempMaxEditText.text.toString()
+            val hummMin  = binding.setupHummMinEditText.text.toString()
+            val hummMax  = binding.setupHummMaxEditText.text.toString()
 
             if(checkedChipsIds.count() > 0) {
 
-                if (validateForm(planName, timeString, wsIpAddress, city,tempMin,tempMax,hummMin,hummMax)) {
+                if (FormValidation.setupFormValidator(planName, timeString, wsIpAddress, city,tempMin,tempMax,hummMin,hummMax,binding)) {
                     val chipsIntArray = checkedChipsIds.toIntArray()
 
                     val plan = Plan(
@@ -72,10 +73,10 @@ class SetupFragment : Fragment() {
                     val server = SetupInfo(
                         IpAddress = wsIpAddress,
                         City = city,
-                        TemperatureMinLimit = tempMin,
-                        TemperatureMaxLimit = tempMax,
-                        HummidityMinLimit = hummMin,
-                        HummidityMaxLimit = hummMax)
+                        TemperatureMinLimit = tempMin.toDouble(),
+                        TemperatureMaxLimit = tempMax.toDouble(),
+                        HummidityMinLimit = hummMin.toDouble(),
+                        HummidityMaxLimit = hummMax.toDouble())
 
                     lifecycleScope.launchWhenStarted {
                         model.insertWeekDays()
@@ -149,7 +150,7 @@ class SetupFragment : Fragment() {
         }
     }
 
-    private fun validateForm(planName : String?,
+   /* private fun validateForm(planName : String?,
                              timeString : String?,
                              ipAddress : String?,
                              city : String?,
@@ -223,5 +224,5 @@ class SetupFragment : Fragment() {
         }
 
         return flag
-    }
+    }*/
 }

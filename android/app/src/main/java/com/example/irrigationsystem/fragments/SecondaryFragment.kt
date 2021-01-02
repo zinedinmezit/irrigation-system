@@ -18,7 +18,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSecondaryBinding
-import com.example.irrigationsystem.helpers.DateHelper
+import com.example.irrigationsystem.helpers.DateDaysHelper
+import com.example.irrigationsystem.helpers.FormValidation
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.SecondaryViewModel
@@ -47,14 +48,14 @@ class SecondaryFragment : Fragment() {
         binding.secondaryButtonCreate.setOnClickListener{
 
             val chips = binding.chipGroup.checkedChipIds
-            val checkedChipsIds = DateHelper.transformListIds(chips)
-
+            val checkedChipsIds = DateDaysHelper.transformListIds(chips)
+            Log.i("ListChips","SecondaryFragment - $chips")
             val planName : String = binding.secondaryTextFieldText.text.toString()
             val timeString = binding.secondaryEditTextTime.text.toString()
 
             if(checkedChipsIds.count() > 0) {
 
-                if (validateForm(planName, timeString)) {
+                if (FormValidation.secondaryFormValidation(planName, timeString,binding)) {
                     val chipsIntArray = checkedChipsIds.toIntArray()
 
                     val plan = Plan(
@@ -65,19 +66,13 @@ class SecondaryFragment : Fragment() {
                     lifecycleScope.launchWhenStarted {
 
                         model.insertNote(plan)
-
                         val planId = model.getLatestPlanId().toInt()
                         model.changePlanActiveStatusExceptOne(planId)
-                        val scheduledDate =
-                            model.insertWateringScheduler(checkedChipsIds, timeString, planId)
-                        Log.i("testtest", "Scheduled date - $scheduledDate")
+
+                        val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, planId)
                         val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                         model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
-                        Log.i(
-                            "Checkup",
-                            "SecondaryFragment/WateringSchedulerId (wateringSchedulerId) : \n$wateringSchedulerId"
-                        )
                         val alarmMgr =
                             context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                         val alarmIntent =
@@ -93,14 +88,12 @@ class SecondaryFragment : Fragment() {
                                     PendingIntent.FLAG_UPDATE_CURRENT
                                 )
                             }
-
                         setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
                     }
                     showSuccessDialog()
                 }
             }
         }
-
         return binding.root
     }
 
@@ -132,7 +125,7 @@ class SecondaryFragment : Fragment() {
         }
     }
 
-    private fun validateForm(planName : String?, timeString : String?) : Boolean{
+ /*   private fun validateForm(planName : String?, timeString : String?) : Boolean{
         var flag = true
 
 
@@ -153,5 +146,5 @@ class SecondaryFragment : Fragment() {
         }
 
         return flag
-    }
+    }*/
 }

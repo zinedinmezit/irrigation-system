@@ -11,20 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.example.irrigationsystem.databinding.BottomsheetPlansBinding
-import com.example.irrigationsystem.helpers.DateHelper
+import com.example.irrigationsystem.helpers.DateDaysHelper
 import com.example.irrigationsystem.helpers.DeleteListener
 import com.example.irrigationsystem.helpers.PlanAdapter
 import com.example.irrigationsystem.helpers.PlanListener
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.PlanWateringSchedulerView
-import com.example.irrigationsystem.models.WateringScheduler
 import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.BottomSheetViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.launch
 
 class BottomSheetFragment() : BottomSheetDialogFragment() {
 
@@ -72,7 +68,7 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
             if(it){
                 if(planSchedulerView != null && days != null){
 
-                    val pair = DateHelper.getDateForCurrentSchedule(days?.toMutableList()!!,planSchedulerView?.TimeString!!)
+                    val pair = DateDaysHelper.getDateForCurrentSchedule(days?.toMutableList()!!,planSchedulerView?.TimeString!!)
 
                     Log.i("Checkup","BottomSheetFragment/Ids(scheduler, days) : \n$planSchedulerView \n$days")
 

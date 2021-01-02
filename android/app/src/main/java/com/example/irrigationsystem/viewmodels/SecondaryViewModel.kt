@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
-import com.example.irrigationsystem.helpers.DateHelper
+import com.example.irrigationsystem.helpers.DateDaysHelper
 import com.example.irrigationsystem.helpers.TypeConverters
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.WateringScheduler
@@ -34,7 +34,7 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun insertWateringScheduler(list : MutableList<Int>,timeString : String,planId : Int = 0) : Long{
-        val pair : Pair<Date, MutableList<Int>> = DateHelper.getDateForCurrentSchedule(list, timeString)
+        val pair : Pair<Date, MutableList<Int>> = DateDaysHelper.getDateForCurrentSchedule(list, timeString)
         viewModelScope.launch {
             val ws = WateringScheduler(WateringTimeNow = TypeConverters.dateToTimestamp(pair.first),PlanId_FK = planId,TimeString = timeString)
             wateringSchedulerDeffered.complete(repository.insertWateringScheduler(ws))
@@ -44,17 +44,19 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun insertWateringSchedulerDays(id : Int, list : MutableList<Int>){
-        viewModelScope.launch {
             try {
                 Log.i("testtest","Inside try catch")
                 list.forEach {
+
                     val wsd = WateringSchedulerDays(id, it)
-                    repository.insertWateringSchDay(wsd)
+                    viewModelScope.launch {
+                        repository.insertWateringSchDay(wsd)
+                    }
                 }
             }catch (ex : Exception){
-                Log.i("testtest","aaaaa ${ex.message}")
+                Log.i("www","aaaaawww ${ex.message}")
             }
-        }
+
     }
 
     suspend fun getLatestPlanId() : Long {

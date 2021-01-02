@@ -18,8 +18,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentEditBinding
-import com.example.irrigationsystem.helpers.DateHelper
+import com.example.irrigationsystem.helpers.DateDaysHelper
 import com.example.irrigationsystem.helpers.DaysAdapter
+import com.example.irrigationsystem.helpers.FormValidation
 import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.EditViewModel
 
@@ -61,14 +62,14 @@ class EditFragment : Fragment() {
         binding.editButtonUpdate.setOnClickListener{
 
             val checkedChipIds = binding.editChipGroup.checkedChipIds
-            val transformedChipIds = DateHelper.transformListIds(checkedChipIds,2)
-
+            val transformedChipIds = DateDaysHelper.transformListIds(checkedChipIds,2)
+            Log.i("ListChips","EditFragment - $checkedChipIds")
             val planName = binding.editInputText.text.toString()
             val timeString = binding.editTimeText.text.toString()
 
             if(transformedChipIds.count() > 0) {
 
-                if (validateForm(planName, timeString)) {
+                if (FormValidation.editFormValidation(planName, timeString,binding)) {
 
                     val chipsIntArray = transformedChipIds.toIntArray()
 
