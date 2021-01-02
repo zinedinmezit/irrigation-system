@@ -2,6 +2,7 @@ package com.example.irrigationsystem
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -48,4 +51,13 @@ class MainActivity : AppCompatActivity() {
             notificationManager?.createNotificationChannel(notificationChannel)
         }
     }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if(currentFocus != null){
+            val imm : InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus?.windowToken,0)
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
 }
