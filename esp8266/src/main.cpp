@@ -10,7 +10,9 @@
 const char *ssid = "Tenda_29DC88";
 const char *password = "alifakovac1";
 
-const char *option = "ON";
+const char *waterOption1 = "2000";
+const char *waterOption2 = "5000";
+const char *waterOption3 = "10000";
 
 int relayPin = 12;
 int roomTemperaturePin = 14;
@@ -43,10 +45,24 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
   {
 
     const char *payloadText = (const char *)payload;
-    if (strcmp(payloadText, option) == 0)
+    if (strcmp(payloadText, waterOption1) == 0)
     {
       digitalWrite(relayPin, LOW);
-      delay(2500);
+      delay(int(waterOption1));
+      digitalWrite(relayPin, HIGH);
+      Serial.println(payloadText);
+    }
+    else if (strcmp(payloadText, waterOption2) == 0)
+    {
+      digitalWrite(relayPin, LOW);
+      delay(int(waterOption2));
+      digitalWrite(relayPin, HIGH);
+      Serial.println(payloadText);
+    }
+    else if (strcmp(payloadText, waterOption3) == 0)
+    {
+      digitalWrite(relayPin, LOW);
+      delay(int(waterOption3));
       digitalWrite(relayPin, HIGH);
       Serial.println(payloadText);
     }

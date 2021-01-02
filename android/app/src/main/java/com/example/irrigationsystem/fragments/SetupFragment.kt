@@ -35,7 +35,7 @@ class SetupFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_setup,container,false)
         binding.lifecycleOwner = this
@@ -59,6 +59,13 @@ class SetupFragment : Fragment() {
             val tempMax  = binding.setupTempMaxEditText.text.toString()
             val hummMin  = binding.setupHummMinEditText.text.toString()
             val hummMax  = binding.setupHummMaxEditText.text.toString()
+
+            val wateringDurationValue = when(binding.setupWateringDurationGroup.checkedRadioButtonId){
+                R.id.setup_wateringDuration1 -> 2000L
+                R.id.setup_wateringDuration2 -> 5000L
+                R.id.setup_wateringDuration3 -> 10000L
+                else -> 2000L
+            }
 
             if(checkedChipsIds.count() > 0) {
 
@@ -86,7 +93,7 @@ class SetupFragment : Fragment() {
                         val planId = model.getLatestPlanId().toInt()
                         model.changePlanActiveStatusExceptOne(planId)
                         val scheduledDate =
-                            model.insertWateringScheduler(checkedChipsIds, timeString, planId)
+                            model.insertWateringScheduler(checkedChipsIds, timeString, wateringDurationValue, planId)
                         Log.i("testtest", "Scheduled date - $scheduledDate")
                         val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                         model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
@@ -103,6 +110,7 @@ class SetupFragment : Fragment() {
                                 intent.putExtra("TIMESTRING", timeString)
                                 intent.putExtra("IPADDRESS", wsIpAddress)
                                 intent.putExtra("SCHEDULERID", wateringSchedulerId)
+                                intent.putExtra("WATERINGDURATION", wateringDurationValue)
                                 PendingIntent.getBroadcast(
                                     context,
                                     173839173,
@@ -110,15 +118,12 @@ class SetupFragment : Fragment() {
                                     PendingIntent.FLAG_UPDATE_CURRENT
                                 )
                             }
-
                         setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
                     }
-
                     showSuccessDialog()
                 }
             }
         }
-
         return binding.root
     }
 
@@ -150,79 +155,4 @@ class SetupFragment : Fragment() {
         }
     }
 
-   /* private fun validateForm(planName : String?,
-                             timeString : String?,
-                             ipAddress : String?,
-                             city : String?,
-                             tempMin : Double,
-                             tempMax : Double,
-                             hummMin : Double,
-                             hummMax : Double) : Boolean{
-        var flag = true
-        if(planName.isNullOrBlank()){
-            binding.setupTextField.error = "Plan name can't be empty"
-            flag = false
-        }
-        else{
-            binding.setupTextField.error = null
-        }
-
-        if(timeString.isNullOrBlank()){
-            binding.setupTimeString.error = "Time can't be empty"
-            flag = false
-        }
-        else{
-            binding.setupTimeString.error = null
-        }
-
-        if(ipAddress.isNullOrBlank()){
-            binding.setupIpAddress.error = "Websocket IP Address can't be empty"
-            flag = false
-        }
-        else{
-            binding.setupIpAddress.error = null
-        }
-
-        if(city.isNullOrBlank()){
-            binding.setupCity.error = "City can't be empty"
-            flag = false
-        }
-        else{
-            binding.setupCity.error = null
-        }
-
-        if(tempMin.isNaN()){
-            binding.setupTempMinEditText.error = "Can't be empty"
-            flag = false
-        }
-        else{
-            binding.setupTempMinEditText.error = null
-        }
-
-        if(tempMax.isNaN()){
-            binding.setupTempMaxEditText.error = "Can't be empty"
-            flag = false
-        }
-        else{
-            binding.setupTempMaxEditText.error = null
-        }
-
-        if(hummMin.isNaN()){
-            binding.setupHummMinEditText.error = "Can't be empty"
-            flag = false
-        }
-        else{
-            binding.setupHummMinEditText.error = null
-        }
-
-        if(hummMax.isNaN()){
-            binding.setupHummMaxEditText.error = "Can't be empty"
-            flag = false
-        }
-        else{
-            binding.setupHummMaxEditText.error = null
-        }
-
-        return flag
-    }*/
 }

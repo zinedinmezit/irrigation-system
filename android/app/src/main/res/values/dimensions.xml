@@ -3,4 +3,5 @@
     <dimen name="heading1">34sp</dimen>
     <dimen name="heading2">24sp</dimen>
     <dimen name="subtitle1">18sp</dimen>
+    <dimen name="numberBoxWidth">104dp</dimen>
 </resources>

@@ -6,143 +6,185 @@
     <data>
 
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/secondary_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/create_a_new_plan"
-        android:textSize="@dimen/heading1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/secondary_text_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="@string/plan_name_hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondary_title">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/secondary_text_field_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/secondary_chip_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/chipgroup_label"
-        android:textSize="@dimen/subtitle1"
-        app:layout_constraintStart_toStartOf="@+id/chipGroup"
-        app:layout_constraintTop_toBottomOf="@+id/secondary_text_field" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondary_chip_label">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_1"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+        <TextView
+            android:id="@+id/secondary_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/monday_label" />
+            android:layout_marginTop="50dp"
+            android:text="@string/create_a_new_plan"
+            android:textSize="@dimen/heading1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_2"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/secondary_text_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/plan_name_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/secondary_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/secondary_text_field_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/secondary_chip_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/tuesday_label" />
+            android:layout_marginTop="32dp"
+            android:text="@string/chipgroup_label"
+            android:textSize="@dimen/subtitle1"
+            app:layout_constraintStart_toStartOf="@+id/chipGroup"
+            app:layout_constraintTop_toBottomOf="@+id/secondary_text_field" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_3"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/wednesday_label" />
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/secondary_chip_label">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_4"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_1"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/monday_label" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_2"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/tuesday_label" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_3"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/wednesday_label" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_4"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/thursday_label" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_5"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/friday_label" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_6"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/saturday_label" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_7"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/sunday_label" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <EditText
+            android:id="@+id/secondary_edit_text_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/thursday_label" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:clickable="false"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/time_hint"
+            android:importantForAutofill="no"
+            android:inputType="time"
+            android:longClickable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_5"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+        <TextView
+            android:id="@+id/secondary_durationRadioGroupLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/friday_label" />
+            android:layout_marginTop="32dp"
+            android:text="Watering duration"
+            app:layout_constraintStart_toStartOf="@+id/secondary_edit_text_time"
+            app:layout_constraintTop_toBottomOf="@+id/secondary_edit_text_time" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_6"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+        <RadioGroup
+            android:id="@+id/secondary_wateringDurationGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/saturday_label" />
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/secondary_durationRadioGroupLabel"
+            app:layout_constraintTop_toBottomOf="@+id/secondary_durationRadioGroupLabel">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_7"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            <RadioButton
+                android:id="@+id/secondary_wateringDuration1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="2 seconds" />
+
+            <RadioButton
+                android:id="@+id/secondary_wateringDuration2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="5 seconds" />
+
+            <RadioButton
+                android:id="@+id/secondary_wateringDuration3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="10 seconds" />
+        </RadioGroup>
+
+
+        <Button
+            android:id="@+id/secondary_button_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/sunday_label" />
+            android:layout_marginBottom="32dp"
+            android:text="@string/create_button_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </com.google.android.material.chip.ChipGroup>
-
-    <EditText
-        android:id="@+id/secondary_edit_text_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:clickable="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:hint="@string/time_hint"
-        android:importantForAutofill="no"
-        android:inputType="time"
-        android:longClickable="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
-
-    <Button
-        android:id="@+id/secondary_button_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/create_button_label"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

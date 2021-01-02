@@ -76,7 +76,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 1 -> {
                         currentEvent = "Command"
                         signalCode = 0
-                        webSocket.send("ON")
+                        webSocket.send("${activePlan.value?.WateringDuration}")
                         webSocket.close(1000, null)
                 }
             }

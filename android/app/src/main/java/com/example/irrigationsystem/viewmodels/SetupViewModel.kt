@@ -42,10 +42,10 @@ class SetupViewModel(app : Application) : AndroidViewModel(app) {
         }
     }
 
-    fun insertWateringScheduler(list : MutableList<Int>,timeString : String,planId : Int = 0) : Long{
+    fun insertWateringScheduler(list : MutableList<Int>,timeString : String, wateringDuration : Long, planId : Int = 0) : Long{
         val pair : Pair<Date, MutableList<Int>> = DateDaysHelper.getDateForCurrentSchedule(list, timeString)
         viewModelScope.launch {
-            val ws = WateringScheduler(WateringTimeNow = TypeConverters.dateToTimestamp(pair.first),PlanId_FK = planId,TimeString = timeString)
+            val ws = WateringScheduler(WateringTimeNow = TypeConverters.dateToTimestamp(pair.first),PlanId_FK = planId,TimeString = timeString, WateringDuration = wateringDuration)
             wateringSchedulerDeffered.complete(repository.insertWateringScheduler(ws))
         }
 

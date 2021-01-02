@@ -67,6 +67,13 @@ class EditFragment : Fragment() {
             val planName = binding.editInputText.text.toString()
             val timeString = binding.editTimeText.text.toString()
 
+            val wateringDurationValue = when(binding.editWateringDurationGroup.checkedRadioButtonId){
+                R.id.edit_wateringDuration1 -> 2000L
+                R.id.edit_wateringDuration2 -> 5000L
+                R.id.edit_wateringDuration3 -> 10000L
+                else -> 2000L
+            }
+
             if(transformedChipIds.count() > 0) {
 
                 if (FormValidation.editFormValidation(planName, timeString,binding)) {
@@ -78,7 +85,7 @@ class EditFragment : Fragment() {
                     model.insertWateringSchedulerDays(transformedChipIds)
 
                     val scheduledDate =
-                        model.updateWateringScheduler(transformedChipIds, timeString)
+                        model.updateWateringScheduler(transformedChipIds, timeString, wateringDurationValue)
                     //alarmMgr?.scheduleWatering(requireContext(), chipsIntArray, timeString, scheduledDate,address)
 
                     val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -89,6 +96,7 @@ class EditFragment : Fragment() {
                         intent.putExtra("TIMESTRING", timeString)
                         intent.putExtra("IPADDRESS", address)
                         intent.putExtra("SCHEDULERID", model.activePlan.value?.WateringSchedulerId)
+                        intent.putExtra("WATERINGDURATION", wateringDurationValue)
                         PendingIntent.getBroadcast(
                             context,
                             173839173,

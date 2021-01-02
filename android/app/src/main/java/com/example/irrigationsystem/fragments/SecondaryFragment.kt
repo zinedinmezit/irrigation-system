@@ -53,6 +53,13 @@ class SecondaryFragment : Fragment() {
             val planName : String = binding.secondaryTextFieldText.text.toString()
             val timeString = binding.secondaryEditTextTime.text.toString()
 
+            val wateringDurationValue = when(binding.secondaryWateringDurationGroup.checkedRadioButtonId){
+                R.id.secondary_wateringDuration1 -> 2000L
+                R.id.secondary_wateringDuration2 -> 5000L
+                R.id.secondary_wateringDuration3 -> 10000L
+                else -> 2000L
+            }
+
             if(checkedChipsIds.count() > 0) {
 
                 if (FormValidation.secondaryFormValidation(planName, timeString,binding)) {
@@ -69,7 +76,7 @@ class SecondaryFragment : Fragment() {
                         val planId = model.getLatestPlanId().toInt()
                         model.changePlanActiveStatusExceptOne(planId)
 
-                        val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, planId)
+                        val scheduledDate = model.insertWateringScheduler(checkedChipsIds, timeString, wateringDurationValue, planId)
                         val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                         model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
@@ -81,6 +88,7 @@ class SecondaryFragment : Fragment() {
                                 intent.putExtra("TIMESTRING", timeString)
                                 intent.putExtra("IPADDRESS", address)
                                 intent.putExtra("SCHEDULERID", wateringSchedulerId)
+                                intent.putExtra("WATERINGDURATION", wateringDurationValue)
                                 PendingIntent.getBroadcast(
                                     context,
                                     173839173,
@@ -125,26 +133,4 @@ class SecondaryFragment : Fragment() {
         }
     }
 
- /*   private fun validateForm(planName : String?, timeString : String?) : Boolean{
-        var flag = true
-
-
-        if(planName.isNullOrBlank()){
-            binding.secondaryTextField.error = "Plan name can't be empty"
-            flag = false
-        }
-        else{
-            binding.secondaryTextField.error = null
-        }
-
-        if(timeString.isNullOrBlank()){
-            binding.secondaryEditTextTime.error = "Time can't be empty"
-            flag = false
-        }
-        else{
-            binding.secondaryEditTextTime.error = null
-        }
-
-        return flag
-    }*/
 }

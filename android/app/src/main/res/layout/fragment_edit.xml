@@ -8,6 +8,9 @@
             type="com.example.irrigationsystem.viewmodels.EditViewModel" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -45,8 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:textSize="@dimen/subtitle1"
             android:text="@string/scheduled_days"
+            android:textSize="@dimen/subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_plan_name" />
@@ -69,8 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:textSize="@dimen/subtitle1"
             android:text="@string/scheduled_time"
+            android:textSize="@dimen/subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
@@ -81,20 +84,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textSize="@dimen/subtitle1"
-            app:layout_constraintEnd_toEndOf="@+id/scheduled_time_label"
             app:TimeSetter="@{editVM.activePlan.wateringTimeNow}"
-            tools:text="12:12"
+            app:layout_constraintEnd_toEndOf="@+id/scheduled_time_label"
             app:layout_constraintStart_toStartOf="@+id/scheduled_time_label"
-            app:layout_constraintTop_toBottomOf="@+id/scheduled_time_label" />
+            app:layout_constraintTop_toBottomOf="@+id/scheduled_time_label"
+            tools:text="12:12" />
 
 
         <TextView
             android:id="@+id/edit_subheading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/heading2"
             android:layout_marginTop="32dp"
             android:text="@string/input_data"
+            android:textSize="@dimen/heading2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/initial_scheduled_time" />
@@ -125,8 +128,8 @@
             android:layout_width="wrap_content"
             android:layout_height="19dp"
             android:layout_marginTop="32dp"
-            android:textSize="@dimen/subtitle1"
             android:text="@string/chipgroup_label"
+            android:textSize="@dimen/subtitle1"
             app:layout_constraintStart_toStartOf="@+id/edit_chipGroup"
             app:layout_constraintTop_toBottomOf="@+id/edit_input_layout" />
 
@@ -206,25 +209,67 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:clickable="false"
+            android:ems="10"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:importantForAutofill="no"
-            android:longClickable="false"
-            android:ems="10"
             android:hint="@string/time_hint"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
+            android:longClickable="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_chipGroup" />
+
+        <TextView
+            android:id="@+id/edit_durationRadioGroupLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="@id/edit_timeText"
+            app:layout_constraintTop_toBottomOf="@id/edit_timeText"
+            android:text="Watering duration"
+            />
+
+        <RadioGroup
+            android:id="@+id/edit_wateringDurationGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/edit_durationRadioGroupLabel"
+            app:layout_constraintTop_toBottomOf="@+id/edit_durationRadioGroupLabel">
+
+            <RadioButton
+                android:id="@+id/edit_wateringDuration1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="2 seconds" />
+
+            <RadioButton
+                android:id="@+id/edit_wateringDuration2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="5 seconds" />
+
+            <RadioButton
+                android:id="@+id/edit_wateringDuration3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="10 seconds" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/edit_button_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
             android:text="@string/update"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_wateringDurationGroup" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

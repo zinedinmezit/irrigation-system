@@ -51,7 +51,7 @@ class IrrigationRepository(private val dao : IrrigationDao) {
         dao.updatePlan(planId,name)
     }
 
-    suspend fun updateWateringScheduler(wsId: Int, datetime: Long, timeString : String){
-        dao.updateWateringTimeNow(wsId, datetime, timeString)
+    suspend fun updateWateringScheduler(wsId: Int, datetime: Long, timeString : String, wateringDuration : Long){
+        dao.updateWateringTimeNow(wsId, datetime, timeString, wateringDuration)
     }
 }

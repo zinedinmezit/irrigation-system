@@ -21,20 +21,7 @@ import okhttp3.WebSocketListener
 class WateringService : Service() {
 
     private val scope = CoroutineScope(context = Dispatchers.IO)
-    private val wsListener : WebSocketListener = object :WebSocketListener(){
 
-        override fun onOpen(webSocket: WebSocket, response: Response) {
-            webSocket.send("ON")
-            webSocket.close(1000,null)
-        }
-
-       /* override fun onMessage(webSocket: WebSocket, text: String) {
-        }
-
-        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-
-        }*/
-    }
     
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -58,6 +45,23 @@ class WateringService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val myBundle = intent?.extras
         val address = myBundle?.getString("IPADDRESS")!!
+        val wateringDurationValue = myBundle.getLong("WATERINGDURATION")
+
+        val wsListener : WebSocketListener = object :WebSocketListener(){
+
+            override fun onOpen(webSocket: WebSocket, response: Response) {
+                webSocket.send(wateringDurationValue.toString())
+                webSocket.close(1000,null)
+            }
+
+            /* override fun onMessage(webSocket: WebSocket, text: String) {
+             }
+
+             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+
+             }*/
+        }
+
         scope.launch {
             OkHttpProvider.openWebSocketConnection(wsListener, address)
             stopForeground(false)

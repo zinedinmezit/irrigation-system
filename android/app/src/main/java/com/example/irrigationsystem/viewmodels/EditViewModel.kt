@@ -56,10 +56,10 @@ class EditViewModel(application : Application) : AndroidViewModel(application){
 
     }
 
-    fun updateWateringScheduler(list : MutableList<Int>, timeString : String) : Long{
+    fun updateWateringScheduler(list : MutableList<Int>, timeString : String, wateringDuration : Long) : Long{
         val pair : Pair<Date, MutableList<Int>> = DateDaysHelper.getDateForCurrentSchedule(list, timeString)
         viewModelScope.launch {
-            irrigationRepository.updateWateringScheduler(activePlan.value?.WateringSchedulerId!!,pair.first.time,timeString)
+            irrigationRepository.updateWateringScheduler(activePlan.value?.WateringSchedulerId!!,pair.first.time,timeString, wateringDuration)
         }
 
         return pair.first.time

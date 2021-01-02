@@ -34,6 +34,7 @@ class WateringReceiver : BroadcastReceiver() {
         val timeString = myBundle?.getString("TIMESTRING")
         val ipAddress = myBundle?.getString("IPADDRESS")
         val schedulerId = myBundle?.getInt("SCHEDULERID")
+        val wateringDurationValue = myBundle?.getLong("WATERINGDURATION")
 
         Log.i("Checkup","WateringReceiver/BundleValues (chipIdsArray, chipIds, timeString, ipAddress, schedulerId) : \n$chipIdsArray\n$chipIds\n$timeString\n$ipAddress\n$schedulerId")
 
@@ -50,6 +51,7 @@ class WateringReceiver : BroadcastReceiver() {
             it.putExtra("TIMESTRING",timeString)
             it.putExtra("IPADDRESS", ipAddress)
             it.putExtra("SCHEDULERID",schedulerId)
+            intent.putExtra("WATERINGDURATION", wateringDurationValue)
             PendingIntent.getBroadcast(context,173839173,it,FLAG_UPDATE_CURRENT)
         }
 
@@ -57,6 +59,7 @@ class WateringReceiver : BroadcastReceiver() {
 
         Intent(context,WateringService::class.java).also {
             it.putExtra("IPADDRESS", ipAddress)
+            it.putExtra("WATERINGDURATION", wateringDurationValue)
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(it)
             }

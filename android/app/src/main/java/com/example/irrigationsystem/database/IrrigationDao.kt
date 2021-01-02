@@ -43,8 +43,8 @@ interface IrrigationDao  {
     @Query("UPDATE `WateringScheduler` SET WateringTimeNow=:time WHERE WateringSchedulerId=:wsId")
     suspend fun setWateringTimeNow(time : Long, wsId: Int)
 
-    @Query("UPDATE WateringScheduler SET WateringTimeNow=:datetime, TimeString = :timeString WHERE WateringSchedulerId=:wsId")
-    suspend fun updateWateringTimeNow(wsId: Int, datetime : Long, timeString: String)
+    @Query("UPDATE WateringScheduler SET WateringTimeNow=:datetime, TimeString = :timeString, WateringDuration = :wateringDuration WHERE WateringSchedulerId=:wsId")
+    suspend fun updateWateringTimeNow(wsId: Int, datetime : Long, timeString: String, wateringDuration : Long)
 
     /* *****DAYS***** */
     @Query("SELECT COUNT(DayId) FROM Day")
