@@ -2,16 +2,13 @@ package com.example.irrigationsystem.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.viewmodels.BasicSetupViewModel
-import java.lang.ClassCastException
 
 class BasicSetupDialogFragment : DialogFragment() {
 

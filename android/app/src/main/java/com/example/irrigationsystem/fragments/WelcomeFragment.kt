@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentWelcomeBinding
 import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.viewmodels.WelcomeViewModel

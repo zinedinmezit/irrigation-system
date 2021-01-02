@@ -7,19 +7,9 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-import com.example.irrigationsystem.fragments.MainFragmentDirections
-import com.example.irrigationsystem.viewmodels.MainViewModel
+
 
 class MainActivity : AppCompatActivity() {
 
