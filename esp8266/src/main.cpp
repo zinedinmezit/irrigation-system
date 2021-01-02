@@ -29,6 +29,18 @@ WebSocketsServer webSocket(81);
 
 void ConnectToWiFi(const char *ssid, const char *password);
 
+void WateringDelay(const long interval)
+{
+  unsigned long trackMillis = 0;
+  unsigned long currentMillis = millis();
+
+  while (trackMillis < currentMillis + interval)
+  {
+    trackMillis = millis();
+    yield();
+  }
+}
+
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
 {
   switch (type)
@@ -48,21 +60,21 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
     if (strcmp(payloadText, waterOption1) == 0)
     {
       digitalWrite(relayPin, LOW);
-      delay(int(waterOption1));
+      WateringDelay(2000);
       digitalWrite(relayPin, HIGH);
       Serial.println(payloadText);
     }
     else if (strcmp(payloadText, waterOption2) == 0)
     {
       digitalWrite(relayPin, LOW);
-      delay(int(waterOption2));
+      WateringDelay(5000);
       digitalWrite(relayPin, HIGH);
       Serial.println(payloadText);
     }
     else if (strcmp(payloadText, waterOption3) == 0)
     {
       digitalWrite(relayPin, LOW);
-      delay(int(waterOption3));
+      WateringDelay(10000);
       digitalWrite(relayPin, HIGH);
       Serial.println(payloadText);
     }
