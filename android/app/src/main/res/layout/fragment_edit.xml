@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="4dp"
-            android:text="@string/edit_plan"
+            android:text="@string/edit"
             android:textSize="@dimen/heading1"
             app:layout_constraintEnd_toStartOf="@+id/edit_plan_name"
             app:layout_constraintHorizontal_bias="0.5"

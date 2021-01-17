@@ -21,7 +21,7 @@ class BasicSetupDialogFragment : DialogFragment() {
 
             val layout = inflater.inflate(R.layout.dialog_setup,null)
              builder.setView(layout)
-                .setPositiveButton(R.string.edit_plan,DialogInterface.OnClickListener { dialog, id ->
+                .setPositiveButton(R.string.edit,DialogInterface.OnClickListener { dialog, id ->
                     val addressEditText = layout.findViewById(R.id.edit_setup_address_text) as EditText
                     val cityEditText = layout.findViewById(R.id.edit_setup_city_text) as EditText
 

@@ -138,13 +138,13 @@ class MainFragment : Fragment(){
 
     private fun showSuccessDialog(){
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.dialog_title))
-            .setMessage(resources.getString(R.string.dialog_text))
-            .setPositiveButton(resources.getString(R.string.dialog_button_neutral_text)){ _, _ ->
+            .setTitle(resources.getString(R.string.watering_dialog_title))
+            .setMessage(resources.getString(R.string.watering_dialog_text))
+            .setPositiveButton(resources.getString(R.string.watering_dialog_positive_button_label)){ _, _ ->
                 model.signalCode=1
                 model.openWebSocketConnection(webSocketIpAddress)
             }
-            .setNegativeButton(resources.getString(R.string.dialog_button_neutral_text)){ dialog, par ->
+            .setNegativeButton(resources.getString(R.string.watering_dialog_negative_button_label)){ dialog, par ->
                 dialog.dismiss()
             }
             .show()

@@ -21,7 +21,7 @@ class ParamsSetupDialogFragment : DialogFragment() {
 
             val layout = inflater.inflate(R.layout.main_dialog_limit_values_setup,null)
             builder.setView(layout)
-                .setPositiveButton(R.string.edit_plan, DialogInterface.OnClickListener { dialog, id ->
+                .setPositiveButton(R.string.edit, DialogInterface.OnClickListener { dialog, id ->
                     val hummMinEditText = layout.findViewById(R.id.edit_setup_hummMin_text) as EditText
                     val hummMaxEditText = layout.findViewById(R.id.edit_setup_hummMax_text) as EditText
                     val tempMinEditText = layout.findViewById(R.id.edit_setup_tempMin_text) as EditText

@@ -1,53 +1,64 @@
 <resources>
     <string name="app_name">Irrigationsystem</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="buttonReconnect_string">Try again</string>
     <string name="buttonAction_string">Water now</string>
     <string name="floatingActionButton_contentDescription">New plan</string>
+
     <string name="create_a_new_plan">Create a new plan</string>
     <string name="plan_name_hint">Plan name</string>
+
     <string name="monday_label">MO</string>
-    <string name="sunday_label">SU</string>
-    <string name="saturday_label">SA</string>
-    <string name="friday_label">FR</string>
-    <string name="thursday_label">TH</string>
     <string name="tuesday_label">TU</string>
     <string name="wednesday_label">WE</string>
-    <string name="chipgroup_label">Schedule when to water</string>
-    <string name="time_hint">Time</string>
-    <string name="is_notification_channel_id" translatable="false">is_channel</string>
-    <string name="is_notification_channel_name" translatable="false">Watering service</string>
+    <string name="thursday_label">TH</string>
+    <string name="friday_label">FR</string>
+    <string name="saturday_label">SA</string>
+    <string name="sunday_label">SU</string>
+
+
     <string name="dialog_title">Success</string>
     <string name="dialog_text">You have created a new plan</string>
     <string name="dialog_button_neutral_text">Back to main page</string>
-    <string name="create_button_label">Create</string>
-    <string name="edit_plan">Edit</string>
+
+    <string name="watering_dialog_title">Watering confirmation</string>
+    <string name="watering_dialog_text">Confirm watering procedure</string>
+    <string name="watering_dialog_positive_button_label">Do it!</string>
+    <string name="watering_dialog_negative_button_label">Abort</string>
+
+    <string name="edit">Edit</string>
+    <string name="update">Update</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter">Enter</string>
+
     <string name="current_plan_name">Current plan name</string>
     <string name="scheduled_days">Scheduled days</string>
     <string name="scheduled_time">Scheduled time</string>
     <string name="input_data">Input data</string>
-    <string name="update">Update</string>
-    <string name="image_that_represents_app">Image that represents app</string>
-    <string name="icon_that_navigates_to_next_fragment">Icon that navigates to next fragment</string>
-    <string name="menu_plan_submenu">Plans</string>
-    <string name="setup_heading">Setup</string>
-    <string name="websocket_ip_address">Websocket IP Adress</string>
-    <string name="fab_description">Create plan</string>
-    <string name="fab_text">New plan</string>
-    <string name="app_title">Irrigation system</string>
-    <string name="select_plan">Select plan</string>
-    <string name="enter">Enter</string>
+    <string name="configure_parameters">Configure parameters</string>
+    <string name="watering_at">Watering at</string>
     <string name="city">City</string>
-    <string name="irrigation_system">Irrigation system</string>
     <string name="edit_basic_setup">Edit basic setup</string>
-    <string name="cancel">Cancel</string>
-    <string name="hummidty">Hummidty</string>
+    <string name="select_plan">Select plan</string>
+
+    <string name="hummidity">Hummidity</string>
     <string name="temperature">Temperature</string>
     <string name="hummidity_maximum">Hummidity maximum</string>
     <string name="hummidity_minimum">Hummidity minimum</string>
     <string name="temperature_maximum">Temperature maximum</string>
     <string name="temperature_minimum">Temperature minimum</string>
-    <string name="configure_parameters">Configure parameters</string>
     <string name="soil_moisture">Soil moisture%</string>
-    <string name="watering_at">Watering at</string>
+
+    <string name="menu_plan_submenu">Plans</string>
+    <string name="setup_heading">Setup</string>
+    <string name="websocket_ip_address">WebSocket IP Address</string>
+    <string name="fab_description">Create plan</string>
+    <string name="fab_text">New plan</string>
+    <string name="chipgroup_label">Schedule when to water</string>
+    <string name="time_hint">Time</string>
+
+    <string name="is_notification_channel_id" translatable="false">is_channel</string>
+    <string name="is_notification_channel_name" translatable="false">Watering service</string>
+
 </resources>

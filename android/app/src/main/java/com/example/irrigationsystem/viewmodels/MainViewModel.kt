@@ -8,10 +8,14 @@ import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.PlanWateringSchedulerView
 import com.example.irrigationsystem.models.ScheduledDaysView
 import com.example.irrigationsystem.models.SetupInfo
+import com.example.irrigationsystem.models.sensorvalues.SensorValues
 import com.example.irrigationsystem.models.weatherapi.WeatherObject
 import com.example.irrigationsystem.network.OkHttpProvider
 import com.example.irrigationsystem.network.WeatherApi
 import com.example.irrigationsystem.repositories.IrrigationRepository
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -19,6 +23,9 @@ import kotlinx.coroutines.launch
 import okhttp3.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+
+    val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    val jsonAdapter: JsonAdapter<SensorValues> = moshi.adapter(SensorValues::class.java)
 
     private val repository : IrrigationRepository
     val activePlan : LiveData<PlanWateringSchedulerView>
@@ -94,10 +101,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
-            val splitString = text.split("|")
-            _hummidityPercentageValue.postValue(splitString[0])
-            _dht11HummidityPercentageValue.postValue(splitString[1])
-            _dht11TemperatureValue.postValue(splitString[2])
+
+            val sensorValuesObject = jsonAdapter.fromJson(text)
+
+            Log.i("ttt", "$sensorValuesObject")
+
+            _hummidityPercentageValue.postValue(sensorValuesObject?.moistureValue)
+            _dht11HummidityPercentageValue.postValue(sensorValuesObject?.dhtHummValue)
+            _dht11TemperatureValue.postValue(sensorValuesObject?.dhtTempValue)
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
@@ -140,3 +151,4 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 }
 
 //TODO Optimizirati tranzicije kada konekcija izmedju klijenta i servera prelazi iz jednog stanja u drugo
+//TODO Inject-ad Moshi builder
