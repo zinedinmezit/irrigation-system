@@ -1,11 +1,9 @@
 package com.example.irrigationsystem.helpers
 
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -19,18 +17,19 @@ import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.models.weatherapi.Forecast
 import com.example.irrigationsystem.models.weatherapi.WeatherObject
 import java.text.SimpleDateFormat
+import java.util.*
 
 @BindingAdapter("DateSetter")
 fun TextView.convertDateToString(value : Long){
 
-    val format = SimpleDateFormat("dd-MMM HH:mm")
+    val format = SimpleDateFormat("dd-MMM HH:mm", Locale.getDefault())
     val date = format.format(TypeConverters.fromTimestamp(value))
     text = date.toString()
 }
 
 @BindingAdapter("TimeSetter")
 fun TextView.convertDateToTimeString(value : Long){
-    val format = SimpleDateFormat("HH:mm")
+    val format = SimpleDateFormat("HH:mm",Locale.getDefault())
     val date = format.format(TypeConverters.fromTimestamp(value))
     text = date.toString()
 }
@@ -67,8 +66,8 @@ fun ImageView.buttonStatus(value : Plan?){
     }
 }
 
-@BindingAdapter("BackgroundBehaviour")
-fun Button.BackgroundBehaviour(state : Boolean){
+@BindingAdapter("backgroundBehaviour")
+fun Button.backgroundBehaviour(state : Boolean){
 
     state.let {
 
@@ -103,18 +102,18 @@ fun TextView.countryText(obj : WeatherObject?){
 
 @BindingAdapter("ForecastDateTime")
 fun TextView.forecastDateTime(obj : Forecast?){
-    val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     obj?.let {
         val date = format.parse(obj.timeStampString)
-        val dateLong = date.time
-        text = "${SimpleDateFormat("dd-MM HH:mm").format(dateLong)}"
+        val dateLong = date?.time
+        text = SimpleDateFormat("dd-MM HH:mm", Locale.getDefault()).format(dateLong)
     }
 }
 
-@BindingAdapter("ForecastTemperature")
-fun TextView.minMaxTemperature(obj:Forecast?){
+@BindingAdapter("forecastTemperature")
+fun TextView.forecastTemperature(obj:Forecast?){
     obj?.let {
-        text = "${obj.weatherMainValues.currentTemp.toInt()}°C"
+        text = resources.getString(R.string.forecastTemperature, obj.weatherMainValues.currentTemp.toInt())
     }
 }
 
@@ -142,11 +141,11 @@ fun TextView.temperatureValueWithIndicator(tempValue : LiveData<String>, setupIn
                 val doubleValue: Double = it.toDouble()
                 when {
                     doubleValue > setupInfoValue.TemperatureMaxLimit -> {
-                        text = "$it°C"
+                        text = resources.getString(R.string.forecastTemperature, it.toInt())
                         setTextColor(resources.getColor(R.color.Danger, null))
                     }
                     doubleValue < setupInfoValue.TemperatureMinLimit -> {
-                        text = "$it°C"
+                        text = resources.getString(R.string.forecastTemperature, it.toInt())
                         setTextColor(resources.getColor(R.color.Cold, null))
                     }
                     else -> {
@@ -155,10 +154,10 @@ fun TextView.temperatureValueWithIndicator(tempValue : LiveData<String>, setupIn
                     }
                 }
             } else {
-                text = "$it°C"
+                text = resources.getString(R.string.forecastTemperature, it.toInt())
                 setTextColor(resources.getColor(R.color.black, null))
             }
-        }else text = "NaN"
+        }else text = resources.getString(R.string.not_a_number)
     }
 }
 
@@ -172,15 +171,15 @@ fun TextView.hummidityValueWithIndicator(hummValue : LiveData<String>, setupInfo
                 val doubleValue: Double = it.toDouble()
                 when {
                     doubleValue > setupInfoValue.HummidityMaxLimit -> {
-                        text = "$it%"
+                        text = resources.getString(R.string.hummidityPercentage, it)
                         setTextColor(resources.getColor(R.color.Danger, null))
                     }
                     doubleValue < setupInfoValue.HummidityMinLimit -> {
-                        text = "$it%"
+                        text = resources.getString(R.string.hummidityPercentage, it)
                         setTextColor(resources.getColor(R.color.Cold, null))
                     }
                     else -> {
-                        text = "$it%"
+                        text = resources.getString(R.string.hummidityPercentage, it)
                         setTextColor(resources.getColor(R.color.black, null))
                     }
                 }
@@ -188,7 +187,7 @@ fun TextView.hummidityValueWithIndicator(hummValue : LiveData<String>, setupInfo
                 text = it
                 setTextColor(resources.getColor(R.color.black, null))
             }
-        } else text = "NaN"
+        } else text = resources.getString(R.string.not_a_number)
     }
 }
 
@@ -196,7 +195,7 @@ fun TextView.hummidityValueWithIndicator(hummValue : LiveData<String>, setupInfo
 fun TextView.soilMoistureValue(moistureValue : LiveData<String>){
 
     moistureValue.value.let {
-        text = if(it.isNullOrEmpty()) "NaN"
+        text = if(it.isNullOrEmpty()) resources.getString(R.string.not_a_number)
         else it
     }
 }

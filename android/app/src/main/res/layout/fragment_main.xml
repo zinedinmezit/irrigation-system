@@ -274,7 +274,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
             android:enabled="@{mainVM.connectionEstablished ? false : true}"
-            app:BackgroundBehaviour="@{mainVM.connectionEstablished}"
+            app:backgroundBehaviour="@{mainVM.connectionEstablished}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

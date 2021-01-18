@@ -61,4 +61,9 @@
     <string name="is_notification_channel_id" translatable="false">is_channel</string>
     <string name="is_notification_channel_name" translatable="false">Watering service</string>
 
+    <!-- Text resources for Binding adapters -->
+    <string name="forecastTemperature">%1$d°C</string>
+    <string name="hummidityPercentage">%1$s</string>
+    <string name="not_a_number">NaN</string>
+
 </resources>
