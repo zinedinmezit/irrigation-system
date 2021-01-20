@@ -12,8 +12,8 @@ class SetupRepository(private val dao : IrrigationDao) {
         return dao.getWeekDaysNumber()
     }
 
-    suspend fun getPlanTotalNumber() : Int{
-        return dao.getPlansNumber()
+    suspend fun getPlanCount() : Int{
+        return dao.getPlanCount()
     }
 
     suspend fun getSetupInfo() : SetupInfo{

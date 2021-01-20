@@ -30,7 +30,7 @@ class WelcomeViewModel(app : Application) : AndroidViewModel(app) {
 
     fun checkToSetup(){
         viewModelScope.launch {
-            val totalPlans = repo.getPlanTotalNumber()
+            val totalPlans = repo.getPlanCount()
             val totalDays = repo.getWeekDays()
             if(totalPlans > 0 && totalDays == 7) {
                 _toSetup.postValue(false)

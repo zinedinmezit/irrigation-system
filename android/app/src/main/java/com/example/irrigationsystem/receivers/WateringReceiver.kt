@@ -54,8 +54,12 @@ class WateringReceiver : BroadcastReceiver() {
             intent.putExtra("WATERINGDURATION", wateringDurationValue)
             PendingIntent.getBroadcast(context,173839173,it,FLAG_UPDATE_CURRENT)
         }
+        if (intent.action == "android.intent.action.BOOT_COMPLETED") {
+            setAlarmManager(alarmMgr,pairs.first.time + 300000L, alarmIntent)
+        }
+        else setAlarmManager(alarmMgr,pairs.first.time, alarmIntent)
 
-        setAlarmManager(alarmMgr,pairs.first.time,alarmIntent)
+
 
         Intent(context,WateringService::class.java).also {
             it.putExtra("IPADDRESS", ipAddress)

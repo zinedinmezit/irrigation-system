@@ -17,7 +17,7 @@ interface IrrigationDao  {
     suspend fun deletePlan(planId: Int)
 
     @Query("SELECT COUNT(PlanId) FROM `Plan`")
-    suspend fun getPlansNumber() : Int
+    suspend fun getPlanCount() : Int
 
     @Query("SELECT * FROM `Plan` WHERE IsActive=1")
     fun getActivePlan() : LiveData<Plan>
