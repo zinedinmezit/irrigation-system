@@ -9,6 +9,8 @@ import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.models.PlanWateringSchedulerView
 import com.example.irrigationsystem.models.ScheduledDaysView
 import com.example.irrigationsystem.models.SetupInfo
+import com.example.irrigationsystem.repositories.DayRepository
+import com.example.irrigationsystem.repositories.PlanRepository
 import com.example.irrigationsystem.repositories.SetupRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

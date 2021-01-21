@@ -10,6 +10,7 @@ import com.example.irrigationsystem.models.ScheduledDaysView
 import com.example.irrigationsystem.models.SetupInfo
 import com.example.irrigationsystem.models.sensorvalues.SensorValues
 import com.example.irrigationsystem.models.weatherapi.WeatherObject
+import com.example.irrigationsystem.network.MoshiProvider
 import com.example.irrigationsystem.network.OkHttpProvider
 import com.example.irrigationsystem.network.WeatherApi
 import com.example.irrigationsystem.repositories.IrrigationRepository
@@ -24,8 +25,7 @@ import okhttp3.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-    val jsonAdapter: JsonAdapter<SensorValues> = moshi.adapter(SensorValues::class.java)
+
 
     private val repository : IrrigationRepository
     val activePlan : LiveData<PlanWateringSchedulerView>
@@ -102,7 +102,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         override fun onMessage(webSocket: WebSocket, text: String) {
 
-            val sensorValuesObject = jsonAdapter.fromJson(text)
+            val sensorValuesObject = MoshiProvider.jsonAdapter.fromJson(text)
 
             Log.i("ttt", "$sensorValuesObject")
 
