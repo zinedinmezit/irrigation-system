@@ -90,15 +90,28 @@ class MainFragment : Fragment(){
 
 
         /*   ***CLICK LISTENERS***   */
-        binding.cityName.setOnClickListener {
-            val dialogFragment = BasicSetupDialogFragment()
-            dialogFragment.show(childFragmentManager, "BasicSetupDialogFragment")
+
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+
+            when (menuItem.itemId) {
+                R.id.parameter_item -> {
+                    val dialogFragment = ParamsSetupDialogFragment()
+                    dialogFragment.show(childFragmentManager, "ParamsSetupDialogFragment")
+                    true
+                }
+                R.id.city_item -> {
+                    val dialogFragment = BasicSetupDialogFragment()
+                    dialogFragment.show(childFragmentManager, "BasicSetupDialogFragment")
+                    true
+                }
+                R.id.ip_item -> {
+                    true
+                }
+                else -> false
+            }
+
         }
 
-        binding.cardTemperature.setOnClickListener{
-            val dialogFragment = ParamsSetupDialogFragment()
-            dialogFragment.show(childFragmentManager, "ParamsSetupDialogFragment")
-        }
 
         binding.mainButtonSelectPlan.setOnClickListener {
             bottomSheetFragment.show(requireActivity().supportFragmentManager, "BottomSheetFragment")

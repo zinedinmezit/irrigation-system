@@ -8,15 +8,11 @@ import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.PlanWateringSchedulerView
 import com.example.irrigationsystem.models.ScheduledDaysView
 import com.example.irrigationsystem.models.SetupInfo
-import com.example.irrigationsystem.models.sensorvalues.SensorValues
 import com.example.irrigationsystem.models.weatherapi.WeatherObject
 import com.example.irrigationsystem.network.MoshiProvider
 import com.example.irrigationsystem.network.OkHttpProvider
 import com.example.irrigationsystem.network.WeatherApi
 import com.example.irrigationsystem.repositories.IrrigationRepository
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
