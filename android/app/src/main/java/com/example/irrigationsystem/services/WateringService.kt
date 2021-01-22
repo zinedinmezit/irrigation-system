@@ -10,17 +10,18 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.irrigationsystem.R
-import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.network.OkHttpProvider
-import com.example.irrigationsystem.repositories.IrrigationRepository
 import kotlinx.coroutines.*
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WateringService : Service() {
 
     private val scope = CoroutineScope(context = Dispatchers.IO)
+    private val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
 
     
     override fun onBind(intent: Intent?): IBinder? {
@@ -34,9 +35,9 @@ class WateringService : Service() {
 
         val notification: Notification = NotificationCompat.Builder(this,applicationContext.getString(R.string.is_notification_channel_id))
             .setContentTitle("Irrigation system service")
-            .setContentText("Watering action started")
+            .setContentText("Watering action started - ${dateFormat.format(Calendar.getInstance().time)}")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setOngoing(true)
+            .setOngoing(false)
             .build()
 
         startForeground(1,notification)
@@ -54,12 +55,6 @@ class WateringService : Service() {
                 webSocket.close(1000,null)
             }
 
-            /* override fun onMessage(webSocket: WebSocket, text: String) {
-             }
-
-             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-
-             }*/
         }
 
         scope.launch {
