@@ -65,5 +65,11 @@
     <string name="forecastTemperature">%1$d°C</string>
     <string name="hummidityPercentage">%1$s</string>
     <string name="not_a_number">NaN</string>
+    <string name="parameters_setup">Change parameters</string>
+    <string name="change_city">Change city</string>
+    <string name="change_access_ip">Change access IP</string>
+    <string name="hummidity_and_temperature_parameters">Hummidity and temperature parameters</string>
+    <string name="city_to_display_weather_from">City to display weather from</string>
+    <string name="server_executor_ip">Server executor IP</string>
 
 </resources>

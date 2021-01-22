@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/parameter_item"
+        android:title="@string/parameters_setup"
+        android:contentDescription="@string/hummidity_and_temperature_parameters"
+         />
+
+    <item
+        android:id="@+id/city_item"
+        android:title="@string/change_city"
+        android:contentDescription="@string/city_to_display_weather_from"
+        />
+
+    <item
+        android:id="@+id/ip_item"
+        android:title="@string/change_access_ip"
+        android:contentDescription="@string/server_executor_ip"
+        />
+
+</menu>

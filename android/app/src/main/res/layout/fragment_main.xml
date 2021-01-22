@@ -15,6 +15,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/AppBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/app_name"
+                app:menu="@menu/menu_main_options"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_temperature"
             android:layout_width="0dp"
@@ -22,77 +41,77 @@
             android:layout_margin="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/AppBar"
             app:strokeColor="@color/colorSecondary"
             app:strokeWidth="2dp">
 
-         <androidx.constraintlayout.widget.ConstraintLayout
-             android:layout_width="match_parent"
-             android:padding="8dp"
-             android:background="@color/cardColor"
-             android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/cardColor"
+                android:padding="8dp">
 
-             <TextView
-                 android:id="@+id/main_dht11_hummidity_label"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textSize="@dimen/subtitle1"
-                 app:layout_constraintEnd_toStartOf="@+id/view3"
-                 app:layout_constraintStart_toStartOf="parent"
-                 app:layout_constraintTop_toTopOf="parent"
-                 android:text="@string/hummidity" />
+                <TextView
+                    android:id="@+id/main_dht11_hummidity_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hummidity"
+                    android:textSize="@dimen/subtitle1"
+                    app:layout_constraintEnd_toStartOf="@+id/view3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-             <TextView
-                 android:id="@+id/main_dht11_hummidity_value"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textSize="@dimen/heading1"
-                 app:layout_constraintEnd_toEndOf="@+id/main_dht11_hummidity_label"
-                 app:layout_constraintStart_toStartOf="@id/main_dht11_hummidity_label"
-                 app:layout_constraintTop_toBottomOf="@id/main_dht11_hummidity_label"
-                 app:hummValue="@{mainVM.dht11HummidityPercentageValue}"
-                 app:setupInfo2="@{mainVM.setupInfo}"
-                 />
+                <TextView
+                    android:id="@+id/main_dht11_hummidity_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/heading1"
+                    app:hummValue="@{mainVM.dht11HummidityPercentageValue}"
+                    app:layout_constraintEnd_toEndOf="@+id/main_dht11_hummidity_label"
+                    app:layout_constraintStart_toStartOf="@id/main_dht11_hummidity_label"
+                    app:layout_constraintTop_toBottomOf="@id/main_dht11_hummidity_label"
+                    app:setupInfo2="@{mainVM.setupInfo}" />
 
-             <TextView
-                 android:id="@+id/main_dht11_temperature_label"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textSize="@dimen/subtitle1"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintStart_toEndOf="@+id/view3"
-                 app:layout_constraintTop_toTopOf="parent"
-                 android:text="@string/temperature" />
+                <TextView
+                    android:id="@+id/main_dht11_temperature_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/temperature"
+                    android:textSize="@dimen/subtitle1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-             <TextView
-                 android:id="@+id/main_dht11_temperature_value"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textSize="@dimen/heading1"
-                 app:layout_constraintEnd_toEndOf="@+id/main_dht11_temperature_label"
-                 app:layout_constraintStart_toStartOf="@+id/main_dht11_temperature_label"
-                 app:layout_constraintTop_toBottomOf="@+id/main_dht11_temperature_label"
-                 app:tempValue="@{mainVM.dht11TemperatureValue}"
-                 app:setupInfo="@{mainVM.setupInfo}"
-                 />
+                <TextView
+                    android:id="@+id/main_dht11_temperature_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/heading1"
+                    app:layout_constraintEnd_toEndOf="@+id/main_dht11_temperature_label"
+                    app:layout_constraintStart_toStartOf="@+id/main_dht11_temperature_label"
+                    app:layout_constraintTop_toBottomOf="@+id/main_dht11_temperature_label"
+                    app:setupInfo="@{mainVM.setupInfo}"
+                    app:tempValue="@{mainVM.dht11TemperatureValue}" />
 
-             <View
-                 android:id="@+id/view3"
-                 android:layout_width="2dp"
-                 android:layout_height="0dp"
-                 android:background="@color/colorSecondary"                 app:layout_constraintBottom_toBottomOf="parent"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintStart_toStartOf="parent"
-                 app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="2dp"
+                    android:layout_height="0dp"
+                    android:background="@color/colorSecondary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-         </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/roboto_bold"
             android:textSize="@dimen/heading2"
@@ -100,6 +119,7 @@
             app:layout_constraintBottom_toTopOf="@+id/weatherRecycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_temperature"
             tools:text="Sarajevo" />
 
         <TextView
@@ -129,6 +149,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:layout_marginTop="64dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -206,13 +227,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:fontFamily="@font/roboto"
-                        app:soilMoistureValue="@{mainVM.hummidityPercentageValue}"
                         android:textColor="@color/black"
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/soil_label"
                         app:layout_constraintStart_toStartOf="@+id/soil_label"
                         app:layout_constraintTop_toBottomOf="@+id/soil_label"
+                        app:soilMoistureValue="@{mainVM.hummidityPercentageValue}"
                         tools:text="1024" />
 
                     <TextView
