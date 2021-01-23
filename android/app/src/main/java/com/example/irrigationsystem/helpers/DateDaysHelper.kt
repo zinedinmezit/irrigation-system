@@ -9,21 +9,21 @@ object DateDaysHelper {
     //Maps for 3 groups of chips so we can transform their ids with DAY_OF_WEEK
 
     private val chipIdMap = mapOf(
-        2131361907 to 2, 2131361908 to 3, 2131361909 to 4,
-        2131361910 to 5, 2131361911 to 6, 2131361912 to 7,
-        2131361913 to 1
+        2131361908 to 2, 2131361909 to 3, 2131361910 to 4,
+        2131361911 to 5, 2131361912 to 6, 2131361913 to 7,
+        2131361914 to 1
     )
 
     private val chipIdMapE = mapOf(
-        2131361914 to 2, 2131361915 to 3, 2131361916 to 4,
-        2131361917 to 5, 2131361918 to 6, 2131361919 to 7,
-        2131361920 to 1
+        2131361915 to 2, 2131361916 to 3, 2131361917 to 4,
+        2131361918 to 5, 2131361919 to 6, 2131361920 to 7,
+        2131361921 to 1
     )
 
     private val chipIdMapS = mapOf(
-        2131362180 to 2, 2131362181 to 3, 2131362182 to 4,
-        2131362183 to 5, 2131362184 to 6, 2131362185 to 7,
-        2131362186 to 1
+        2131362184 to 2, 2131362185 to 3, 2131362186 to 4,
+        2131362187 to 5, 2131362188 to 6, 2131362189 to 7,
+        2131362190 to 1
     )
 
     @SuppressLint("SimpleDateFormat")
@@ -33,34 +33,24 @@ object DateDaysHelper {
 
     fun getDateForCurrentSchedule(selectedDays : MutableList<Int>, clockTimeString:String) : Pair<Date,MutableList<Int>>{
 
-        val dayToSchedule: Int
+        val dayToSchedule : Int
         val myCalendar = Calendar.getInstance()
 
-        var currentDay = myCalendar.get(Calendar.DAY_OF_WEEK)
+        val currentDay = myCalendar.get(Calendar.DAY_OF_WEEK)
         val filteredList = selectedDays.filter { it -> it > currentDay }
-        if(filteredList.count() > 0) {
+
+        if(filteredList.count() > 0){
             dayToSchedule = filteredList[0]
-            while (currentDay != dayToSchedule){
-                myCalendar.add(Calendar.DATE,1)
-                currentDay = myCalendar.get(Calendar.DAY_OF_WEEK)
-            }
-        }
-        else{
+            myCalendar.add(Calendar.DATE, dayToSchedule-currentDay)
+            println("Schedule on >0 -> ${myCalendar.time}")
+        } else{
             selectedDays.sort()
             dayToSchedule = selectedDays[0]
             if(dayToSchedule == currentDay){
-                myCalendar.add(Calendar.DATE,1)
-                currentDay = myCalendar.get(Calendar.DAY_OF_WEEK)
-                while (currentDay != dayToSchedule){
-                    myCalendar.add(Calendar.DATE,1)
-                    currentDay = myCalendar.get(Calendar.DAY_OF_WEEK)
-                }
-            }
-            else{
-                while (currentDay != dayToSchedule) {
-                    myCalendar.add(Calendar.DATE, 1)
-                    currentDay = myCalendar.get(Calendar.DAY_OF_WEEK)
-                }
+                myCalendar.add(Calendar.DATE,7)
+
+            }else {
+                myCalendar.add(Calendar.DATE, currentDay - (currentDay - dayToSchedule))
             }
         }
 
