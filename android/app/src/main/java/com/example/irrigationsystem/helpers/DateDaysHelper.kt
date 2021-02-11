@@ -37,12 +37,11 @@ object DateDaysHelper {
         val myCalendar = Calendar.getInstance()
 
         val currentDay = myCalendar.get(Calendar.DAY_OF_WEEK)
-        val filteredList = selectedDays.filter { it -> it > currentDay }
+        val filteredList = selectedDays.filter { it > currentDay }
 
         if(filteredList.count() > 0){
             dayToSchedule = filteredList[0]
             myCalendar.add(Calendar.DATE, dayToSchedule-currentDay)
-            println("Schedule on >0 -> ${myCalendar.time}")
         } else{
             selectedDays.sort()
             dayToSchedule = selectedDays[0]

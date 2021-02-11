@@ -11,7 +11,8 @@ import com.example.irrigationsystem.databinding.PlanBottomsheetRecyclerviewItemB
 import com.example.irrigationsystem.models.Plan
 import kotlinx.android.synthetic.main.plan_bottomsheet_recyclerview_item.view.*
 
-class PlanAdapter(val clickListener : PlanListener, val DeleteListener : DeleteListener ) : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()) {
+class PlanAdapter(val clickListener : PlanListener,
+                  val DeleteListener : DeleteListener ) : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanHolder {
         return PlanHolder.inflate(parent)

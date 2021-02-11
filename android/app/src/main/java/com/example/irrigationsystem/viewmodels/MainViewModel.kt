@@ -100,7 +100,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             val sensorValuesObject = MoshiProvider.jsonAdapter.fromJson(text)
 
-            Log.i("ttt", "$sensorValuesObject")
+            Log.i("WSProblem",text)
 
             _hummidityPercentageValue.postValue(sensorValuesObject?.moistureValue)
             _dht11HummidityPercentageValue.postValue(sensorValuesObject?.dhtHummValue)
