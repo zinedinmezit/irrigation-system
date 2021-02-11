@@ -37,10 +37,11 @@ class WateringService : Service() {
             .setContentTitle("Irrigation system service")
             .setContentText("Watering action started - ${dateFormat.format(Calendar.getInstance().time)}")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setGroup("WATERING_GROUP")
             .setOngoing(false)
             .build()
 
-        startForeground(1,notification)
+        startForeground(Calendar.getInstance().get(Calendar.DATE),notification)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
