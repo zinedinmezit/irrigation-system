@@ -12,6 +12,12 @@
 const char *ssid = "Tenda_29DC88";
 const char *password = "alifakovac1";
 
+void DisplayMessageLCD(String v1, String v2);
+void SlideShow(String ip, String t, String h);
+void ConnectToWiFi(const char *ssid, const char *password);
+void WateringDelay(const long interval);
+void sendSensorData(float hummidity, float temperature, String moisture);
+
 //Watering intervals
 const char *waterOption1 = "2000";
 const char *waterOption2 = "5000";
@@ -19,6 +25,8 @@ const char *waterOption3 = "10000";
 
 int relayPin = 12;
 int dht11Pin = 14;
+
+unsigned int slideShowOrder = 0;
 
 unsigned long previousMillis = 0;
 const long interval = 2000;
@@ -32,19 +40,22 @@ StaticJsonDocument<96> sensorValues;
 
 WebSocketsServer webSocket(81);
 
-void ConnectToWiFi(const char *ssid, const char *password);
-void WateringDelay(const long interval);
-void sendSensorData(float hummidity, float temperature, String moisture);
-
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
 {
   switch (type)
   {
-  case WStype_DISCONNECTED:
-    break;
 
   case WStype_CONNECTED:
+  {
+    Serial.printf("[%u] Connected", num);
     break;
+  }
+
+  case WStype_DISCONNECTED:
+  {
+    Serial.printf("[%u] Disconnected", num);
+    break;
+  }
 
   case WStype_TEXT:
   {
@@ -71,13 +82,17 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
   }
 
   case WStype_ERROR:
+  {
+    Serial.println("Error");
     break;
+  }
   }
 }
 
 void setup()
 {
 
+  Serial.begin(9600);
   dht.begin();
 
   lcd.begin(16, 2);
@@ -108,6 +123,8 @@ void loop()
 
     float h = dht.readHumidity();
     float t = dht.readTemperature();
+
+    SlideShow(WiFi.localIP().toString(), (String)t, (String)h);
 
     sendSensorData(h, t, moistureValueString);
   }
@@ -144,26 +161,72 @@ void sendSensorData(float hummidity, float temperature, String moisture)
   sensorValues.clear();
 
   if (moisture.isEmpty())
-    sensorValues["error_moisture"] = "Can't read moisture";
+    sensorValues["moisture"] = "NaN";
   else
   {
     sensorValues["moisture"] = moisture;
-    sensorValues["error_moisture"] = "";
   }
 
   if (isnan(hummidity) || isnan(temperature))
   {
-    sensorValues["error_dht11"] = "Can't read dht11";
+    sensorValues["dhtTemp"] = "NaN";
+    sensorValues["dhtHumm"] = "NaN";
   }
   else
   {
     sensorValues["moisture"] = moisture;
     sensorValues["dhtTemp"] = (String)temperature;
     sensorValues["dhtHumm"] = (String)hummidity;
-    sensorValues["error_dht11"] = "";
   }
-
+  Serial.println(temperature);
   String output;
   serializeJson(sensorValues, output);
   webSocket.sendTXT(0, output);
+}
+
+void DisplayMessageLCD(String v1, String v2)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(v1);
+  lcd.setCursor(0, 1);
+  lcd.print(v2);
+}
+
+void SlideShow(String ip, String t, String h)
+{
+
+  if (webSocket.clientIsConnected((uint8_t)0))
+  {
+    if(slideShowOrder == 3) slideShowOrder = 0;
+    switch (slideShowOrder)
+    {
+    case 0:
+    {
+      DisplayMessageLCD("IP Address", ip);
+      slideShowOrder++;
+      break;
+    }
+    case 1:
+    {
+      DisplayMessageLCD("Temperature", t);
+      slideShowOrder++;
+      break;
+    }
+    case 2:
+    {
+      DisplayMessageLCD("Hummidity", h);
+      slideShowOrder = 0;
+      break;
+    }
+    }
+  }
+  else
+  {
+    if (slideShowOrder != 3)
+    {
+      DisplayMessageLCD("IP Address", ip);
+      slideShowOrder = 3;
+    }
+  }
 }
