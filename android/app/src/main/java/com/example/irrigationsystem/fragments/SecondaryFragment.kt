@@ -109,6 +109,7 @@ class SecondaryFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.dialog_title))
             .setMessage(resources.getString(R.string.dialog_text))
+            .setCancelable(false)
             .setNeutralButton(resources.getString(R.string.dialog_button_neutral_text)){ _, _ ->
                 this.findNavController().popBackStack()
             }
