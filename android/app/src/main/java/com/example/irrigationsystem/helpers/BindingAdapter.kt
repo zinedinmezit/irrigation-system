@@ -134,27 +134,27 @@ fun bindImage(imgView : ImageView, forecast : Forecast?){
 @BindingAdapter("tempValue","setupInfo")
 fun TextView.temperatureValueWithIndicator(tempValue : LiveData<String>, setupInfo : LiveData<SetupInfo>){
     val setupInfoValue = setupInfo.value
-    tempValue.value.let {
+    tempValue.value.let { value ->
 
-        if (!it.isNullOrEmpty()) {
+        if (!value.isNullOrEmpty()) {
             if (setupInfoValue != null) {
-                val doubleValue: Double = it.toDouble()
+                val doubleValue: Double = value.toDouble()
                 when {
                     doubleValue > setupInfoValue.TemperatureMaxLimit -> {
-                        text = resources.getString(R.string.forecastTemperature, it.toInt())
+                        text = resources.getString(R.string.sensorTemperature, value.toDouble())
                         setTextColor(resources.getColor(R.color.Danger, null))
                     }
                     doubleValue < setupInfoValue.TemperatureMinLimit -> {
-                        text = resources.getString(R.string.forecastTemperature, it.toInt())
+                        text = resources.getString(R.string.sensorTemperature, value.toDouble())
                         setTextColor(resources.getColor(R.color.Cold, null))
                     }
                     else -> {
-                        text = it
+                        text = value
                         setTextColor(resources.getColor(R.color.black, null))
                     }
                 }
             } else {
-                text = resources.getString(R.string.forecastTemperature, it.toInt())
+                text = resources.getString(R.string.sensorTemperature, value.toFloat())
                 setTextColor(resources.getColor(R.color.black, null))
             }
         }else text = resources.getString(R.string.not_a_number)
@@ -164,27 +164,27 @@ fun TextView.temperatureValueWithIndicator(tempValue : LiveData<String>, setupIn
 @BindingAdapter("hummValue","setupInfo2")
 fun TextView.hummidityValueWithIndicator(hummValue : LiveData<String>, setupInfo2 : LiveData<SetupInfo>){
     val setupInfoValue = setupInfo2.value
-    hummValue.value.let {
+    hummValue.value.let { value ->
 
-        if(!it.isNullOrEmpty()) {
+        if(!value.isNullOrEmpty()) {
             if (setupInfoValue != null) {
-                val doubleValue: Double = it.toDouble()
+                val doubleValue: Double = value.toDouble()
                 when {
                     doubleValue > setupInfoValue.HummidityMaxLimit -> {
-                        text = resources.getString(R.string.hummidityPercentage, it)
+                        text = resources.getString(R.string.hummidityPercentage, value)
                         setTextColor(resources.getColor(R.color.Danger, null))
                     }
                     doubleValue < setupInfoValue.HummidityMinLimit -> {
-                        text = resources.getString(R.string.hummidityPercentage, it)
+                        text = resources.getString(R.string.hummidityPercentage, value)
                         setTextColor(resources.getColor(R.color.Cold, null))
                     }
                     else -> {
-                        text = resources.getString(R.string.hummidityPercentage, it)
+                        text = resources.getString(R.string.hummidityPercentage, value)
                         setTextColor(resources.getColor(R.color.black, null))
                     }
                 }
             } else {
-                text = it
+                text = value
                 setTextColor(resources.getColor(R.color.black, null))
             }
         } else text = resources.getString(R.string.not_a_number)

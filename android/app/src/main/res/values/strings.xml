@@ -63,6 +63,7 @@
 
     <!-- Text resources for Binding adapters -->
     <string name="forecastTemperature">%1$d°C</string>
+    <string name="sensorTemperature">%1$.2f°C</string>
     <string name="hummidityPercentage">%1$s</string>
     <string name="not_a_number">NaN</string>
     <string name="parameters_setup">Change parameters</string>
