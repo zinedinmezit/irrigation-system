@@ -105,11 +105,12 @@ class MainFragment : Fragment(){
                     true
                 }
                 R.id.ip_item -> {
+                    val dialogFragment = IpAddressDialogFragment()
+                    dialogFragment.show(childFragmentManager, "IpAddressDialogFragment")
                     true
                 }
                 else -> false
             }
-
         }
 
 

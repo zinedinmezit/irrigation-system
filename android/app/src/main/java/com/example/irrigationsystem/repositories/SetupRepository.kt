@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.irrigationsystem.database.IrrigationDao
 import com.example.irrigationsystem.models.SetupInfo
+import kotlinx.coroutines.launch
 
 class SetupRepository(private val dao : IrrigationDao) {
 
@@ -23,6 +24,14 @@ class SetupRepository(private val dao : IrrigationDao) {
     suspend fun updateSetupInfo(address:String,
                                 city:String){
         dao.updateSetupInfo(address,city)
+    }
+
+   suspend fun updateCity(city : String){
+        dao.updateCity(city)
+    }
+
+   suspend fun updateServerIpAddress(address : String){
+       dao.updateServerIpAddress(address)
     }
 
 

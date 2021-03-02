@@ -72,5 +72,7 @@
     <string name="hummidity_and_temperature_parameters">Hummidity and temperature parameters</string>
     <string name="city_to_display_weather_from">City to display weather from</string>
     <string name="server_executor_ip">Server executor IP</string>
+    <string name="change_server_ip_address">Change server IP Address</string>
+    <string name="change_forecast_city">Change forecast city</string>
 
 </resources>

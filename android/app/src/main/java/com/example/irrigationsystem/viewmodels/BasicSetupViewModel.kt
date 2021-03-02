@@ -26,6 +26,18 @@ class BasicSetupViewModel(app : Application) : AndroidViewModel(app) {
         }
     }
 
+    fun updateCity(city : String){
+        scope.launch {
+            repository.updateCity(city)
+        }
+    }
+
+    fun updateServerIpAddress(address : String){
+        scope.launch {
+            repository.updateServerIpAddress(address)
+        }
+    }
+
     fun updateParameterValues(
                         tempMinValue : Double,
                         tempMaxValue : Double,
