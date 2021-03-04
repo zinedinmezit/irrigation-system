@@ -6,6 +6,8 @@ import java.util.*
 
 object DateDaysHelper {
 
+    private const val CALENDAR_SATURDAY = 7
+
     //Maps for 3 groups of chips so we can transform their ids with DAY_OF_WEEK
 
     private val chipIdMap = mapOf(
@@ -49,7 +51,7 @@ object DateDaysHelper {
                 myCalendar.add(Calendar.DATE,7)
 
             }else {
-                myCalendar.add(Calendar.DATE, currentDay - (currentDay - dayToSchedule))
+                myCalendar.add(Calendar.DATE, (CALENDAR_SATURDAY - currentDay)+dayToSchedule)
             }
         }
 
