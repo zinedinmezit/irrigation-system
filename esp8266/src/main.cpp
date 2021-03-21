@@ -9,8 +9,8 @@
 #define DHTTYPE DHT11
 
 //WiFi credentials
-const char *ssid = "Tenda_29DC88";
-const char *password = "alifakovac1";
+const char *ssid = "SSID";
+const char *password = "PASSWORD";
 
 void DisplayMessageLCD(String v1, String v2);
 void SlideShow(String ip, String t, String h);
