@@ -8,9 +8,8 @@
 
 #define DHTTYPE DHT11
 
-//WiFi credentials
-const char *ssid = "Tenda_29DC88";
-const char *password = "alifakovac1";
+const char *ssid = "Nokia";
+const char *password = "lozinka1";
 
 void DisplayMessageLCD(String v1, String v2);
 void SlideShow(String ip, String t, String h);
@@ -198,7 +197,8 @@ void SlideShow(String ip, String t, String h)
 
   if (webSocket.clientIsConnected((uint8_t)0))
   {
-    if(slideShowOrder == 3) slideShowOrder = 0;
+    if (slideShowOrder == 3)
+      slideShowOrder = 0;
     switch (slideShowOrder)
     {
     case 0:

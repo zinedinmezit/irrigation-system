@@ -37,9 +37,10 @@ class WateringReceiver : BroadcastReceiver() {
             val schedulerId = myBundle?.getInt("SCHEDULERID")
             val wateringDurationValue = myBundle?.getLong("WATERINGDURATION")
 
+
             Log.i(
                 "Checkup",
-                "WateringReceiver/BundleValues (chipIdsArray, chipIds, timeString, ipAddress, schedulerId) : \n$chipIdsArray\n$chipIds\n$timeString\n$ipAddress\n$schedulerId"
+                "WateringReceiver/BundleValues (chipIdsArray, chipIds, timeString, ipAddress, schedulerId, wateringDuration) : \n$chipIdsArray\n$chipIds\n$timeString\n$ipAddress\n$schedulerId\n$wateringDurationValue"
             )
 
             val pairs = DateDaysHelper.getDateForCurrentSchedule(chipIds!!, timeString!!)
@@ -55,7 +56,7 @@ class WateringReceiver : BroadcastReceiver() {
                 it.putExtra("TIMESTRING", timeString)
                 it.putExtra("IPADDRESS", ipAddress)
                 it.putExtra("SCHEDULERID", schedulerId)
-                intent.putExtra("WATERINGDURATION", wateringDurationValue)
+                it.putExtra("WATERINGDURATION", wateringDurationValue)
                 PendingIntent.getBroadcast(context, 173839173, it, FLAG_UPDATE_CURRENT)
             }
 

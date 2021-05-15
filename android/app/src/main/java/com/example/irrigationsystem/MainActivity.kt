@@ -14,31 +14,46 @@ import android.view.inputmethod.InputMethodManager
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        createChannel(
-            getString(R.string.is_notification_channel_id),
-            getString(R.string.is_notification_channel_name))
+
+        createChannel(getString(R.string.is_notification_channel_id),
+            getString(R.string.is_notification_channel_name),
+            getString(R.string.is_notification_channel_id2),
+            getString(R.string.is_notification_channel_name2))
+
         setContentView(R.layout.activity_main)
     }
 
-    private fun createChannel(channelId : String, channelName : String) {
+    private fun createChannel(channelId1 : String, channelName1 : String, channelId2 : String, channelName2 : String) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                channelId,
-                channelName,
+            val notificationChannel1 = NotificationChannel(
+                channelId1,
+                channelName1,
                 NotificationManager.IMPORTANCE_HIGH
-            )
+            ).also {
+                it.enableLights(true)
+                it.lightColor = Color.RED
+                it.enableVibration(true)
+                it.description = "Watering service fired up"
+            }
 
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(true)
-            notificationChannel.description = "You got things to do"
+            val notificationChannel2 = NotificationChannel(
+                channelId2,
+                channelName2,
+                NotificationManager.IMPORTANCE_HIGH
+            ).also {
+                it.enableLights(true)
+                it.lightColor = Color.RED
+                it.enableVibration(false)
+                it.description = "Watering service time representation"
+            }
 
             val notificationManager = getSystemService(
                 NotificationManager::class.java
             )
-            notificationManager?.createNotificationChannel(notificationChannel)
+            notificationManager?.createNotificationChannels(listOf(notificationChannel1,notificationChannel2))
         }
     }
 

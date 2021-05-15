@@ -23,9 +23,9 @@ object DateDaysHelper {
     )
 
     private val chipIdMapS = mapOf(
-        2131362184 to 2, 2131362185 to 3, 2131362186 to 4,
-        2131362187 to 5, 2131362188 to 6, 2131362189 to 7,
-        2131362190 to 1
+        2131362220 to 2, 2131362221 to 3, 2131362222 to 4,
+        2131362223 to 5, 2131362224 to 6, 2131362225 to 7,
+        2131362226 to 1
     )
 
     @SuppressLint("SimpleDateFormat")

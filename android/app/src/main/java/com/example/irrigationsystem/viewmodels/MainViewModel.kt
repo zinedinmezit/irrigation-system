@@ -86,7 +86,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-            super.onClosed(webSocket, code, reason)
             if(currentEvent == "Initial"){
                 _isConnectionEstablished.postValue(false)
             }
@@ -100,8 +99,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             val sensorValuesObject = MoshiProvider.jsonAdapter.fromJson(text)
 
-            Log.i("WSProblem",text)
-
             _hummidityPercentageValue.postValue(sensorValuesObject?.moistureValue)
             _dht11HummidityPercentageValue.postValue(sensorValuesObject?.dhtHummValue)
             _dht11TemperatureValue.postValue(sensorValuesObject?.dhtTempValue)
@@ -110,6 +107,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
             if(_isConnectionEstablished.value!!) {
                 _isConnectionEstablished.postValue(false)
+                closeWebSocketConnection()
             }
         }
     }
