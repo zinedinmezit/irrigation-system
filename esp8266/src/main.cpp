@@ -8,8 +8,9 @@
 
 #define DHTTYPE DHT11
 
-const char *ssid = "Nokia";
-const char *password = "lozinka1";
+//WiFi credentials
+const char *ssid = "SSID";
+const char *password = "PASSWORD";
 
 void DisplayMessageLCD(String v1, String v2);
 void SlideShow(String ip, String t, String h);
@@ -82,7 +83,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t lenght)
 
   case WStype_ERROR:
   {
-    Serial.println("Error");
+    webSocket.disconnect(0);
     break;
   }
   }

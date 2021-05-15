@@ -10,7 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 private const val API_BASE_URL = "http://api.openweathermap.org/data/2.5/"
-private const val API_KEY = "18d2446da5446dabbacc445d82fa25bd"
+private const val API_KEY = "API_KEY"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
