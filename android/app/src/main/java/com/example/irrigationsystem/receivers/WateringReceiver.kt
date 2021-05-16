@@ -37,12 +37,6 @@ class WateringReceiver : BroadcastReceiver() {
             val schedulerId = myBundle?.getInt("SCHEDULERID")
             val wateringDurationValue = myBundle?.getLong("WATERINGDURATION")
 
-
-            Log.i(
-                "Checkup",
-                "WateringReceiver/BundleValues (chipIdsArray, chipIds, timeString, ipAddress, schedulerId, wateringDuration) : \n$chipIdsArray\n$chipIds\n$timeString\n$ipAddress\n$schedulerId\n$wateringDurationValue"
-            )
-
             val pairs = DateDaysHelper.getDateForCurrentSchedule(chipIds!!, timeString!!)
 
             scope.launch {

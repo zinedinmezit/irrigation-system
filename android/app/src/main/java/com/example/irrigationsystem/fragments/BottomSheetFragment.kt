@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,7 @@ import com.example.irrigationsystem.receivers.WateringReceiver
 import com.example.irrigationsystem.viewmodels.BottomSheetViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class BottomSheetFragment() : BottomSheetDialogFragment() {
+class BottomSheetFragment : BottomSheetDialogFragment() {
 
     var  listOfPlans : List<Plan>? = null
      var webSocketIpAddress : String? = null
@@ -69,8 +68,6 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
                 if(planSchedulerView != null && days != null){
 
                     val pair = DateDaysHelper.getDateForCurrentSchedule(days?.toMutableList()!!,planSchedulerView?.TimeString!!)
-
-                    Log.i("Checkup","BottomSheetFragment/Ids(scheduler, days) : \n$planSchedulerView \n$days")
 
                     val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->

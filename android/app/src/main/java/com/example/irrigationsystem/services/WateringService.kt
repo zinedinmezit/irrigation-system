@@ -8,7 +8,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.irrigationsystem.R
@@ -17,7 +16,6 @@ import kotlinx.coroutines.*
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
-import okhttp3.internal.notify
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -65,21 +63,16 @@ class WateringService : Service() {
         val myBundle = intent?.extras
         val address = myBundle?.getString("IPADDRESS")!!
         val wateringDurationValue = myBundle.getLong("WATERINGDURATION")
-        Log.i("serviceTest", "Address - $address")
-        Log.i("serviceTest", "WateringDurationValue - $wateringDurationValue")
-
 
         val wsListener : WebSocketListener = object :WebSocketListener(){
 
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 webSocket.send(wateringDurationValue.toString())
-                Log.i("serviceTest", "wsListener - onOpen - wateringDurationValue - $wateringDurationValue")
                 webSocket.close(1000,null)
             }
         }
 
         scope.launch {
-            Log.i("serviceTest", "before Opening - Address - $address")
             OkHttpProvider.openWebSocketConnection(wsListener, address)
             stopForeground(false)
         }

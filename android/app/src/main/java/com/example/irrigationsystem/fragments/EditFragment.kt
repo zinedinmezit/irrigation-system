@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,13 +30,13 @@ class EditFragment : Fragment() {
 
     private val model: EditViewModel by activityViewModels()
 
-    val args : EditFragmentArgs by navArgs()
+    private val args : EditFragmentArgs by navArgs()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val address = args.ipAddress
 
@@ -63,7 +62,6 @@ class EditFragment : Fragment() {
 
             val checkedChipIds = binding.editChipGroup.checkedChipIds
             val transformedChipIds = DateDaysHelper.transformListIds(checkedChipIds,2)
-            Log.i("ListChips","EditFragment - $checkedChipIds")
             val planName = binding.editInputText.text.toString()
             val timeString = binding.editTimeText.text.toString()
 
@@ -89,8 +87,6 @@ class EditFragment : Fragment() {
                     //alarmMgr?.scheduleWatering(requireContext(), chipsIntArray, timeString, scheduledDate,address)
 
                     val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    Log.i("testtest1", "${model.activePlan.value?.WateringSchedulerId}")
-                    Log.i("Checkup", "EditFragment(activePlan) : \n${model.activePlan.value}")
                     val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
                         intent.putExtra("CHIPS", chipsIntArray)
                         intent.putExtra("TIMESTRING", timeString)
@@ -131,28 +127,5 @@ class EditFragment : Fragment() {
                 notifyIntent
             )
         }
-    }
-
-    private fun validateForm(planName : String?, timeString : String?) : Boolean{
-        var flag = true
-
-
-        if(planName.isNullOrBlank()){
-            binding.editInputLayout.error = "Plan name can't be empty"
-            flag = false
-        }
-        else{
-            binding.editInputLayout.error = null
-        }
-
-        if(timeString.isNullOrBlank()){
-            binding.editTimeText.error = "Time can't be empty"
-            flag = false
-        }
-        else{
-            binding.editTimeText.error = null
-        }
-
-        return flag
     }
 }

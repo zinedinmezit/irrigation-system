@@ -9,10 +9,10 @@ import kotlinx.coroutines.Job
 
 class IrrigationApplication : Application() {
 
-    private val DispatcherIo = Dispatchers.IO
+    private val dispatcherIo = Dispatchers.IO
 
 
-    val applicationScopeIO by lazy { CoroutineScope(DispatcherIo + Job()) }
+    val applicationScopeIO by lazy { CoroutineScope(dispatcherIo + Job()) }
     val database by lazy { IrrigationSystemDatabase.getInstance(this) }
     val receiverRepository by lazy { ReceiverRepository(database.IrrigationDatabaseDao) }
 }

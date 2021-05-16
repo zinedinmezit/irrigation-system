@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +48,6 @@ class SetupFragment : Fragment() {
 
             val chips = binding.setupChipGroup.checkedChipIds
             val checkedChipsIds = DateDaysHelper.transformListIds(chips,3)
-            Log.i("ListChips","Setup - $chips")
             val planName : String = binding.setupTextFieldText.text.toString()
             val timeString = binding.setupTimeString.text.toString()
             val wsIpAddress = binding.setupIpAddressText.text.toString()
@@ -94,14 +92,9 @@ class SetupFragment : Fragment() {
                         model.changePlanActiveStatusExceptOne(planId)
                         val scheduledDate =
                             model.insertWateringScheduler(checkedChipsIds, timeString, wateringDurationValue, planId)
-                        Log.i("testtest", "Scheduled date - $scheduledDate")
                         val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                         model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
-                        Log.i(
-                            "Checkup",
-                            "SetupFragment/WateringSchedulerId (wsId) : \n$wateringSchedulerId"
-                        )
                         val alarmMgr =
                             context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                         val alarmIntent =

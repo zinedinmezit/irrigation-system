@@ -10,19 +10,19 @@ object DateDaysHelper {
 
     //Maps for 3 groups of chips so we can transform their ids with DAY_OF_WEEK
 
-    private val chipIdMap = mapOf(
+    private val chipIdCreateMap = mapOf(
         2131361908 to 2, 2131361909 to 3, 2131361910 to 4,
         2131361911 to 5, 2131361912 to 6, 2131361913 to 7,
         2131361914 to 1
     )
 
-    private val chipIdMapE = mapOf(
+    private val chipIdEditMap = mapOf(
         2131361915 to 2, 2131361916 to 3, 2131361917 to 4,
         2131361918 to 5, 2131361919 to 6, 2131361920 to 7,
         2131361921 to 1
     )
 
-    private val chipIdMapS = mapOf(
+    private val chipIdSetupMap = mapOf(
         2131362220 to 2, 2131362221 to 3, 2131362222 to 4,
         2131362223 to 5, 2131362224 to 6, 2131362225 to 7,
         2131362226 to 1
@@ -64,13 +64,13 @@ object DateDaysHelper {
         val listTransformed = mutableListOf<Int>()
          when (listCode) {
              1 -> {
-                 list.forEach { it -> chipIdMap[it]?.let { it1 -> listTransformed.add(it1) } }
+                 list.forEach { it -> chipIdCreateMap[it]?.let { it1 -> listTransformed.add(it1) } }
              }
              2 -> {
-                 list.forEach { it -> chipIdMapE[it]?.let { it1 -> listTransformed.add(it1) } }
+                 list.forEach { it -> chipIdEditMap[it]?.let { it1 -> listTransformed.add(it1) } }
              }
              3 -> {
-                 list.forEach { it -> chipIdMapS[it]?.let { it1 -> listTransformed.add(it1) } }
+                 list.forEach { it -> chipIdSetupMap[it]?.let { it1 -> listTransformed.add(it1) } }
              }
          }
 

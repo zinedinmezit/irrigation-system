@@ -1,7 +1,6 @@
 package com.example.irrigationsystem.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -23,7 +22,7 @@ class MainFragment : Fragment(){
     val bottomSheetFragment = BottomSheetFragment()
 
 
-    val args : MainFragmentArgs by navArgs()
+    private val args : MainFragmentArgs by navArgs()
      var webSocketIpAddress : String? = null
      var city : String? = null
 
@@ -32,11 +31,9 @@ class MainFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.i("WsCheckup", "Null -> $webSocketIpAddress")
         //Assigned from arguments (Navigation : WelcomeFragment -> MainFragment(IpAddress:String, City:String))
         if(webSocketIpAddress == null)
         webSocketIpAddress = args.ipAddress
-        Log.i("WsCheckup", " After assignment from args -> $webSocketIpAddress")
         if(city == null)
         city = args.cIty
 
@@ -49,7 +46,6 @@ class MainFragment : Fragment(){
 
 
         //Open websocket connection with signal code 0
-        Log.i("WsCheckup", "Opening -> $webSocketIpAddress")
         model.openWebSocketConnection(webSocketIpAddress!!)
 
 
@@ -73,10 +69,8 @@ class MainFragment : Fragment(){
             }
 
             if(webSocketIpAddress != it.IpAddress){
-                Log.i("WsCheckup", "setupInfoObserve - BEFORE assignment = $webSocketIpAddress")
                 webSocketIpAddress = it.IpAddress
                 bottomSheetFragment.webSocketIpAddress = it.IpAddress
-                Log.i("WsCheckup", "setupInfoObserve - AFTER assignment = $webSocketIpAddress")
             }
         })
 
@@ -96,9 +90,7 @@ class MainFragment : Fragment(){
         //Initialize BottomSheetFragment and as soon is required info for BottomSheetFragment available, ship it
         model.allPlans.observe(viewLifecycleOwner, {
             bottomSheetFragment.listOfPlans = it
-            Log.i("WsCheckup", "bottomSheet - BEFORE assignment = $webSocketIpAddress")
             bottomSheetFragment.webSocketIpAddress = webSocketIpAddress
-            Log.i("WsCheckup", "bottomSheet - AFTER assignment = $webSocketIpAddress")
         })
 
 
@@ -133,7 +125,6 @@ class MainFragment : Fragment(){
         }
 
         binding.buttonReconnect.setOnClickListener {
-            Log.i("WsCheckup", "buttonReconnect - opening Connection = $webSocketIpAddress")
             model.signalCode=0
             model.openWebSocketConnection(webSocketIpAddress!!)
         }
@@ -143,13 +134,11 @@ class MainFragment : Fragment(){
         }
 
         binding.planName.setOnClickListener {
-            Log.i("WsCheckup", "editFragment NavArgs - Navigating = $webSocketIpAddress")
             val action = MainFragmentDirections.actionMainFragmentToEditFragment(webSocketIpAddress!!)
             this.findNavController().navigate(action)
         }
 
         binding.extendedFab.setOnClickListener{
-            Log.i("WsCheckup", "secondaryFragment NavArgs - Navigating = $webSocketIpAddress")
             val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(webSocketIpAddress!!)
             this.findNavController().navigate(action)
         }
@@ -175,10 +164,9 @@ class MainFragment : Fragment(){
             .setMessage(resources.getString(R.string.watering_dialog_text))
             .setPositiveButton(resources.getString(R.string.watering_dialog_positive_button_label)){ _, _ ->
                 model.signalCode=1
-                Log.i("WsCheckup", "Watering success dialog - Positive button = $webSocketIpAddress")
                 model.openWebSocketConnection(webSocketIpAddress!!)
             }
-            .setNegativeButton(resources.getString(R.string.watering_dialog_negative_button_label)){ dialog, par ->
+            .setNegativeButton(resources.getString(R.string.watering_dialog_negative_button_label)){ dialog, _ ->
                 dialog.dismiss()
             }
             .show()

@@ -1,7 +1,6 @@
 package com.example.irrigationsystem.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.models.Plan
@@ -69,7 +68,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     var signalCode : Int = 0
     var currentEvent : String = "Initial"
-    val wsListener : WebSocketListener = object :WebSocketListener(){
+    private val wsListener : WebSocketListener = object :WebSocketListener(){
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
             when(signalCode){
@@ -133,7 +132,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     _apiResponse.postValue(response)
                 }
             } catch (t: Throwable) {
-                Log.i("testtest1", "${t.message}")
             }
         }
     }

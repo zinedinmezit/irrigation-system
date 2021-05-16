@@ -31,7 +31,7 @@ class BasicSetupDialogFragment : DialogFragment() {
                     model.updateCity(cityString)
                     getDialog()?.dismiss()
                 })
-                .setNegativeButton(R.string.cancel,DialogInterface.OnClickListener { dialog, id -> getDialog()?.dismiss() })
+                .setNegativeButton(R.string.cancel,DialogInterface.OnClickListener { _, _ -> getDialog()?.dismiss() })
             builder.create()
         }
     }
