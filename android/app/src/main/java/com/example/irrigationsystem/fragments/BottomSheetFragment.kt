@@ -1,20 +1,14 @@
 package com.example.irrigationsystem.fragments
 
-import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.example.irrigationsystem.databinding.BottomsheetPlansBinding
-import com.example.irrigationsystem.helpers.DateDaysHelper
-import com.example.irrigationsystem.helpers.DeleteListener
-import com.example.irrigationsystem.helpers.PlanAdapter
-import com.example.irrigationsystem.helpers.PlanListener
+import com.example.irrigationsystem.helpers.*
 import com.example.irrigationsystem.models.Plan
 import com.example.irrigationsystem.models.PlanWateringSchedulerView
 import com.example.irrigationsystem.receivers.WateringReceiver
@@ -23,14 +17,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetFragment : BottomSheetDialogFragment() {
 
-    var  listOfPlans : List<Plan>? = null
-     var webSocketIpAddress : String? = null
+    var listOfPlans: List<Plan>? = null
+    var webSocketIpAddress: String? = null
 
-    var planSchedulerView : PlanWateringSchedulerView? = null
-    var days : List<Int>? = null
+    var planSchedulerView: PlanWateringSchedulerView? = null
+    var days: List<Int>? = null
 
-    private lateinit var binding : BottomsheetPlansBinding
-
+    private lateinit var binding: BottomsheetPlansBinding
+    private lateinit var alarmManager: AlarmUtil
     private val model: BottomSheetViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -40,9 +34,10 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     ): View {
 
         binding = BottomsheetPlansBinding.inflate(inflater, container, false)
+        alarmManager = AlarmUtil(requireContext())
 
         val adapter = PlanAdapter(PlanListener {
-            if(!it.IsActive) {
+            if (!it.IsActive) {
                 model.changePlanActiveStatusExceptOne(it.PlanId)
                 model.setPlanAsActive(it.PlanId)
             }
@@ -64,24 +59,34 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         })
 
         model.isFetched.observe(viewLifecycleOwner, {
-            if(it){
-                if(planSchedulerView != null && days != null){
+            if (it) {
+                if (planSchedulerView != null && days != null) {
 
-                    val pair = DateDaysHelper.getDateForCurrentSchedule(days?.toMutableList()!!,planSchedulerView?.TimeString!!)
+                    val pair = DateDaysHelper.getDateForCurrentSchedule(
+                        days?.toMutableList()!!,
+                        planSchedulerView?.TimeString!!
+                    )
 
-                    val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
-                        intent.putExtra("CHIPS",days?.toIntArray())
-                        intent.putExtra("TIMESTRING",planSchedulerView?.TimeString!!)
+                        intent.putExtra("CHIPS", days?.toIntArray())
+                        intent.putExtra("TIMESTRING", planSchedulerView?.TimeString!!)
                         intent.putExtra("IPADDRESS", webSocketIpAddress!!)
                         intent.putExtra("SCHEDULERID", planSchedulerView?.WateringSchedulerId)
                         intent.putExtra("WATERINGDURATION", planSchedulerView?.WateringDuration)
-                        PendingIntent.getBroadcast(context,173839173,intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        PendingIntent.getBroadcast(
+                            context,
+                            173839173,
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
                     }
 
-                    model.setWateringTImeNow(pair.first.time, planSchedulerView?.WateringSchedulerId!!)
+                    model.setWateringTImeNow(
+                        pair.first.time,
+                        planSchedulerView?.WateringSchedulerId!!
+                    )
 
-                    setAlarmManager(alarmMgr, pair.first.time, alarmIntent)
+                    alarmManager.scheduleAlarmManager(pair.first.time, alarmIntent)
 
                     model.fetchedToFalse()
                     this.dismiss()
@@ -90,24 +95,5 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         })
 
         return binding.root
-    }
-
-
-    private fun setAlarmManager(alarmManager : AlarmManager, dateTime : Long, notifyIntent: PendingIntent)
-    {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                dateTime,
-                notifyIntent
-            )
-        }
-        else{
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                dateTime,
-                notifyIntent
-            )
-        }
     }
 }
