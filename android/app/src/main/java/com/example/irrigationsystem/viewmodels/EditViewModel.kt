@@ -50,10 +50,7 @@ class EditViewModel(application : Application) : AndroidViewModel(application){
                         irrigationRepository.insertWateringSchDay(wsd)
                     }
                 }
-            }catch (ex : Exception){
-                Log.i("www", "${ex.message}")
-            }
-
+            }catch (ex : Exception){ }
     }
 
     fun updateWateringScheduler(list : MutableList<Int>, timeString : String, wateringDuration : Long) : Long{

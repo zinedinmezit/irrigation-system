@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentEditBinding
+import com.example.irrigationsystem.helpers.AlarmUtil
 import com.example.irrigationsystem.helpers.DateDaysHelper
 import com.example.irrigationsystem.helpers.DaysAdapter
 import com.example.irrigationsystem.helpers.FormValidation
@@ -26,11 +27,13 @@ import com.example.irrigationsystem.viewmodels.EditViewModel
 
 class EditFragment : Fragment() {
 
-    private lateinit var binding : FragmentEditBinding
+    private lateinit var binding: FragmentEditBinding
 
     private val model: EditViewModel by activityViewModels()
 
-    private val args : EditFragmentArgs by navArgs()
+    private val args: EditFragmentArgs by navArgs()
+
+    private lateinit var alarmManager: AlarmUtil
 
 
     override fun onCreateView(
@@ -38,43 +41,46 @@ class EditFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val address = args.ipAddress
-
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_edit,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.editVM = model
         binding.executePendingBindings()
 
+        alarmManager = AlarmUtil(requireContext())
+
+        val address = args.ipAddress
+
         val adapter = DaysAdapter()
         binding.recyclerView.adapter = adapter
 
-        model.scheduledDays.observe(viewLifecycleOwner, Observer {
+        model.scheduledDays.observe(viewLifecycleOwner, {
             it?.let {
                 adapter.submitList(it)
             }
         })
 
         binding.editTimeText.setOnClickListener {
-            TimePickerFragment(2).show(parentFragmentManager,"timePicker")
+            TimePickerFragment(2).show(parentFragmentManager, "timePicker")
         }
 
-        binding.editButtonUpdate.setOnClickListener{
+        binding.editButtonUpdate.setOnClickListener {
 
             val checkedChipIds = binding.editChipGroup.checkedChipIds
-            val transformedChipIds = DateDaysHelper.transformListIds(checkedChipIds,2)
+            val transformedChipIds = DateDaysHelper.transformListIds(checkedChipIds, 2)
             val planName = binding.editInputText.text.toString()
             val timeString = binding.editTimeText.text.toString()
 
-            val wateringDurationValue = when(binding.editWateringDurationGroup.checkedRadioButtonId){
-                R.id.edit_wateringDuration1 -> 2000L
-                R.id.edit_wateringDuration2 -> 5000L
-                R.id.edit_wateringDuration3 -> 10000L
-                else -> 2000L
-            }
+            val wateringDurationValue =
+                when (binding.editWateringDurationGroup.checkedRadioButtonId) {
+                    R.id.edit_wateringDuration1 -> 2000L
+                    R.id.edit_wateringDuration2 -> 5000L
+                    R.id.edit_wateringDuration3 -> 10000L
+                    else -> 2000L
+                }
 
-            if(transformedChipIds.count() > 0) {
+            if (transformedChipIds.count() > 0) {
 
-                if (FormValidation.editFormValidation(planName, timeString,binding)) {
+                if (FormValidation.editFormValidation(planName, timeString, binding)) {
 
                     val chipsIntArray = transformedChipIds.toIntArray()
 
@@ -83,10 +89,12 @@ class EditFragment : Fragment() {
                     model.insertWateringSchedulerDays(transformedChipIds)
 
                     val scheduledDate =
-                        model.updateWateringScheduler(transformedChipIds, timeString, wateringDurationValue)
-                    //alarmMgr?.scheduleWatering(requireContext(), chipsIntArray, timeString, scheduledDate,address)
+                        model.updateWateringScheduler(
+                            transformedChipIds,
+                            timeString,
+                            wateringDurationValue
+                        )
 
-                    val alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     val alarmIntent = Intent(context, WateringReceiver::class.java).let { intent ->
                         intent.putExtra("CHIPS", chipsIntArray)
                         intent.putExtra("TIMESTRING", timeString)
@@ -101,7 +109,7 @@ class EditFragment : Fragment() {
                         )
                     }
 
-                    setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
+                    alarmManager.scheduleAlarmManager(scheduledDate, alarmIntent)
 
                     this.findNavController().popBackStack()
                 }
@@ -109,23 +117,5 @@ class EditFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun setAlarmManager(alarmManager : AlarmManager, dateTime : Long, notifyIntent: PendingIntent)
-    {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                dateTime,
-                notifyIntent
-            )
-        }
-        else{
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                dateTime,
-                notifyIntent
-            )
-        }
     }
 }
