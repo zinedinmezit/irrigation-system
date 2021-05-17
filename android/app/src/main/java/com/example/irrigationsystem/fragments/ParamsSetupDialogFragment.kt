@@ -2,7 +2,6 @@ package com.example.irrigationsystem.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
@@ -21,23 +20,26 @@ class ParamsSetupDialogFragment : DialogFragment() {
 
             val layout = inflater.inflate(R.layout.main_dialog_limit_values_setup,null)
             builder.setView(layout)
-                .setPositiveButton(R.string.edit, DialogInterface.OnClickListener { dialog, id ->
-                    val hummMinEditText = layout.findViewById(R.id.edit_setup_hummMin_text) as EditText
-                    val hummMaxEditText = layout.findViewById(R.id.edit_setup_hummMax_text) as EditText
-                    val tempMinEditText = layout.findViewById(R.id.edit_setup_tempMin_text) as EditText
-                    val tempMaxEditText = layout.findViewById(R.id.edit_setup_tempMax_text) as EditText
+                .setPositiveButton(R.string.edit) { dialog, _ ->
+                    val hummMinEditText =
+                        layout.findViewById(R.id.edit_setup_hummMin_text) as EditText
+                    val hummMaxEditText =
+                        layout.findViewById(R.id.edit_setup_hummMax_text) as EditText
+                    val tempMinEditText =
+                        layout.findViewById(R.id.edit_setup_tempMin_text) as EditText
+                    val tempMaxEditText =
+                        layout.findViewById(R.id.edit_setup_tempMax_text) as EditText
 
 
+                    val hummMin = hummMinEditText.text.toString().toDouble()
+                    val hummMax = hummMaxEditText.text.toString().toDouble()
+                    val tempMin = tempMinEditText.text.toString().toDouble()
+                    val tempMax = tempMaxEditText.text.toString().toDouble()
 
-                    val hummMin  = hummMinEditText.text.toString().toDouble()
-                    val hummMax  = hummMaxEditText.text.toString().toDouble()
-                    val tempMin  = tempMinEditText.text.toString().toDouble()
-                    val tempMax  = tempMaxEditText.text.toString().toDouble()
-
-                    model.updateParameterValues(tempMin,tempMax,hummMin,hummMax)
+                    model.updateParameterValues(tempMin, tempMax, hummMin, hummMax)
                     dialog.dismiss()
-                })
-                .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id -> dialog.dismiss() })
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
             builder.create()
         }
     }

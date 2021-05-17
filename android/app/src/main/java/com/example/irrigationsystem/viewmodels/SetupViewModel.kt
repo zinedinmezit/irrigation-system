@@ -1,7 +1,6 @@
 package com.example.irrigationsystem.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
@@ -54,16 +53,13 @@ class SetupViewModel(app : Application) : AndroidViewModel(app) {
 
     fun insertWateringSchedulerDays(id : Int, list : MutableList<Int>){
             try {
-                Log.i("testtest","Inside try catch")
                 list.forEach {
                     val wsd = WateringSchedulerDays(id, it)
                     viewModelScope.launch {
                         repository.insertWateringSchDay(wsd)
                     }
                 }
-            }catch (ex : Exception){
-                Log.i("testtest","aaaaa ${ex.message}")
-            }
+            }catch (ex : Exception){ }
 
     }
 

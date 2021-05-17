@@ -1,7 +1,6 @@
 package com.example.irrigationsystem.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.irrigationsystem.database.IrrigationSystemDatabase
 import com.example.irrigationsystem.helpers.DateDaysHelper
@@ -45,7 +44,6 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun insertWateringSchedulerDays(id : Int, list : MutableList<Int>){
             try {
-                Log.i("testtest","Inside try catch")
                 list.forEach {
 
                     val wsd = WateringSchedulerDays(id, it)
@@ -53,9 +51,7 @@ class SecondaryViewModel(application: Application) : AndroidViewModel(applicatio
                         repository.insertWateringSchDay(wsd)
                     }
                 }
-            }catch (ex : Exception){
-                Log.i("www","aaaaawww ${ex.message}")
-            }
+            }catch (ex : Exception){ }
 
     }
 

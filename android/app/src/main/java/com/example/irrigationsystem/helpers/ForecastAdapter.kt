@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.irrigationsystem.databinding.WeatherRecyclerviewItemBinding
 import com.example.irrigationsystem.models.weatherapi.Forecast
 
-class ForecastAdapter() : ListAdapter<Forecast, ForecastAdapter.ForecastHolder>(ForecastDiffCallback()){
+class ForecastAdapter : ListAdapter<Forecast, ForecastAdapter.ForecastHolder>(ForecastDiffCallback()){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastHolder {

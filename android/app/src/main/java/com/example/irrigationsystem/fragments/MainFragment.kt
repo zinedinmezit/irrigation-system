@@ -19,11 +19,11 @@ class MainFragment : Fragment(){
     private val model: MainViewModel by activityViewModels()
     private lateinit var binding : FragmentMainBinding
 
-    val bottomSheetFragment = BottomSheetFragment()
+    private val bottomSheetFragment = BottomSheetFragment()
 
 
     private val args : MainFragmentArgs by navArgs()
-     var webSocketIpAddress : String? = null
+     private var webSocketIpAddress : String? = null
      var city : String? = null
 
 
@@ -45,7 +45,7 @@ class MainFragment : Fragment(){
 
 
 
-        //Open websocket connection with signal code 0
+        //Open webSocket connection with signal code 0
         model.openWebSocketConnection(webSocketIpAddress!!)
 
 

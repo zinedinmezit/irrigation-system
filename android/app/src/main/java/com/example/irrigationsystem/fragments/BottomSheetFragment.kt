@@ -20,8 +20,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     var listOfPlans: List<Plan>? = null
     var webSocketIpAddress: String? = null
 
-    var planSchedulerView: PlanWateringSchedulerView? = null
-    var days: List<Int>? = null
+    private var planSchedulerView: PlanWateringSchedulerView? = null
+    private var days: List<Int>? = null
 
     private lateinit var binding: BottomsheetPlansBinding
     private lateinit var alarmManager: AlarmUtil

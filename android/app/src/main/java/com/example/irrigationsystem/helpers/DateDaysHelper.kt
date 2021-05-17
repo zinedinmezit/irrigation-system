@@ -64,13 +64,13 @@ object DateDaysHelper {
         val listTransformed = mutableListOf<Int>()
          when (listCode) {
              1 -> {
-                 list.forEach { it -> chipIdCreateMap[it]?.let { it1 -> listTransformed.add(it1) } }
+                 list.forEach { chipIdCreateMap[it]?.let { it1 -> listTransformed.add(it1) } }
              }
              2 -> {
-                 list.forEach { it -> chipIdEditMap[it]?.let { it1 -> listTransformed.add(it1) } }
+                 list.forEach { chipIdEditMap[it]?.let { it1 -> listTransformed.add(it1) } }
              }
              3 -> {
-                 list.forEach { it -> chipIdSetupMap[it]?.let { it1 -> listTransformed.add(it1) } }
+                 list.forEach { chipIdSetupMap[it]?.let { it1 -> listTransformed.add(it1) } }
              }
          }
 

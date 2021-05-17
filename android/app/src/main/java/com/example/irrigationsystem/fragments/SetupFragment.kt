@@ -1,10 +1,7 @@
 package com.example.irrigationsystem.fragments
 
-import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.FragmentSetupBinding
+import com.example.irrigationsystem.helpers.AlarmUtil
 import com.example.irrigationsystem.helpers.DateDaysHelper
 import com.example.irrigationsystem.helpers.FormValidation
 import com.example.irrigationsystem.models.Plan
@@ -27,7 +25,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class SetupFragment : Fragment() {
 
     lateinit var binding : FragmentSetupBinding
-
+    private lateinit var alarmManager : AlarmUtil
     private val model : SetupViewModel by activityViewModels()
 
 
@@ -39,6 +37,7 @@ class SetupFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_setup,container,false)
         binding.lifecycleOwner = this
 
+        alarmManager = AlarmUtil(requireContext())
 
         binding.setupTimeString.setOnClickListener {
             TimePickerFragment(3).show(parentFragmentManager,"timePicker")
@@ -95,8 +94,6 @@ class SetupFragment : Fragment() {
                         val wateringSchedulerId = model.getLatestWateringSchedulerId().toInt()
                         model.insertWateringSchedulerDays(wateringSchedulerId, checkedChipsIds)
 
-                        val alarmMgr =
-                            context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                         val alarmIntent =
                             Intent(context, WateringReceiver::class.java).let { intent ->
                                 intent.putExtra("CHIPS", chipsIntArray)
@@ -111,7 +108,7 @@ class SetupFragment : Fragment() {
                                     PendingIntent.FLAG_UPDATE_CURRENT
                                 )
                             }
-                        setAlarmManager(alarmMgr, scheduledDate, alarmIntent)
+                        alarmManager.scheduleAlarmManager(scheduledDate, alarmIntent)
                     }
                     showSuccessDialog()
                 }
@@ -130,23 +127,4 @@ class SetupFragment : Fragment() {
             }
             .show()
     }
-
-    private fun setAlarmManager(alarmManager : AlarmManager, dateTime : Long, notifyIntent: PendingIntent)
-    {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                dateTime,
-                notifyIntent
-            )
-        }
-        else{
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                dateTime,
-                notifyIntent
-            )
-        }
-    }
-
 }

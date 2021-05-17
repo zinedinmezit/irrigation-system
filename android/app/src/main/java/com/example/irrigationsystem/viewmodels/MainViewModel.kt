@@ -141,6 +141,3 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         scope.cancel()
     }
 }
-
-//TODO Optimizirati tranzicije kada konekcija izmedju klijenta i servera prelazi iz jednog stanja u drugo
-//TODO Inject-ad Moshi builder

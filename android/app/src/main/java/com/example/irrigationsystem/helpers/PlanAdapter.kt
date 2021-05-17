@@ -1,15 +1,12 @@
 package com.example.irrigationsystem.helpers
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.irrigationsystem.databinding.PlanBottomsheetRecyclerviewItemBinding
 import com.example.irrigationsystem.models.Plan
-import kotlinx.android.synthetic.main.plan_bottomsheet_recyclerview_item.view.*
 
 class PlanAdapter(val clickListener : PlanListener,
                   val DeleteListener : DeleteListener ) : ListAdapter<Plan, PlanAdapter.PlanHolder>(PlanDiffCallback()) {

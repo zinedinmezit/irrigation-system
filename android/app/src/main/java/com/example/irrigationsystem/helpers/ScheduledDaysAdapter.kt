@@ -1,17 +1,14 @@
 package com.example.irrigationsystem.helpers
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.irrigationsystem.R
 import com.example.irrigationsystem.databinding.RecyclerviewItemBinding
 import com.example.irrigationsystem.models.ScheduledDaysView
 
-class DaysAdapter() : ListAdapter<ScheduledDaysView, DaysAdapter.DayHolder>(DaysDiffCallback()) {
+class DaysAdapter : ListAdapter<ScheduledDaysView, DaysAdapter.DayHolder>(DaysDiffCallback()) {
 
 
 

@@ -16,7 +16,7 @@ import java.util.*
 
 class TimePickerFragment(val fragmentCode : Int) : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
-    lateinit var ctx : Context
+    private lateinit var ctx : Context
 
 
     override fun onAttach(context: Context) {
