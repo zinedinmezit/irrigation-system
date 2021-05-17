@@ -2,7 +2,6 @@ package com.example.irrigationsystem.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
@@ -21,17 +20,16 @@ class BasicSetupDialogFragment : DialogFragment() {
 
             val layout = inflater.inflate(R.layout.dialog_setup,null)
              builder.setView(layout)
-                .setPositiveButton(R.string.edit,DialogInterface.OnClickListener { dialog, id ->
+                .setPositiveButton(R.string.edit) { dialog, _ ->
                     val cityEditText = layout.findViewById(R.id.edit_setup_city_text) as EditText
 
 
-
-                    val cityString : String = cityEditText.text.toString()
+                    val cityString: String = cityEditText.text.toString()
 
                     model.updateCity(cityString)
-                    getDialog()?.dismiss()
-                })
-                .setNegativeButton(R.string.cancel,DialogInterface.OnClickListener { _, _ -> getDialog()?.dismiss() })
+                    dialog.dismiss()
+                }
+                 .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
             builder.create()
         }
     }
