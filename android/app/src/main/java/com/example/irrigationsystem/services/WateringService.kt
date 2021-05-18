@@ -39,14 +39,14 @@ class WateringService : Service() {
         val notification1 : Notification = NotificationCompat.Builder(this,applicationContext.getString(R.string.is_notification_channel_id))
             .setContentTitle("Irrigation system service")
             .setContentText("Watering action started")
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_stat_name)
             .setOngoing(true)
             .build()
 
         val notificationSummaryBuilder  = NotificationCompat.Builder(this,applicationContext.getString(R.string.is_notification_channel_id2))
             .setContentTitle("Watering action summary")
             .setContentText("Watering action executed at ${dateFormat.format(Calendar.getInstance().time)}")
-            .setSmallIcon(R.drawable.ic_baseline_broken_image_24)
+            .setSmallIcon(R.drawable.ic_stat_name)
             .setGroup("WATERING_GROUP")
             .setOngoing(false)
 
