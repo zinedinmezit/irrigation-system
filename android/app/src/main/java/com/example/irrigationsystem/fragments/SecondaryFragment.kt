@@ -39,10 +39,22 @@ class SecondaryFragment : Fragment() {
 
         val address = args.ipAddress
         alarmManager = AlarmUtil(requireContext())
+
+        openTimePickerListener()
+        createPlanListener(address)
+
+        return binding.root
+    }
+
+
+    private fun openTimePickerListener(){
+
         binding.secondaryEditTextTime.setOnClickListener {
             TimePickerFragment(1).show(parentFragmentManager, "timePicker")
         }
+    }
 
+    private fun createPlanListener(address : String){
         binding.secondaryButtonCreate.setOnClickListener {
 
             val chips = binding.chipGroup.checkedChipIds
@@ -102,7 +114,6 @@ class SecondaryFragment : Fragment() {
                 }
             }
         }
-        return binding.root
     }
 
     private fun showSuccessDialog() {

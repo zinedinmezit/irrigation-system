@@ -28,7 +28,6 @@ class SetupFragment : Fragment() {
     private lateinit var alarmManager : AlarmUtil
     private val model : SetupViewModel by activityViewModels()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,9 +38,30 @@ class SetupFragment : Fragment() {
 
         alarmManager = AlarmUtil(requireContext())
 
+        openTimePickerListener()
+        finishSetupListener()
+
+        return binding.root
+    }
+
+    private fun showSuccessDialog(){
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.dialog_title))
+            .setMessage(resources.getString(R.string.dialog_text))
+            .setCancelable(false)
+            .setNeutralButton(resources.getString(R.string.dialog_button_neutral_text)){ _, _ ->
+                this.findNavController().popBackStack()
+            }
+            .show()
+    }
+
+   private fun openTimePickerListener(){
         binding.setupTimeString.setOnClickListener {
             TimePickerFragment(3).show(parentFragmentManager,"timePicker")
         }
+    }
+
+    private fun finishSetupListener(){
 
         binding.setupCreateButton.setOnClickListener{
 
@@ -114,17 +134,5 @@ class SetupFragment : Fragment() {
                 }
             }
         }
-        return binding.root
-    }
-
-    private fun showSuccessDialog(){
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.dialog_title))
-            .setMessage(resources.getString(R.string.dialog_text))
-            .setCancelable(false)
-            .setNeutralButton(resources.getString(R.string.dialog_button_neutral_text)){ _, _ ->
-                this.findNavController().popBackStack()
-            }
-            .show()
     }
 }

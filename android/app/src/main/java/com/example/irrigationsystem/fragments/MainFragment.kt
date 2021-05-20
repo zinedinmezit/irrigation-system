@@ -22,35 +22,62 @@ class MainFragment : Fragment(){
     private val bottomSheetFragment = BottomSheetFragment()
 
 
-    private val args : MainFragmentArgs by navArgs()
+     private val args : MainFragmentArgs by navArgs()
      private var webSocketIpAddress : String? = null
      var city : String? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //Assigned from arguments (Navigation : WelcomeFragment -> MainFragment(IpAddress:String, City:String))
-        if(webSocketIpAddress == null)
-        webSocketIpAddress = args.ipAddress
-        if(city == null)
-        city = args.cIty
 
-        /*   ***BINDING SETUP***   */
+        //Assigned from arguments (Navigation : WelcomeFragment -> MainFragment(IpAddress:String, City:String))
+        setWebSocketIpAddress(args.ipAddress)
+        setForecastCity(args.cIty)
+
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainVM = model
         binding.executePendingBindings()
 
-
-
-        //Open webSocket connection with signal code 0
         model.openWebSocketConnection(webSocketIpAddress!!)
 
+        /*   ***OBSERVERS***   */
+        observeForecastApiRecycler()
 
+        observeSetupInfoChanges()
 
-        //Forecast is presented using recyclerview
+        observeScheduledDaysRecycler()
+
+        observeAllPlansBottomSheet()
+
+        /*   ***CLICK LISTENERS***   */
+        appBarMenuItemListener()
+
+        selectPlanListener()
+
+        webSocketReconnectListener()
+
+        wateringActionListener()
+
+        navigateToEditPlanListener()
+
+        navigateToCreatePlanListener()
+
+        return binding.root
+    }
+
+    private fun setWebSocketIpAddress(addressValue : String){
+        if(webSocketIpAddress == null)
+            webSocketIpAddress = addressValue
+    }
+
+    private fun setForecastCity(cityName : String){
+        if(city == null)
+            city = cityName
+    }
+
+    private fun observeForecastApiRecycler(){
         val weatherAdapter = ForecastAdapter()
         binding.weatherRecycler.adapter = weatherAdapter
         model.apiResponse.observe(viewLifecycleOwner,{
@@ -58,9 +85,9 @@ class MainFragment : Fragment(){
                 weatherAdapter.submitList(forecast)
             }
         })
+    }
 
-        //Register livedata to track if models.SetupInfo is updated
-        //If true, update variables and send network request to refresh forecast
+    private fun observeSetupInfoChanges(){
         model.setupInfo.observe(viewLifecycleOwner,{
             if(city != it.City) {
                 model.responseFlag = true
@@ -73,10 +100,9 @@ class MainFragment : Fragment(){
                 bottomSheetFragment.webSocketIpAddress = it.IpAddress
             }
         })
+    }
 
-
-
-        //Active's plan scheduled days are displayed using recyclerview
+    private fun observeScheduledDaysRecycler(){
         val adapter = DaysAdapter()
         binding.recyclerView.adapter = adapter
         model.scheduledDays.observe(viewLifecycleOwner, {
@@ -84,18 +110,16 @@ class MainFragment : Fragment(){
                 adapter.submitList(it)
             }
         })
+    }
 
-
-
-        //Initialize BottomSheetFragment and as soon is required info for BottomSheetFragment available, ship it
+    private fun observeAllPlansBottomSheet(){
         model.allPlans.observe(viewLifecycleOwner, {
             bottomSheetFragment.listOfPlans = it
             bottomSheetFragment.webSocketIpAddress = webSocketIpAddress
         })
+    }
 
-
-
-        /*   ***CLICK LISTENERS***   */
+    private fun appBarMenuItemListener(){
 
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
 
@@ -118,45 +142,40 @@ class MainFragment : Fragment(){
                 else -> false
             }
         }
+    }
 
-
+    private fun selectPlanListener(){
         binding.mainButtonSelectPlan.setOnClickListener {
             bottomSheetFragment.show(requireActivity().supportFragmentManager, "BottomSheetFragment")
         }
+    }
 
+    private fun webSocketReconnectListener(){
         binding.buttonReconnect.setOnClickListener {
             model.signalCode=0
             model.openWebSocketConnection(webSocketIpAddress!!)
         }
+    }
 
+    private fun wateringActionListener(){
         binding.buttonWater.setOnClickListener {
             showSuccessDialog()
         }
+    }
 
+    private fun navigateToEditPlanListener(){
         binding.planName.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToEditFragment(webSocketIpAddress!!)
             this.findNavController().navigate(action)
         }
+    }
 
+    private fun navigateToCreatePlanListener(){
         binding.extendedFab.setOnClickListener{
             val action = MainFragmentDirections.actionMainFragmentToSecondaryFragment(webSocketIpAddress!!)
             this.findNavController().navigate(action)
         }
-
-
-        return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        model.getApiResponse(city!!)
-    }
-
-
-    override fun onStop() {
-        super.onStop()
-        model.closeWebSocketConnection()
-    }
-
 
     private fun showSuccessDialog(){
         MaterialAlertDialogBuilder(requireContext())
@@ -172,4 +191,17 @@ class MainFragment : Fragment(){
             .show()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        model.getApiResponse(city!!)
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        model.closeWebSocketConnection()
+    }
+
+
 }
+
+//TODO Testirati refactoring (observeri u posebnim funkcijama)
